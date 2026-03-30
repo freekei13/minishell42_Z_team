@@ -1,0 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexing.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
+/*   Updated: 2026/03/30 18:36:37 by csamakka         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef LEXING_H
+# define LEXING_H
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include "../libft/libft.h"
+# include "../gnl/get_next_line.h"
+
+typedef enum e_type
+{
+	WORD,
+	PIPE,
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	APPEND,
+	HEREDOC,
+}	t_type;
+
+typedef struct s_token
+{
+	char			*value;
+	int				type;
+	struct s_token	*next;
+}	t_token;
+
+t_token	*new_token(char *value, int type);
+void	add_token_back(t_token **lst, t_token *new);
+void	free_tokens(t_token *lst);
+
+t_token	*tokenize(char *line);
+#endif
