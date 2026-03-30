@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/30 18:29:29 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/03/30 19:30:27 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,3 +17,4 @@
 // 	- gauche et droite
 // - si pas de pipe.
 // 	- cree un noeud cmd
+// test test
