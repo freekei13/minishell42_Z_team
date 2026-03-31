@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/31 10:47:28 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/03/31 12:05:37 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ void	word_token(t_token **tokens, char *line, int *index)
 	double_q = 0;
 	counter = *index;
 	while ((line[counter] != ' ' && line[counter] != '|'
-			&& line[counter] != '<' && line[counter] != '>'
-		&& line[counter]) || (double_q == 1 || single_q == 1))
+			&& line[counter] != '<' && line[counter] != '>')
+			|| (double_q == 1 || single_q == 1))
 	{
+		if (!line[counter])
+			break ;
 		if (line[counter] == '\"' && single_q == 0)
 			quotes_status(&double_q);
 		if (line[counter] == '\'' && double_q == 0)
