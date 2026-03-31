@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/30 18:29:29 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/03/31 11:31:58 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,4 +16,4 @@
 // - cherche token pipe. si trouve cree un noeud pipe.
 // 	- gauche et droite
 // - si pas de pipe.
-// 	- cree un noeud cmd
+// 	- cree un noeud cmd fskljfklsdjfklsdjfsjlkjfw
