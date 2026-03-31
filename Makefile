@@ -20,7 +20,7 @@ all: $(NAME)
 
 $(OBJ_PATH)%.o:$(SRC_PATH)%.c
 	mkdir -p $(OBJ_PATH)
-	$(CC) $(FLAGS) $(INC) -c $< -lreadline -o $@
+	$(CC) $(FLAGS) $(INC) -c $< -o $@
 
 $(NAME): $(OBJS) $(LIBFT) $(GNL)
 	$(CC) $(FLAGS) $^ -lreadline -o $@
