@@ -6,24 +6,35 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 15:41:22 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:29:23 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "lexing.h"
 
-void	print_ast(t_ast *ast)
+void	print_ast(t_ast *ast, int level)
 {
 	int			i;
-	char		*redir;
+	char		*type;
 	t_redirect	*head;
 	
 	i = 0;
 	head = ast->data.cmd.redirects;
 	if (ast->type == AST_CMD)
 	{
-		printf("CMD :\n");
+		printf("level %d -- ", level);
+		while (i < level)
+		{
+			printf("        ");
+			i++;
+		}
+		if (ast->type == AST_CMD)
+			type = "CMD";
+		else if (ast->type == AST_PIPE)
+			type = "PIPE";
+		printf("%s : ", type);
+		i = 0;
 		if (ast->data.cmd.redirects)
 		{
 			while (ast->data.cmd.redirects)
@@ -32,15 +43,16 @@ void	print_ast(t_ast *ast)
 					|| ast->data.cmd.redirects->type == REDIRECT_IN)
 				{
 					if (ast->data.cmd.redirects->type == HEREDOC)
-						redir = "<<";
+						type = "<<";
 					else if (ast->data.cmd.redirects->type == REDIRECT_IN)
-						redir = "<";
-					printf("%s %s ", redir, ast->data.cmd.redirects->file);
+						type = "<";
+					printf("%s %s ", type, ast->data.cmd.redirects->file);
 				}
 				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
 			}
 			printf("---> ");
 		}
+		i = 0;
 		while (ast->data.cmd.args[i])
 		{
 			printf("%s ", ast->data.cmd.args[i]);
@@ -57,10 +69,10 @@ void	print_ast(t_ast *ast)
 					|| ast->data.cmd.redirects->type == REDIRECT_OUT)
 				{
 					if (ast->data.cmd.redirects->type == APPEND)
-						redir = ">>";
+						type = ">>";
 					else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
-						redir = ">";
-					printf("%s %s ", redir, ast->data.cmd.redirects->file);
+						type = ">";
+					printf("%s %s ", type, ast->data.cmd.redirects->file);
 				}
 				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
 			}
@@ -69,6 +81,18 @@ void	print_ast(t_ast *ast)
 	}
 	else if (ast->type == AST_PIPE)
 	{
-		printf("PIPE:\n");
+		printf("level %d -- ", level);
+		while (i < level)
+		{
+			printf("        ");
+			i++;
+		}
+		if (ast->type == AST_CMD)
+			type = "CMD";
+		else if (ast->type == AST_PIPE)
+			type = "PIPE";
+		printf("%s\n", type);
+		print_ast(ast->data.pipe.left, level + 1);
+		print_ast(ast->data.pipe.right, level + 1);
 	}
 }

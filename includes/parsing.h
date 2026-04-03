@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 15:16:35 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:07:49 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,5 @@ void		free_redirects(t_redirect *lst);
 
 t_ast		*parser(t_token *tokens);
 
-void		print_ast(t_ast *ast);
+void		print_ast(t_ast *ast, int level);
 #endif

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 14:32:00 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:07:33 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(void)
 		tokens = tokenize(cmd);
 		free(cmd);
 		ast = parser(tokens);
-		print_ast(ast);
+		print_ast(ast, 0);
 	}
 	return (0);
 }
