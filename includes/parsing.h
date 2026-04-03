@@ -6,12 +6,14 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/01 21:45:29 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 15:16:35 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
+
+# include "lexing.h"
 
 typedef struct s_ast t_ast;
 
@@ -53,4 +55,7 @@ t_redirect	*new_redirect(char *value, int type);
 void		add_redirect_back(t_redirect **lst, t_redirect *new);
 void		free_redirects(t_redirect *lst);
 
+t_ast		*parser(t_token *tokens);
+
+void		print_ast(t_ast *ast);
 #endif

@@ -2,13 +2,15 @@ NAME = minishell
 CC = cc
 FLAGS = -Wall -Werror -Wextra
 
-SRC_PATH = lexer/
+LEXER_PATH = lexer/
+PARSER_PATH = parser/
 OBJ_PATH = obj/
 
-SRC = main.c lst_tokens.c lexing.c
-SRCS = $(addprefix $(SRC_PATH), $(SRC))
-OBJ = $(SRC:.c=.o)
-OBJS = $(addprefix $(OBJ_PATH), $(OBJ))
+SRC_LEXER = main.c lst_tokens.c lexing.c
+SRC_PARSER = parsing.c lst_redirects.c tools.c
+SRCS = $(addprefix $(LEXER_PATH), $(SRC_LEXER)) $(addprefix $(PARSER_PATH), $(SRC_PARSER))
+OBJ = $(SRCS:.c=.o)
+OBJS = $(addprefix $(OBJ_PATH), $(notdir $(OBJ)))
 INC = -I ./includes/
 
 LIBFT_PATH = libft/
@@ -18,7 +20,11 @@ GNL = $(addprefix $(GNL_PATH), gnl.a)
 
 all: $(NAME)
 
-$(OBJ_PATH)%.o:$(SRC_PATH)%.c
+$(OBJ_PATH)%.o:$(LEXER_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(FLAGS) $(INC) -c $< -o $@
+
+$(OBJ_PATH)%.o:$(PARSER_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@
 

@@ -6,16 +6,18 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/30 18:33:31 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:32:00 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing.h"
+#include "parsing.h"
 
 int	main(void)
 {
 	char	*cmd;
 	t_token	*tokens;
+	t_ast	*ast;
 
 	while (1)
 	{
@@ -25,11 +27,8 @@ int	main(void)
 		add_history(cmd);
 		tokens = tokenize(cmd);
 		free(cmd);
-		while (tokens != NULL)
-		{
-			printf("Value : %s\nType : %d\n\n", tokens->value, tokens->type);
-			tokens = tokens->next;
-		}
+		ast = parser(tokens);
+		print_ast(ast);
 	}
 	return (0);
 }
