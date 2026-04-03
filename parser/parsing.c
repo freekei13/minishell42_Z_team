@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 18:22:26 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 19:57:47 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,20 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	node->type = AST_PIPE;
 	while(tokens)
 	{
-		if (tokens->next == NULL || tokens->next->type == PIPE) 
+		if (tokens->next == NULL || tokens->next->type == PIPE || tokens->type == PIPE) 
 			break ;
 		tokens = tokens->next;	
 	}
 	prev = tokens;
-	if (!tokens->next || !tokens->next->next)
+	if ((!tokens->next || !tokens->next->next) && tokens->type != PIPE)
+		tokens = NULL;
+	else if (tokens->type == PIPE && tokens->next)
+		tokens = tokens->next;
+	else if (tokens->type == PIPE && !tokens->next)
 		tokens = NULL;
 	else
 		tokens = tokens->next->next;
-	if (prev->type == PIPE)
+	if (prev->type == PIPE && prev->next == NULL)
 		head = NULL;
 	else
 		prev->next = NULL;
