@@ -22,14 +22,14 @@ all: $(NAME)
 
 $(OBJ_PATH)%.o:$(LEXER_PATH)%.c
 	mkdir -p $(OBJ_PATH)
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 
 $(OBJ_PATH)%.o:$(PARSER_PATH)%.c
 	mkdir -p $(OBJ_PATH)
-	$(CC) $(FLAGS) $(INC) -c $< -o $@
+	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 
 $(NAME): $(OBJS) $(LIBFT) $(GNL)
-	$(CC) $(FLAGS) $^ -lreadline -o $@
+	$(CC) $(FLAGS) $^ -lreadline -o $@ -g
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)

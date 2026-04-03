@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 17:29:23 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 18:23:11 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	print_ast(t_ast *ast, int level)
 	char		*type;
 	t_redirect	*head;
 	
+	if (!ast)
+		return ;
 	i = 0;
 	head = ast->data.cmd.redirects;
 	if (ast->type == AST_CMD)

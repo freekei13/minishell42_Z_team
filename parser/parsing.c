@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/02 01:26:34 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/03 18:22:26 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ t_ast	*cmd_node_parser(t_token *tokens)
 	t_ast		*node;
 	int			type_word_nb;
 
+	if (!tokens)
+		return (NULL);
 	type_word_nb = lst_word_counter(tokens);
 	node = malloc(sizeof(t_ast));
 	if (!node)
@@ -83,7 +85,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	node->type = AST_PIPE;
 	while(tokens)
 	{
-		if ( tokens->next == NULL || tokens->next->type == PIPE) 
+		if (tokens->next == NULL || tokens->next->type == PIPE) 
 			break ;
 		tokens = tokens->next;	
 	}
@@ -92,7 +94,10 @@ t_ast	*pipe_node_parser(t_token *tokens)
 		tokens = NULL;
 	else
 		tokens = tokens->next->next;
-	prev->next = NULL;
+	if (prev->type == PIPE)
+		head = NULL;
+	else
+		prev->next = NULL;
 	node->data.pipe.left = parser(head);
 	node->data.pipe.right = parser(tokens);
 	return (node);
@@ -104,6 +109,8 @@ t_ast	*parser(t_token *tokens)
 	t_ast		*node;
 	t_token		*head;
 	
+	if (!tokens)
+		return (NULL);
 	node_type = 0;
 	head = tokens;
 	while(tokens)
