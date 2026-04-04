@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 17:07:49 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/04 16:00:55 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,25 @@ typedef struct s_pipe
 	struct s_ast	*right;
 }	t_pipe;
 
+typedef struct	s_error
+{
+	int		status_code;
+	char	*err_message;
+}	t_error;
+
 typedef struct s_ast
 {
 	enum
 	{
 		AST_CMD,
-		AST_PIPE
+		AST_PIPE,
+		AST_ERROR
 	}	type;
 	union
 	{
 		t_cmd	cmd;
 		t_pipe	pipe;
+		t_error	err;
 	}	data;
 	
 }	t_ast;

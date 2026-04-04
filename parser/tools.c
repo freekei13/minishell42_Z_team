@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 20:22:14 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/04 16:13:35 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,9 @@ void	print_ast(t_ast *ast, int level)
 		printf("%s\n", type);
 		print_ast(ast->data.pipe.left, level + 1);
 		print_ast(ast->data.pipe.right, level + 1);
+	}
+	else if (ast->type == AST_ERROR)
+	{
+		printf("ERROR(%d)\n", ast->data.err.status_code);
 	}
 }

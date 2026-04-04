@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/03 19:57:47 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/04 16:09:20 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,26 +82,26 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
+	if (tokens->type == PIPE)
+	{
+		node->type = AST_ERROR;
+		node->data.err.status_code = 2;
+		node->data.err.err_message = NULL;
+		return (node);
+	}
 	node->type = AST_PIPE;
 	while(tokens)
 	{
-		if (tokens->next == NULL || tokens->next->type == PIPE || tokens->type == PIPE) 
+		if (tokens->next == NULL || tokens->next->type == PIPE) 
 			break ;
 		tokens = tokens->next;	
 	}
 	prev = tokens;
-	if ((!tokens->next || !tokens->next->next) && tokens->type != PIPE)
-		tokens = NULL;
-	else if (tokens->type == PIPE && tokens->next)
-		tokens = tokens->next;
-	else if (tokens->type == PIPE && !tokens->next)
+	if (!tokens->next || !tokens->next->next)
 		tokens = NULL;
 	else
 		tokens = tokens->next->next;
-	if (prev->type == PIPE && prev->next == NULL)
-		head = NULL;
-	else
-		prev->next = NULL;
+	prev->next = NULL;
 	node->data.pipe.left = parser(head);
 	node->data.pipe.right = parser(tokens);
 	return (node);
