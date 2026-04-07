@@ -4,11 +4,15 @@ FLAGS = -Wall -Werror -Wextra
 
 LEXER_PATH = lexer/
 PARSER_PATH = parser/
+EXECUTER_PATH = executer/
 OBJ_PATH = obj/
 
 SRC_LEXER = main.c lst_tokens.c lexing.c
 SRC_PARSER = parsing.c lst_redirects.c tools.c
-SRCS = $(addprefix $(LEXER_PATH), $(SRC_LEXER)) $(addprefix $(PARSER_PATH), $(SRC_PARSER))
+SRC_EXECUTER = executing.c
+SRCS = 	$(addprefix $(LEXER_PATH), $(SRC_LEXER)) \
+		$(addprefix $(PARSER_PATH), $(SRC_PARSER)) \
+		$(addprefix $(EXECUTER_PATH), $(SRC_EXECUTER))
 OBJ = $(SRCS:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(notdir $(OBJ)))
 INC = -I ./includes/
@@ -28,6 +32,10 @@ $(OBJ_PATH)%.o:$(PARSER_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 
+$(OBJ_PATH)%.o:$(EXECUTER_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
+	
 $(NAME): $(OBJS) $(LIBFT) $(GNL)
 	$(CC) $(FLAGS) $^ -lreadline -o $@ -g
 

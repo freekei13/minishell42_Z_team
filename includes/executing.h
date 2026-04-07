@@ -1,36 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   executing.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/08 00:44:49 by csamakka         ###   ########.fr       */
+/*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
+/*   Updated: 2026/04/08 00:02:23 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
+#ifndef EXECUTER_H
+# define EXECUTER_H
+
 #include "parsing.h"
-#include "executing.h"
+#include <fcntl.h>
+#include <errno.h>
 
-int	main(void)
-{
-	char	*cmd;
-	t_token	*tokens;
-	t_ast	*ast;
+void	executer(t_ast *ast);
 
-	while (1)
-	{
-		cmd = readline("minishell $");
-		if (!cmd)
-			break ;
-		add_history(cmd);
-		tokens = tokenize(cmd);
-		free(cmd);
-		ast = parser(tokens);
-		print_ast(ast, 0);
-		//executer(ast);
-	}
-	return (0);
-}
+#endif

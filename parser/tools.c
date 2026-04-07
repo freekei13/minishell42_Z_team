@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/04 16:13:35 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:40:04 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	print_ast(t_ast *ast, int level)
 	int			i;
 	char		*type;
 	t_redirect	*head;
+	t_redirect	*tmp;
 	
 	i = 0;
 	if (!ast)
@@ -33,6 +34,7 @@ void	print_ast(t_ast *ast, int level)
 	}
 	i = 0;
 	head = ast->data.cmd.redirects;
+	tmp = ast->data.cmd.redirects;
 	if (ast->type == AST_CMD)
 	{
 		printf("level %d -- ", level);
@@ -44,20 +46,20 @@ void	print_ast(t_ast *ast, int level)
 		type = "CMD";
 		printf("%s : ", type);
 		i = 0;
-		if (ast->data.cmd.redirects)
+		if (tmp)
 		{
-			while (ast->data.cmd.redirects)
+			while (tmp)
 			{
-				if(ast->data.cmd.redirects->type == HEREDOC
-					|| ast->data.cmd.redirects->type == REDIRECT_IN)
+				if(tmp->type == HEREDOC
+					|| tmp->type == REDIRECT_IN)
 				{
-					if (ast->data.cmd.redirects->type == HEREDOC)
+					if (tmp->type == HEREDOC)
 						type = "<<";
-					else if (ast->data.cmd.redirects->type == REDIRECT_IN)
+					else if (tmp->type == REDIRECT_IN)
 						type = "<";
-					printf("%s %s ", type, ast->data.cmd.redirects->file);
+					printf("%s %s ", type, tmp->file);
 				}
-				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
+				tmp = tmp->next;
 			}
 			printf("---> ");
 		}
@@ -67,23 +69,23 @@ void	print_ast(t_ast *ast, int level)
 			printf("%s ", ast->data.cmd.args[i]);
 			i++;
 		}
-		ast->data.cmd.redirects = head;
-		if (ast->data.cmd.redirects)
+		tmp = head;
+		if (tmp)
 		{
 			if (ast->data.cmd.args[0])
 				printf("---> ");
-			while (ast->data.cmd.redirects)
+			while (tmp)
 			{
-				if(ast->data.cmd.redirects->type == APPEND
-					|| ast->data.cmd.redirects->type == REDIRECT_OUT)
+				if(tmp->type == APPEND
+					|| tmp->type == REDIRECT_OUT)
 				{
-					if (ast->data.cmd.redirects->type == APPEND)
+					if (tmp->type == APPEND)
 						type = ">>";
-					else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
+					else if (tmp->type == REDIRECT_OUT)
 						type = ">";
-					printf("%s %s ", type, ast->data.cmd.redirects->file);
+					printf("%s %s ", type, tmp->file);
 				}
-				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
+				tmp = tmp->next;
 			}
 		}
 		printf("\n");
