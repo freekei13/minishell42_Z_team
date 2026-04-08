@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/08 01:38:24 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/08 03:52:38 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	here_doc(char *e_o_f, int *fd_in, int *pipefd)
 	waitpid(pid, NULL, 0);
 }
 
-void	executer(t_ast *ast)
+void	executer(t_ast *ast, t_token *tokens, char **env)
 {
 	t_redirect	*head;
 	int			pipefd[2];
 	int			fd_in;
+	int			fd_out;
 	
-	
-	fd_in = -1;
+	fd_in = open("/dev/null", O_RDONLY);
 	if (ast->type == AST_CMD)
 	{
 		if (ast->data.cmd.redirects)
@@ -79,10 +79,45 @@ void	executer(t_ast *ast)
 			{
 				if (ast->data.cmd.redirects->type == REDIRECT_IN)
 				{
-
+					if (access(ast->data.cmd.redirects->file, F_OK) == -1
+						|| access(ast->data.cmd.redirects->file, R_OK) == -1)
+						perror(ast->data.cmd.redirects->file);
+					fd_in = open(ast->data.cmd.redirects->file, O_RDONLY);
+					if (fd_in == -1)
+						fd_in = open("/dev/null", O_RDONLY);
 				}
 				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
 			}
+			pid_t	pid_cmd;
+			
+			pipe(pipefd);
+			pid_cmd = fork();
+			if (pid_cmd == -1)
+			{
+				perror("minishell: ");
+				//free tokens;
+				//free ast;
+				exit(errno);
+			}
+			if (pid_cmd == 0)
+			{
+				dup2(fd_in, STDIN_FILENO);
+				dup2(pipefd[1], 1);
+				close(fd_in);
+				close(pipefd[0]);
+				close(pipefd[1]);
+				//find path;
+				if (execve("path", ast->data.cmd.args, env) == -1)
+				{
+					perror("minishell: ");
+					//free tokens;
+					//free ast;
+					exit(errno);
+				}
+			}
+			close(pipefd[1]);
+			fd_in = pipefd[0];
+			waitpid(pid_cmd, NULL, 0);
 		}
 	}
 	else if (ast->type == AST_PIPE)
