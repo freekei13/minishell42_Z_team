@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/30 18:36:37 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/08 12:38:07 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,21 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_dquote
+{
+	char	quote;
+	int		q_val;
+	char	*res;
+	char	**split;
+	char	*temp;
+	char	*save;
+}	t_dquote;
+
 t_token	*new_token(char *value, int type);
 void	add_token_back(t_token **lst, t_token *new);
 void	free_tokens(t_token *lst);
+int		quote_check(char *str);
+char	*quote_sep(char *str);
 
 t_token	*tokenize(char *line);
 #endif

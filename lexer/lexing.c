@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/31 12:05:37 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:46:39 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	word_token(t_token **tokens, char *line, int *index)
 		counter++;
 	}
 	word = ft_substr(line, *index, counter - *index);
+	quote_sep(word);
 	add_token_back(tokens, new_token(word, WORD));
 	free(word);
 	*index = counter;
