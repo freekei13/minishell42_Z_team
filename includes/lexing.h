@@ -38,6 +38,7 @@ typedef struct s_token
 
 typedef struct s_dquote
 {
+	char	*money;
 	char	quote;
 	int		q_val;
 	char	*res;
@@ -50,7 +51,9 @@ t_token	*new_token(char *value, int type);
 void	add_token_back(t_token **lst, t_token *new);
 void	free_tokens(t_token *lst);
 int		quote_check(char *str);
-char	*quote_sep(char *str);
+char	*quote_sep(char *str, char **env);
+char	**make_env(char **env);
+char	*find_env(char **env, char *cherche);
 
-t_token	*tokenize(char *line);
+t_token	*tokenize(char *line, char **env);
 #endif

@@ -64,7 +64,9 @@
 // 	return (qt.res);
 // }
 
-char	*quote_sep(char *str)
+$USER "yo $USER" $USER "yo" $USER en test :
+
+char	*quote_sep(char *str, char **env)
 {
 	t_dquote	qt;
 	int			i;
@@ -78,15 +80,18 @@ char	*quote_sep(char *str)
 	qt.split = malloc(sizeof (char **) * ft_strlen(str));
 	if (quote_check(str) == -1 || !str)
 		return (NULL);
-	if (str[0] != 34 && str[0] != 39)
+	if (str[0] != 34 && str[0] != 39 && str[0] != '$')
 	{
-		while (str[++i] && str[i] != 34 && str[i] != 39)
+		while (str[++i] && str[i] != 34 && str[i] != 39 && str[i] != '$')
 			qt.quote = str[i];
 		qt.split[s++] = ft_substr(str, j, i);
 		qt.quote = str[i];
 		j = i;
 	}
 	qt.q_val = 1; 
+	if (str[i] == '$')
+		qt.q_val = 0;
+	
 	while(str[++i])
 	{
 		if (str[i] == qt.quote && i != 0)
@@ -114,14 +119,15 @@ char	*quote_sep(char *str)
 			// 	qt.q_val = 0;
 			// }
 		}
-		else if (str[i] == '$' && qt.quote == 34)
+		else if (str[i] == '$' && (qt.quote == 34 || qt.q_val == 0))
 		{
 			if (j+1 != i)
 				qt.split[s++] = ft_substr(str, j + 1, i - j - 1);
 			j = i;
 			while (str[i] && str[i] != 34 && str[i] != 32 && str[i] != 39)
 				i++;
-			qt.split[s++] = ft_substr(str, j, i - j);
+			if (find_env(env, ft_substr(str, j + 1, i - j - 1)) != NULL)
+				qt.split[s++] = find_env(env, ft_substr(str, j + 1, i - j - 1));
 			if (str[i] == qt.quote && str[i + 1] == 39)
 			{
 				qt.quote = str[++i];

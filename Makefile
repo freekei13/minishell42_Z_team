@@ -5,7 +5,7 @@ FLAGS = -Wall -Werror -Wextra
 SRC_PATH = lexer/
 OBJ_PATH = obj/
 
-SRC = main.c lst_tokens.c lexing.c quotes.c
+SRC = main.c lst_tokens.c lexing.c quotes.c envp.c
 SRCS = $(addprefix $(SRC_PATH), $(SRC))
 OBJ = $(SRC:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(OBJ))

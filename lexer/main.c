@@ -12,18 +12,23 @@
 
 #include "lexing.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*cmd;
 	t_token	*tokens;
+	char	**env;
 
+	if (argc == -1)
+		return (0);
+	env = make_env(envp);
+	argv[1] = NULL;
 	while (1)
 	{
 		cmd = readline("minishell $");
 		if (!cmd)
 			break ;
 		add_history(cmd);
-		tokens = tokenize(cmd);
+		tokens = tokenize(cmd, env);
 		free(cmd);
 		while (tokens != NULL)
 		{
@@ -31,5 +36,9 @@ int	main(void)
 			tokens = tokens->next;
 		}
 	}
+	int	i = -1;
+	while (env[++i])
+		free(env[i]);
+	free(env);
 	return (0);
 }
