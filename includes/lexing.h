@@ -45,6 +45,9 @@ typedef struct s_dquote
 	char	**split;
 	char	*temp;
 	char	*save;
+	int		i;
+	int		j;
+	int		s;
 }	t_dquote;
 
 t_token	*new_token(char *value, int type);
@@ -54,6 +57,8 @@ int		quote_check(char *str);
 char	*quote_sep(char *str, char **env);
 char	**make_env(char **env);
 char	*find_env(char **env, char *cherche);
+char	**dequote(t_dquote qt, char *str, char **env);
+
 
 t_token	*tokenize(char *line, char **env);
 #endif

@@ -12,157 +12,15 @@
 
 #include "lexing.h"
 
-// char	*quote_sep(char *str)
-// {
-// 	t_dquote qt;
-// 	int		i;
-// 	int		j;
-
-// 	i = -1;
-// 	j = 0;
-// 	if (quote_check(str) == -1 || !str)
-// 		return (NULL);
-// 	qt.quote = str[0];
-// 	qt.temp1 = NULL;
-// 	if (str[0] != 34 && str[0] != 39)
-// 	{
-// 		while (str[++i] && str[i] != 34 && str[i] != 39)
-// 			qt.temp1 = ft_substr(str, j, i);
-// 		qt.quote = str[i];
-// 	}
-// 	qt.temp2 = NULL;
-// 	qt.res = NULL;
-// 	while(str[++i])
-// 	{
-// 		if (str[i] == qt.quote)
-// 			j = i;
-// 		else
-// 		{
-// 			while (str[i] != qt.quote && str[i])
-// 				i++;
-// 			qt.temp2 = ft_substr(str, j+1, i-j-1);
-// 		}
-// 		if (qt.temp2 != NULL)
-// 		{
-// 			qt.res = NULL;
-// 			qt.res = ft_strjoin(qt.temp1, qt.temp2);
-// 			if(qt.temp1 != NULL)
-// 				free(qt.temp1);
-// 			free(qt.temp2);
-// 			qt.temp1 = NULL;
-// 			qt.temp2 = NULL;
-// 			if (str[i + 1] && qt.res != NULL)
-// 			{
-// 				qt.temp1 = ft_strdup(qt.res);
-// 				free(qt.res);
-// 			}
-// 		}
-// 	}
-// 	printf("d-quoted : %s\n", qt.res);
-// 	if (qt.res == NULL)
-// 		return (qt.temp1);
-// 	return (qt.res);
-// }
-
-$USER "yo $USER" $USER "yo" $USER en test :
-
-char	*quote_sep(char *str, char **env)
+char	*dqt_sentence(t_dquote qt)
 {
-	t_dquote	qt;
-	int			i;
-	int			j;
-	int			s;
-
-	j = 0;
-	i = -1;
-	s = 0;
-	qt.quote = str[0];
-	qt.split = malloc(sizeof (char **) * ft_strlen(str));
-	if (quote_check(str) == -1 || !str)
-		return (NULL);
-	if (str[0] != 34 && str[0] != 39 && str[0] != '$')
-	{
-		while (str[++i] && str[i] != 34 && str[i] != 39 && str[i] != '$')
-			qt.quote = str[i];
-		qt.split[s++] = ft_substr(str, j, i);
-		qt.quote = str[i];
-		j = i;
-	}
-	qt.q_val = 1; 
-	if (str[i] == '$')
-		qt.q_val = 0;
-	
-	while(str[++i])
-	{
-		if (str[i] == qt.quote && i != 0)
-		{
-			qt.split[s++] = ft_substr(str, j + 1, i - j - 1);
-			qt.q_val = 0;
-			if (str[i + 1] && (str[i + 1] == 34 || str[i + 1] == 39))
-			{
-				qt.quote = str[++i];
-				qt.q_val = 1;
-			}
-			j = i;
-			// while(str[++i] && (str[i] == 34 || str[i] == 39) && qt.q_val == 0)
-			// {
-			// 	qt.quote = str[i];
-			// 	qt.q_val = 1;
-			// 	if (str[i + 1] == qt.quote)
-			// 		qt.q_val = 0;
-			// }
-			// if (str[i] && str[i] == qt.quote)
-			// {
-			// 	if (j+1 != i)
-			// 		qt.split[s++] = ft_substr(str, j + 1, i - j - 1);
-			// 	j = i;
-			// 	qt.q_val = 0;
-			// }
-		}
-		else if (str[i] == '$' && (qt.quote == 34 || qt.q_val == 0))
-		{
-			if (j+1 != i)
-				qt.split[s++] = ft_substr(str, j + 1, i - j - 1);
-			j = i;
-			while (str[i] && str[i] != 34 && str[i] != 32 && str[i] != 39)
-				i++;
-			if (find_env(env, ft_substr(str, j + 1, i - j - 1)) != NULL)
-				qt.split[s++] = find_env(env, ft_substr(str, j + 1, i - j - 1));
-			if (str[i] == qt.quote && str[i + 1] == 39)
-			{
-				qt.quote = str[++i];
-				qt.q_val = 1;
-			}
-			else if (str[i] == qt.quote && str[i + 1] != qt.quote)
-				qt.q_val = 0;
-			j = i;
-			if (str[i - 1] == 39 || str[i] == 32 || (str[i] == 39 && str[i-1] != 34))
-				j--;
-			if (str[i] == qt.quote)
-				i++;
-		}
-		else if (str[i] && qt.q_val == 0)
-		{
-			while (str[i] && str[i] != 39 && str[i] != 34)
-				i++;
-			qt.split[s++] = ft_substr(str, j + 1, i - j - 1);
-			if (str[i] && (str[i] == 39 || str[i] == 34))
-			{
-				qt.q_val = 1;
-				qt.quote = str[i];
-				i++;
-			}
-			j = i - 1;
-		}
-	}
-	qt.split[s] = NULL;
-	i = -1;
+	qt.i = -1;
 	qt.save = NULL;
 	qt.res = NULL;
 	qt.temp = NULL;
-	while (qt.split[++i])
+	while (qt.split[++qt.i])
 	{
-		qt.temp = ft_strdup(qt.split[i]);
+		qt.temp = ft_strdup(qt.split[qt.i]);
 		if (qt.res != NULL)
 			free(qt.res);
 		qt.res = ft_strjoin(qt.save, qt.temp);
@@ -171,9 +29,36 @@ char	*quote_sep(char *str, char **env)
 		if (qt.temp != NULL)
 			free(qt.temp);
 		qt.save = ft_strdup(qt.res);
-		printf("split %i : %s\n", i, qt.split[i]);
+		printf("split %i : %s\n", qt.i, qt.split[qt.i]);
 	}
 	free(qt.save);
+	qt.i = -1;
+	return (qt.res);
+}
+
+char	*quote_sep(char *str, char **env)
+{
+	t_dquote	qt;
+
+	qt.j = 0;
+	qt.i = -1;
+	qt.s = 0;
+	qt.quote = str[0];
+	qt.split = malloc(sizeof (char **) * ft_strlen(str));
+	qt.split[qt.s] = NULL;
+	if (quote_check(str) == -1 || !str)
+		return (NULL);
+	if (str[0] != 34 && str[0] != 39 && str[0] != '$')
+	{
+		while (str[++qt.i] && str[qt.i] != 34 && str[qt.i] != 39
+			&& str[qt.i] != '$')
+			qt.quote = str[qt.i];
+		qt.split[qt.s++] = ft_substr(str, qt.j, qt.i);
+		qt.quote = str[qt.i];
+		qt.j = qt.i;
+	}
+	qt.split = dequote(qt, str, env);
+	qt.res = dqt_sentence(qt);
 	printf("no coma : %s\n", qt.res);
 	return (qt.res);
 }
@@ -189,7 +74,7 @@ int	quote_check(char *str)
 		if (str[i] == 34 || str[i] == 39)
 		{
 			c = str[i++];
-			while(str[i] && str[i] != c)
+			while (str[i] && str[i] != c)
 				i++;
 		}
 		if (!str[i])

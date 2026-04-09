@@ -24,14 +24,13 @@ char	*find_env(char **env, char *cherche)
 	int	j;
 
 	j = -1;
-	while(env[++j])
+	while (env[++j])
 	{
 		i = 0;
 		while (cherche[i] == env[j][i])
 			i++;
 		if (env[j][i] == '=')
-			return(env[j] + i + 1);
+			return (env[j] + i + 1);
 	}
 	return (NULL);
 }
-
