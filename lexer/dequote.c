@@ -36,8 +36,8 @@ t_dquote	dollar(t_dquote qt, char *str, char **env)
 	while (str[qt.i] && str[qt.i] != 34 && str[qt.i] != 32 && str[qt.i] != 39)
 		qt.i++;
 	if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) != NULL)
-		qt.split[qt.s++] = find_env(env, ft_substr(str, qt.j + 1, qt.i
-				- qt.j - 1));
+		qt.split[qt.s++] = ft_strdup(find_env(env, ft_substr(str, qt.j + 1,
+			qt.i - qt.j - 1)));
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
 		qt.quote = str[++qt.i];

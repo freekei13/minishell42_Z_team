@@ -29,11 +29,20 @@ char	*dqt_sentence(t_dquote qt)
 		if (qt.temp != NULL)
 			free(qt.temp);
 		qt.save = ft_strdup(qt.res);
-		printf("split %i : %s\n", qt.i, qt.split[qt.i]);
 	}
 	free(qt.save);
 	qt.i = -1;
 	return (qt.res);
+}
+
+void	split_free(char **split)
+{
+	int	i;
+
+	i = -1;
+	while (split[++i] != NULL)
+		free(split[i]);
+	free(split);
 }
 
 char	*quote_sep(char *str, char **env)
@@ -60,6 +69,7 @@ char	*quote_sep(char *str, char **env)
 	qt.split = dequote(qt, str, env);
 	qt.res = dqt_sentence(qt);
 	printf("no coma : %s\n", qt.res);
+	split_free(qt.split);
 	return (qt.res);
 }
 
