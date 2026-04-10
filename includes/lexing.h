@@ -58,7 +58,7 @@ char	*quote_sep(char *str, char **env);
 char	**make_env(char **env);
 char	*find_env(char **env, char *cherche);
 char	**dequote(t_dquote qt, char *str, char **env);
-
+void	split_free(char **split);
 
 t_token	*tokenize(char *line, char **env);
 #endif

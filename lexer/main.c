@@ -37,8 +37,6 @@ int	main(int argc, char **argv, char **envp)
 		}
 	}
 	int	i = -1;
-	while (env[++i])
-		free(env[i]);
-	free(env);
+	split_free(env);
 	return (0);
 }
