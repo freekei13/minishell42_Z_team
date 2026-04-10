@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/31 12:05:37 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:46:39 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	quotes_status(int *quote)
 		*quote = 1;
 }
 
-void	word_token(t_token **tokens, char *line, int *index)
+void	word_token(t_token **tokens, char *line, int *index, char **env)
 {
 	int		counter;
 	int		single_q;
@@ -43,6 +43,7 @@ void	word_token(t_token **tokens, char *line, int *index)
 		counter++;
 	}
 	word = ft_substr(line, *index, counter - *index);
+	quote_sep(word, env);
 	add_token_back(tokens, new_token(word, WORD));
 	free(word);
 	*index = counter;
@@ -68,7 +69,7 @@ void	redirec_token(t_token **tokens, char *line, char token, int *index)
 	}
 }
 
-t_token	*tokenize(char *line)
+t_token	*tokenize(char *line, char **env)
 {
 	t_token	*tokens;
 	int		i;
@@ -89,7 +90,7 @@ t_token	*tokenize(char *line)
 		else if (line[i] == '<')
 			redirec_token(&tokens, line, '<', &i);
 		else
-			word_token(&tokens, line, &i);
+			word_token(&tokens, line, &i, env);
 	}
 	return (tokens);
 }

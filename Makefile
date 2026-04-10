@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc
+CC = cc -g
 FLAGS = -Wall -Werror -Wextra
 
 LEXER_PATH = lexer/
