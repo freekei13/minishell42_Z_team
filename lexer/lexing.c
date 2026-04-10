@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/03/31 14:46:39 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/10 22:09:31 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ void	word_token(t_token **tokens, char *line, int *index, char **env)
 		counter++;
 	}
 	word = ft_substr(line, *index, counter - *index);
-	quote_sep(word, env);
-	add_token_back(tokens, new_token(word, WORD));
+	add_token_back(tokens, new_token(quote_sep(word, env), WORD));
 	free(word);
 	*index = counter;
 }
@@ -82,8 +81,8 @@ t_token	*tokenize(char *line, char **env)
 			i++;
 		else if (line[i] == '|')
 		{
-			add_token_back(&tokens, new_token("|", PIPE));
-			i++;
+				add_token_back(&tokens, new_token("|", PIPE));
+				i++;
 		}
 		else if (line[i] == '>')
 			redirec_token(&tokens, line, '>', &i);

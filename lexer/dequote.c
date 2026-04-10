@@ -56,14 +56,11 @@ t_dquote	dollar(t_dquote qt, char *str, char **env)
 
 char	**dequote(t_dquote qt, char *str, char **env)
 {
-	int	x;
-
 	qt.q_val = 1;
 	if (str[0] == '$')
 		qt.q_val = 0;
 	while (str[++qt.i])
 	{
-		x = -1;
 		if (str[qt.i] == qt.quote && qt.i != 0)
 		{
 			qt = parenthese(qt, str);

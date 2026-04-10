@@ -6,119 +6,49 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/08 03:52:38 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/11 01:34:51 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
 
-void	here_doc(char *e_o_f, int *fd_in, int *pipefd)
+void	executer(t_ast *ast, char **env)
 {
-	pid_t		pid;
-	char		*prompt;
-	
-	if (pipe(pipefd) == -1)
-	{
-		perror("minishell: ");
-		//free tokens;
-		//free ast;
-		exit (errno);
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("minishell: ");
-		//free tokens;
-		//free ast;
-		exit(errno);
-	}
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		while (1)
-		{
-			prompt = readline(">");
-			if (ft_strncmp(prompt, e_o_f, ft_strlen(prompt)) == 0
-				&& ft_strlen(e_o_f) == ft_strlen(prompt))
-			{
-				free(prompt);
-				close(pipefd[1]);
-				exit(0);
-			}
-			ft_putstr_fd(prompt, pipefd[1]);
-			ft_putstr_fd("\n", pipefd[1]);
-			free(prompt);
-		}
-	}
-	close(pipefd[1]);
-	fd_in = pipefd[0];
-	waitpid(pid, NULL, 0);
-}
-
-void	executer(t_ast *ast, t_token *tokens, char **env)
-{
-	t_redirect	*head;
 	int			pipefd[2];
 	int			fd_in;
 	int			fd_out;
 	
-	fd_in = open("/dev/null", O_RDONLY);
+	fd_in = -1;
+	fd_out = -1;
 	if (ast->type == AST_CMD)
 	{
-		if (ast->data.cmd.redirects)
+		if (pipe(pipefd) == -1)
+			error_exit(1, NULL, ast);
+		redirects(ast, &fd_in, &fd_out, pipefd);
+		pid_t	pid_cmd;
+		
+		pid_cmd = fork();
+		if (pid_cmd == -1)
+			error_exit(1, NULL, ast);
+		if (pid_cmd == 0)
 		{
-			head = ast->data.cmd.redirects;
-			while (ast->data.cmd.redirects)
-			{
-				if (ast->data.cmd.redirects->type == HEREDOC)
-					here_doc(ast->data.cmd.redirects->file, &fd_in, pipefd[2]);
-				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
-			}
-			ast->data.cmd.redirects = head;
-			while (ast->data.cmd.redirects)
-			{
-				if (ast->data.cmd.redirects->type == REDIRECT_IN)
-				{
-					if (access(ast->data.cmd.redirects->file, F_OK) == -1
-						|| access(ast->data.cmd.redirects->file, R_OK) == -1)
-						perror(ast->data.cmd.redirects->file);
-					fd_in = open(ast->data.cmd.redirects->file, O_RDONLY);
-					if (fd_in == -1)
-						fd_in = open("/dev/null", O_RDONLY);
-				}
-				ast->data.cmd.redirects = ast->data.cmd.redirects->next;
-			}
-			pid_t	pid_cmd;
-			
-			pipe(pipefd);
-			pid_cmd = fork();
-			if (pid_cmd == -1)
+			dup2(fd_in, STDIN_FILENO);
+			dup2(fd_out, STDOUT_FILENO);
+			close(fd_in);
+			close(fd_out);
+			//find path;
+			if (execve("path", ast->data.cmd.args, env) == -1)
 			{
 				perror("minishell: ");
 				//free tokens;
 				//free ast;
 				exit(errno);
 			}
-			if (pid_cmd == 0)
-			{
-				dup2(fd_in, STDIN_FILENO);
-				dup2(pipefd[1], 1);
-				close(fd_in);
-				close(pipefd[0]);
-				close(pipefd[1]);
-				//find path;
-				if (execve("path", ast->data.cmd.args, env) == -1)
-				{
-					perror("minishell: ");
-					//free tokens;
-					//free ast;
-					exit(errno);
-				}
-			}
-			close(pipefd[1]);
-			fd_in = pipefd[0];
-			waitpid(pid_cmd, NULL, 0);
 		}
+		close(pipefd[1]);
+		fd_in = pipefd[0];
+		waitpid(pid_cmd, NULL, 0);
+		
 	}
 	else if (ast->type == AST_PIPE)
 	{

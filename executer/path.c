@@ -1,28 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executing.h                                        :+:      :+:    :+:   */
+/*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/11 00:25:39 by csamakka         ###   ########.fr       */
+/*   Created: 2026/04/10 23:13:27 by csamakka          #+#    #+#             */
+/*   Updated: 2026/04/10 23:13:36 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
-
-# include "parsing.h"
-# include <fcntl.h>
-# include <errno.h>
-# include <sys/wait.h>
-
-void	executer(t_ast *ast, char **env);
-
-void	here_doc(t_ast *ast, int *fd_in, int *pipefd);
-void	redirect_in(t_ast *ast, int *fd_in);
-
-void	error_exit(int status, char *message, t_ast *ast);
-
-#endif
+#include "executing.h"

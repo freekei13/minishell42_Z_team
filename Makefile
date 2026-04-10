@@ -7,7 +7,8 @@ PARSER_PATH = parser/
 EXECUTER_PATH = executer/
 OBJ_PATH = obj/
 
-SRC_LEXER = main.c lst_tokens.c lexing.c
+SRC_LEXER = main.c lst_tokens.c lexing.c \
+			dequote.c envp.c quotes.c
 SRC_PARSER = parsing.c lst_redirects.c tools.c
 SRC_EXECUTER = executing.c
 SRCS = 	$(addprefix $(LEXER_PATH), $(SRC_LEXER)) \

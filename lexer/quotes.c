@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/08 12:52:59 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/10 21:41:17 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ char	*quote_sep(char *str, char **env)
 	}
 	qt.split = dequote(qt, str, env);
 	qt.res = dqt_sentence(qt);
-	printf("no coma : %s\n", qt.res);
 	split_free(qt.split);
 	return (qt.res);
 }

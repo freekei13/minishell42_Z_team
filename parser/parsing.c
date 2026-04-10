@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/04 21:30:13 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/11 01:23:28 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 	{
 		if (tokens->type == WORD)
 		{
-			node->data.cmd.args[i++] = tokens->value;
+			node->data.cmd.args[i++] = ft_strdup(tokens->value);
 			tokens = tokens->next;
 		}
 		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT
@@ -86,7 +86,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	{
 		node->type = AST_ERROR;
 		node->data.err.status_code = 2;
-		node->data.err.err_message = NULL;
+		node->data.err.err_message = "minishell: syntaxerror near unexpected token `|'";
 		return (node);
 	}
 	node->type = AST_PIPE;
