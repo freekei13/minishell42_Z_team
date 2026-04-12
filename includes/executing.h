@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 13:31:23 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 14:36:25 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,6 @@ void	cmd_exec(t_ast *ast, char **env, t_exec data);
 
 void	error_exit(int status, char *message, t_ast *ast, int parent);
 char	*err_message_custom(char *cause, char *message);
+void	free_ast(t_ast *ast);
 
 #endif

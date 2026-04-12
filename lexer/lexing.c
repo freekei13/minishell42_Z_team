@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/10 22:09:31 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 18:24:00 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,29 @@ void	quotes_status(int *quote)
 
 void	word_token(t_token **tokens, char *line, int *index, char **env)
 {
-	int		counter;
-	int		single_q;
-	int		double_q;
-	char	*word;
+	t_wdata	data;
 
-	single_q = 0;
-	double_q = 0;
-	counter = *index;
-	while ((line[counter] != ' ' && line[counter] != '|'
-			&& line[counter] != '<' && line[counter] != '>')
-			|| (double_q == 1 || single_q == 1))
+	data.single_q = 0;
+	data.double_q = 0;
+	data.counter = *index;
+	while ((line[data.counter] != ' ' && line[data.counter] != '|'
+			&& line[data.counter] != '<' && line[data.counter] != '>')
+			|| (data.double_q == 1 || data.single_q == 1))
 	{
-		if (!line[counter])
+		if (!line[data.counter])
 			break ;
-		if (line[counter] == '\"' && single_q == 0)
-			quotes_status(&double_q);
-		if (line[counter] == '\'' && double_q == 0)
-			quotes_status(&single_q);
-		counter++;
+		if (line[data.counter] == '\"' && data.single_q == 0)
+			quotes_status(&data.double_q);
+		if (line[data.counter] == '\'' && data.double_q == 0)
+			quotes_status(&data.single_q);
+		data.counter++;
 	}
-	word = ft_substr(line, *index, counter - *index);
-	add_token_back(tokens, new_token(quote_sep(word, env), WORD));
-	free(word);
-	*index = counter;
+	data.word = ft_substr(line, *index, data.counter - *index);
+	data.word_final = quote_sep(data.word, env);
+	free(data.word);
+	add_token_back(tokens, new_token(data.word_final, WORD));
+	free(data.word_final);
+	*index = data.counter;
 }
 
 void	redirec_token(t_token **tokens, char *line, char token, int *index)

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:13:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/11 16:44:11 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 14:18:43 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*find_path(t_ast *ast, char **env)
 				free(cmd_path);
 				j++;
 			}
+			free_all(full_path);
 		}
 		i++;
 	}

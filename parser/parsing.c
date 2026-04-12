@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 13:36:12 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 19:14:36 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ t_ast	*parser(t_token *tokens);
 
 t_ast	*pipe_node_parser(t_token *tokens)
 {
-	t_token		*prev;
-	t_ast		*node;
-	t_token		*head;
+	t_token	*prev;
+	t_ast	*node;
+	t_token	*head;
+	t_token	*pipe;
 	
 	head = tokens;
 	node = malloc(sizeof(t_ast));
@@ -97,6 +98,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 		tokens = tokens->next;	
 	}
 	prev = tokens;
+	pipe = prev->next;
 	if (!tokens->next || !tokens->next->next)
 		tokens = NULL;
 	else
@@ -104,6 +106,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	prev->next = NULL;
 	node->data.pipe.left = parser(head);
 	node->data.pipe.right = parser(tokens);
+	prev->next = pipe;
 	return (node);
 }
 

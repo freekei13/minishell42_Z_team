@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/10 21:49:13 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 18:21:04 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ typedef struct s_token
 	int				type;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_wdata
+{
+	int		counter;
+	int		single_q;
+	int		double_q;
+	char	*word;
+	char	*word_final;
+}	t_wdata;
 
 typedef struct s_dquote
 {

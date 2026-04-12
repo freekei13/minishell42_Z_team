@@ -11,7 +11,7 @@ char	**make_env(char **env)
 	while (env[j])
 		j++;
 	i = -1;
-	res = malloc(sizeof(char **) * j);
+	res = malloc(sizeof(char **) * (j + 1));
 	while (env[++i])
 		res[i] = ft_strdup(env[i]);
 	res[i] = NULL;
