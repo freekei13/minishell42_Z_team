@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc -g
+CC = cc
 FLAGS = -Wall -Werror -Wextra
 
 LEXER_PATH = lexer/
@@ -7,10 +7,11 @@ PARSER_PATH = parser/
 EXECUTER_PATH = executer/
 OBJ_PATH = obj/
 
-SRC_LEXER = main.c lst_tokens.c lexing.c \
-			dequote.c envp.c quotes.c
-SRC_PARSER = parsing.c lst_redirects.c tools.c
-SRC_EXECUTER = executing.c
+SRC_LEXER 	= 	main.c lst_tokens.c lexing.c \
+				dequote.c envp.c quotes.c
+SRC_PARSER 	= 	parsing.c lst_redirects.c tools_parse.c
+SRC_EXECUTER = 	executing.c path.c redirects_exec.c \
+				tools_exec.c cmd_exec.c pipe_exec.c
 SRCS = 	$(addprefix $(LEXER_PATH), $(SRC_LEXER)) \
 		$(addprefix $(PARSER_PATH), $(SRC_PARSER)) \
 		$(addprefix $(EXECUTER_PATH), $(SRC_EXECUTER))

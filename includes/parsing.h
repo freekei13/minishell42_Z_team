@@ -6,13 +6,14 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/04 16:00:55 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 13:36:01 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+# define PIPE_UNEXPECTED "minishell: syntax error near unexpected token `|'\n"
 # include "lexing.h"
 
 typedef struct s_ast t_ast;

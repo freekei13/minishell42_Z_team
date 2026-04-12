@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/11 01:23:28 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/12 13:36:12 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	{
 		node->type = AST_ERROR;
 		node->data.err.status_code = 2;
-		node->data.err.err_message = "minishell: syntaxerror near unexpected token `|'";
+		node->data.err.err_message = PIPE_UNEXPECTED;
 		return (node);
 	}
 	node->type = AST_PIPE;

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/11 01:14:52 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/11 20:55:21 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,47 +33,47 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 	}
 }
 
-void	here_doc(t_ast *ast, int *fd_in, int *pipefd)
+void	here_doc(t_ast *ast, t_exec *data)
 {
 	pid_t		pid;
 	
-	if (pipe(pipefd) == -1)
-		error_exit(1, NULL, ast);
+	if (pipe(data->pipefd) == -1)
+		return (error_exit(1, NULL, ast, 1));
 	pid = fork();
 	if (pid == -1)
-		error_exit(1, NULL, ast);
+		return (error_exit(1, NULL, ast, 1));
 	if (pid == 0)
-		here_doc_loop(ast, pipefd);
-	close(pipefd[1]);
-	*fd_in = pipefd[0];
+		here_doc_loop(ast, data->pipefd);
+	close(data->pipefd[1]);
+	data->fd_in = data->pipefd[0];
 	waitpid(pid, NULL, 0);
 }
 
-void	redirects(t_ast *ast, int *fd_in, int *fd_out, int *pipefd)
+void	redirects(t_ast *ast, t_exec *data)
 {
 	while (ast->data.cmd.redirects)
 	{
 		if (ast->data.cmd.redirects->type == REDIRECT_IN)
 		{
-			*fd_in = open(ast->data.cmd.redirects->file, O_RDONLY);
-			if (*fd_in == -1)
-				error_exit(1, NULL, ast);
+			data->fd_in = open(ast->data.cmd.redirects->file, O_RDONLY);
+			if (data->fd_in == -1)
+				return (error_exit(1, NULL, ast, 1));
 		}
 		else if (ast->data.cmd.redirects->type == HEREDOC)
-			here_doc(ast, fd_in, pipefd);
+			here_doc(ast, data);
 		else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
 		{
-			*fd_out = open(ast->data.cmd.redirects->file, O_WRONLY |
+			data->fd_out = open(ast->data.cmd.redirects->file, O_WRONLY |
 				O_CREAT | O_TRUNC, 0644);
-			if (*fd_out == -1)
-				error_exit(1, NULL, ast);
+			if (data->fd_out == -1)
+				return (error_exit(1, NULL, ast, 1));
 		}
 		else if (ast->data.cmd.redirects->type == APPEND)
 		{
-			*fd_out = open(ast->data.cmd.redirects->file, O_WRONLY |
+			data->fd_out = open(ast->data.cmd.redirects->file, O_WRONLY |
 				O_CREAT | O_APPEND, 0644);
-			if (*fd_out == -1)
-				error_exit(1, NULL, ast);
+			if (data->fd_out == -1)
+				return (error_exit(1, NULL, ast, 1));
 		}
 		ast->data.cmd.redirects = ast->data.cmd.redirects->next;
 	}
