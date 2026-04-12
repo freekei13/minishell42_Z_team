@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/11 17:23:49 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 00:10:35 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,12 @@ void	error_exit(int status, char *message, t_ast *ast, int parent)
 	}
 	else
 		perror("minishell");
-	free_ast(ast);
+	ast = NULL;
 	if (parent == 0)
+	{
+		free_ast(ast);
 		exit (status);
+	}
 	return ;
 }
 char	*err_message_custom(char *cause, char *message)

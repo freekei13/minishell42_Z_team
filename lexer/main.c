@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 18:37:04 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 00:10:05 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(int argc, char **argv, char **envp)
 		print_ast(ast, 0);
 		executer(ast, env);
 		free_ast(ast);
+		ast = NULL;
 	}
 	rl_clear_history();
 	split_free(env);
