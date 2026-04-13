@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 22:02:30 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 16:20:40 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,13 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT
 			|| tokens->type == APPEND || tokens->type == HEREDOC)
 		{
+			if (!tokens->next)
+			{
+				node->type = AST_ERROR;
+				node->data.err.status_code = 2;
+				node->data.err.err_message = REDIRECTS_UN;
+				return ;
+			}
 			add_redirect_back(&node->data.cmd.redirects,
 				new_redirect(tokens->next->value, tokens->type));
 			tokens = tokens->next->next;

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 00:06:58 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 16:02:58 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_exec
 void	executer(t_ast *ast, char **env);
 
 void	here_doc(t_ast *ast, t_exec *data);
-void	redirects(t_ast *ast, t_exec *data);
+int		redirects(t_ast *ast, t_exec *data);
 
 void	pipe_exec(t_ast *ast, char **env, t_exec *data);
 
