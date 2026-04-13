@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:20:27 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 16:56:23 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,7 @@ void		free_redirects(t_redirect *lst);
 
 t_ast		*parser(t_token *tokens);
 
+int			lst_word_counter(t_token *tokens);
+void		*err_ast(t_ast *node, char *message);
 void		print_ast(t_ast *ast, int level);
 #endif

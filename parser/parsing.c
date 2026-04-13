@@ -6,28 +6,12 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:20:40 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 16:59:16 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "lexing.h"
-
-int	lst_word_counter(t_token *tokens)
-{
-	int		word_nb;
-	t_token	*tmp;
-
-	word_nb = 0;
-	tmp = tokens;
-	while (tmp && tmp->type != PIPE)
-	{
-		if (tmp->type == WORD)
-			word_nb++;
-		tmp = tmp->next;
-	}
-	return (word_nb);
-}
 
 void	cmd_node_loop(t_token *tokens, t_ast *node)
 {
@@ -46,9 +30,7 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 		{
 			if (!tokens->next)
 			{
-				node->type = AST_ERROR;
-				node->data.err.status_code = 2;
-				node->data.err.err_message = REDIRECTS_UN;
+				err_ast(node, REDIRECTS_UN);
 				return ;
 			}
 			add_redirect_back(&node->data.cmd.redirects,
@@ -79,6 +61,17 @@ t_ast	*cmd_node_parser(t_token *tokens)
 
 t_ast	*parser(t_token *tokens);
 
+t_token	*tokens_to_prev(t_token *tokens)
+{
+	while(tokens)
+	{
+		if (tokens->next == NULL || tokens->next->type == PIPE) 
+			break ;
+		tokens = tokens->next;	
+	}
+	return (tokens);
+}
+
 t_ast	*pipe_node_parser(t_token *tokens)
 {
 	t_token	*prev;
@@ -91,28 +84,13 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	if (!node)
 		return (NULL);
 	if (tokens->type == PIPE)
-	{
-		node->type = AST_ERROR;
-		node->data.err.status_code = 2;
-		node->data.err.err_message = PIPE_UNEXPECTED;
-		return (node);
-	}
+		return (err_ast(node, PIPE_UNEXPECTED));
 	node->type = AST_PIPE;
-	while(tokens)
-	{
-		if (tokens->next == NULL || tokens->next->type == PIPE) 
-			break ;
-		tokens = tokens->next;	
-	}
+	tokens = tokens_to_prev(tokens);
 	prev = tokens;
 	pipe = prev->next;
 	if (!tokens->next || !tokens->next->next)
-	{
-		node->type = AST_ERROR;
-		node->data.err.status_code = 2;
-		node->data.err.err_message = PIPE_UNEXPECTED;
-		return (node);
-	}
+		return (err_ast(node, PIPE_UNEXPECTED));
 	else
 		tokens = tokens->next->next;
 	prev->next = NULL;

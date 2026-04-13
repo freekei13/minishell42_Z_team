@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   tools_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/08 00:40:04 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 16:56:04 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,28 @@ void	print_ast(t_ast *ast, int level)
 	{
 		printf("ERROR(%d)\n", ast->data.err.status_code);
 	}
+}
+
+int	lst_word_counter(t_token *tokens)
+{
+	int		word_nb;
+	t_token	*tmp;
+
+	word_nb = 0;
+	tmp = tokens;
+	while (tmp && tmp->type != PIPE)
+	{
+		if (tmp->type == WORD)
+			word_nb++;
+		tmp = tmp->next;
+	}
+	return (word_nb);
+}
+
+void	*err_ast(t_ast *node, char *message)
+{
+	node->type = AST_ERROR;
+	node->data.err.status_code = 2;
+	node->data.err.err_message = message;
+	return (node);
 }

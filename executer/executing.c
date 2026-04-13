@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:24:28 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/13 17:02:01 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	executer(t_ast *ast, char **env)
 	data.fd_out = -1;
 	if (ast->type == AST_CMD)
 	{
-		if (redirects(ast, &data) == -1)
+		if (redirects(ast, &data) == -1 || !ast->data.cmd.args[0])
 			return ;
 		cmd_exec(ast, env, data);
 	}
