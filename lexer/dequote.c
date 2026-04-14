@@ -11,7 +11,7 @@ t_dquote	spaces(t_dquote qt, char *str)
 		qt.quote = str[qt.i];
 		qt.i++;
 	}
-	qt.j = qt.i - 1;
+	qt.j = qt.i;
 	return (qt);
 }
 
@@ -56,23 +56,21 @@ t_dquote	dollar(t_dquote qt, char *str, char **env)
 
 char	**dequote(t_dquote qt, char *str, char **env)
 {
+	if (qt.i != -1 && str[qt.i] == '\0')
+		return (qt.split);
 	qt.q_val = 1;
 	if (str[0] == '$')
 		qt.q_val = 0;
 	while (str[++qt.i])
 	{
 		if (str[qt.i] == qt.quote && qt.i != 0)
-		{
 			qt = parenthese(qt, str);
-		}
 		else if (str[qt.i] == '$' && (qt.quote == 34 || qt.q_val == 0))
-		{
 			qt = dollar(qt, str, env);
-		}
-		else if (str[qt.i] && qt.q_val == 0)
-		{
+		else if ((str[qt.i] && qt.q_val == 0))
 			qt = spaces(qt, str);
-		}
+		if (str[qt.i] == '\0')
+			break;
 	}
 	qt.split[qt.s] = NULL;
 	return (qt.split);

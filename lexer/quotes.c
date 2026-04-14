@@ -53,7 +53,7 @@ char	*quote_sep(char *str, char **env)
 	qt.i = -1;
 	qt.s = 0;
 	qt.quote = str[0];
-	qt.split = malloc(sizeof (char **) * ft_strlen(str));
+	qt.split = malloc(sizeof (char **) * ft_strlen(str) + 8);
 	qt.split[qt.s] = NULL;
 	if (quote_check(str) == -1 || !str)
 		return (NULL);
@@ -66,6 +66,7 @@ char	*quote_sep(char *str, char **env)
 		qt.quote = str[qt.i];
 		qt.j = qt.i;
 	}
+	qt.split[qt.s] = NULL;
 	qt.split = dequote(qt, str, env);
 	qt.res = dqt_sentence(qt);
 	split_free(qt.split);

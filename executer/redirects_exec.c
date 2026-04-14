@@ -61,6 +61,8 @@ int	fds_redirects(t_ast *ast, int type)
 	else if (type == APPEND)
 		fd = open(ast->data.cmd.redirects->file, O_WRONLY |
 				O_CREAT | O_APPEND, 0644);
+	else
+			fd = -1;
 	return (fd);
 }
 
