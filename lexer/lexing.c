@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 18:24:00 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/16 01:14:04 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@ void	quotes_status(int *quote)
 		*quote = 0;
 	else
 		*quote = 1;
+}
+
+void	word_final_handle(t_wdata data, t_token **tokens)
+{
+	if (!data.word_final)
+		ft_putstr_fd("minishell: syntax error\n", 2);
+	else
+		add_token_back(tokens, new_token(data.word_final, WORD));
 }
 
 void	word_token(t_token **tokens, char *line, int *index, char **env)
@@ -42,7 +50,7 @@ void	word_token(t_token **tokens, char *line, int *index, char **env)
 	data.word = ft_substr(line, *index, data.counter - *index);
 	data.word_final = quote_sep(data.word, env);
 	free(data.word);
-	add_token_back(tokens, new_token(data.word_final, WORD));
+	word_final_handle(data, tokens);
 	free(data.word_final);
 	*index = data.counter;
 }

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/10 21:41:17 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/16 01:26:32 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*quote_sep(char *str, char **env)
 	qt.i = -1;
 	qt.s = 0;
 	qt.quote = str[0];
-	qt.split = malloc(sizeof (char **) * ft_strlen(str) + 8);
+	qt.split = malloc(sizeof(char **) * ft_strlen(str) + 8);
 	qt.split[qt.s] = NULL;
 	if (quote_check(str) == -1 || !str)
 		return (NULL);
