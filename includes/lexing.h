@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 18:21:04 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/15 14:45:14 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,10 @@ char	**make_env(char **env);
 char	*find_env(char **env, char *cherche);
 char	**dequote(t_dquote qt, char *str, char **env);
 void	split_free(char **split);
-
+char	**add_env(char **env, char **add);
+char	**rmv_env(char **env, char **rmv);
+char	**chg_env(char **env, char **change);
+char	**env_dup(char **env, int x);
 t_token	*tokenize(char *line, char **env);
+
 #endif
