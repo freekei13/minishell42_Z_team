@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dequote.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
+/*   Updated: 2026/04/21 12:06:12 by lalamino         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "lexing.h"
 
 t_dquote	spaces(t_dquote qt, char *str)
@@ -37,7 +49,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env)
 		qt.i++;
 	if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) != NULL)
 		qt.split[qt.s++] = ft_strdup(find_env(env, ft_substr(str, qt.j + 1,
-			qt.i - qt.j - 1)));
+						qt.i - qt.j - 1)));
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
 		qt.quote = str[++qt.i];
@@ -70,7 +82,7 @@ char	**dequote(t_dquote qt, char *str, char **env)
 		else if ((str[qt.i] && qt.q_val == 0))
 			qt = spaces(qt, str);
 		if (str[qt.i] == '\0')
-			break;
+			break ;
 	}
 	qt.split[qt.s] = NULL;
 	return (qt.split);

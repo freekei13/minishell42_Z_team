@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:25:03 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/15 14:44:56 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/21 12:02:14 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ char	**rmv_env(char **env, char **rmv)
 
 char	**chg_env2(char **env, char **change, char **new_env)
 {
-	int	i;
-	int	j;
-	int	c;
-	char *chg;
+	int		i;
+	int		j;
+	int		c;
+	char	*chg;
 
 	chg = NULL;
 	i = -1;

@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/16 13:26:54 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/21 12:01:57 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	**env_dup(char **env, int x)
 {
-	char **new_env;
-	int	i;
+	char	**new_env;
+	int		i;
 
 	i = 0;
 	while (env[i])
@@ -69,4 +69,3 @@ char	*find_env(char **env, char *cherche)
 	}
 	return (NULL);
 }
-
