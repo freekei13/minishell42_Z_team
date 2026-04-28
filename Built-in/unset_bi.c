@@ -6,11 +6,11 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 12:01:31 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/21 12:58:13 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "built-in.h"
+#include "builtin.h"
 
 char	**mlc_init(char **cmd)
 {

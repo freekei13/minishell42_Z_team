@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 12:01:57 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/28 13:36:07 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	**make_env(char **env)
 	int		i;
 	char	**res;
 	int		j;
+	char	*oldpwd;
 
 	j = 0;
 	while (env[j])
@@ -45,6 +46,11 @@ char	**make_env(char **env)
 	while (env[++i])
 		res[i] = ft_strdup(env[i]);
 	res[i] = NULL;
+	if (find_env(res, "OLDPWD") == NULL)
+	{
+		oldpwd = ft_strjoin("OLDPWD=", find_env(res, "PWD"));
+		res = add_env(res, &oldpwd);
+	}
 	return (res);
 }
 
