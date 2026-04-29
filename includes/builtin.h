@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 14:07:09 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/29 11:58:00 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	**unset(char **env, t_ast cmd);
 char	**export(char **env, t_ast cmd);
 void	echo_fct(t_ast cmd);
 int		args_size(char **args);
+int		cd(char **args, char **env);
 
 
 typedef struct s_int

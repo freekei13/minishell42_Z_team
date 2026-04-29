@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/28 13:36:31 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/29 14:26:50 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,18 @@ void	btin_test(char **env)
 {
 	t_ast cm;
 	cm.data.cmd.args = malloc(1000);
-	cm.data.cmd.args[0] = ft_strdup("PWD");
-	cm.data.cmd.args[1] = ft_strdup("barte");
-	cm.data.cmd.args[2] = ft_strdup("USER>tl");
-	cm.data.cmd.args[3] = ft_strdup("PWD");
-	cm.data.cmd.args[4] = NULL;
-	printf("%s\n%s\n", find_env(env, "PWD"), find_env(env, "USER"));
+	cm.data.cmd.args[0] = ft_strdup("PWD=12");
+	cm.data.cmd.args[1] = ft_strdup("OLDPWD=145");
+	// cm.data.cmd.args[1] = ft_strdup("barte");
+	// cm.data.cmd.args[2] = ft_strdup("USER>tl");
+	// cm.data.cmd.args[3] = ft_strdup("PWD");
+	cm.data.cmd.args[2] = NULL;
+	printf("%s\n%s\n", find_env(env, "PWD"), find_env(env, "OLDPWD"));
 	// printf("%s\n%s\n\n", find_env(env, "pli"), find_env(env, "barte"));
-	echo_fct(cm);
+	// echo_fct(cm);
+	env = chg_env(env, cm.data.cmd.args);
+	// cd(cm.data.cmd.args, env);
+	printf("%s\n%s\n", find_env(env, "PWD"), find_env(env, "OLDPWD"));
 	// printf("%s\n%s\n", find_env(env, "PWD"), find_env(env, "USER"));
 	// printf("%s\n%s\n\n", find_env(env, "pli"), find_env(env, "barte"));
 	split_free(cm.data.cmd.args);
@@ -43,7 +47,6 @@ int	main(int argc, char **argv, char **envi)
 	envp = make_env(envi);
 	btin_test(envp);
 	argv[1] = NULL;
-	env(envp);
 	while (1)
 	{
 		cmd = readline("minishell $");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/10 21:41:17 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/04/29 14:35:23 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	split_free(char **split)
 	int	i;
 
 	i = -1;
-	while (split[++i] != NULL)
+	while (split[++i] && split[i] != NULL)
 		free(split[i]);
 	free(split);
 }

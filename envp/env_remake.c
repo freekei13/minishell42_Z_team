@@ -6,11 +6,11 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:25:03 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 12:02:14 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/04/29 14:33:08 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
+#include "minishell.h"
 
 char	**rmv_env2(char **env, char **rmv, int x, int i)
 {
@@ -60,39 +60,63 @@ char	**rmv_env(char **env, char **rmv)
 	return (new_env);
 }
 
-char	**chg_env2(char **env, char **change, char **new_env)
+char	**chg_env2(char **env, char **change, char **fi_chg, char **new_env)
+{
+	t_int	i;
+
+	i.i = -1;
+	while (env[++i.i])
+	{
+		i.j = 0;
+		i.js = 0;
+		while(change[i.j][i.js] != '=')
+			i.js++;
+		while (change[i.j + 1] != NULL
+				&& find_env(env, fi_chg[i.j]) != env[i.i] + i.js + 1)
+		{
+			i.j++;
+			i.js = 0;
+			while (change[i.j][i.js] && change[i.j][i.js] != '=')
+				i.js++;
+		}
+		if (!change[i.j])
+			new_env[i.i] = ft_strdup(env[i.i]);
+		else
+			new_env[i.i] = ft_strdup(change[i.j]);
+	}
+	new_env[i.i] = NULL;
+	split_free(fi_chg);
+	return (new_env);
+}
+
+char	**find_change(char **change)
 {
 	int		i;
 	int		j;
-	int		c;
-	char	*chg;
+	char	**res;
 
-	chg = NULL;
+	i = 0;
+	while (change[i])
+		i++;
+	res = malloc(sizeof(char **) * (i + 1));
 	i = -1;
-	while (env[++i])
+	while (change[++i] && change[i] != NULL)
 	{
 		j = 0;
-		while (change[j] != NULL && find_env(env, chg) != env[i] + c + 1)
-		{
-			c = 0;
-			while (change[j][c] && change[j][c] != '=')
-				c++;
-			chg = ft_substr(change[j], 0, c);
+		while (change[i][j] && change[i][j] != '=')
 			j++;
-		}
-		if (!change[j])
-			new_env[i] = ft_strdup(env[i]);
-		else
-			new_env[i] = ft_strdup(change[j]);
+		if (change[i][j] == '=')
+			res[i] = ft_substr(change[i], 0, j);
 	}
-	new_env[i] = NULL;
-	return (new_env);
+	res[i] = NULL;
+	return (res);
 }
 
 char	**chg_env(char **env, char **change)
 {
 	int		i;
 	char	**new_env;
+	char	**find_chg;
 
 	if (change == NULL)
 		return (env);
@@ -100,8 +124,8 @@ char	**chg_env(char **env, char **change)
 	while (env[i])
 		i++;
 	new_env = malloc(sizeof(char **) * (i + 1));
-	i = -1;
-	chg_env2(env, change, new_env);
+	find_chg = find_change(change);
+	new_env = chg_env2(env, change, find_chg, new_env);
 	split_free(env);
 	return (new_env);
 }
