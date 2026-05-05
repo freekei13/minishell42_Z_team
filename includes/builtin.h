@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/29 11:58:00 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/05 12:17:09 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <errno.h>
 # include <sys/wait.h>
 
-void	env(char **env);
+void	env_bi(char **env);
 void	pwd(char **env);
 char	**unset(char **env, t_ast cmd);
 char	**export(char **env, t_ast cmd);

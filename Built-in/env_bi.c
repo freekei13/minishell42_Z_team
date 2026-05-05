@@ -6,13 +6,13 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:53 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 12:58:01 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/05 12:16:55 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-void	env(char **env)
+void	env_bi(char **env)
 {
 	int	i;
 

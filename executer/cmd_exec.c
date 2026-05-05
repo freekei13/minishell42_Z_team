@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 00:46:20 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/05 12:19:43 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
+#include "minishell.h"
 
 void	execve_cmd(t_ast *ast, char **env, t_exec data)
 {
@@ -24,6 +25,7 @@ void	execve_cmd(t_ast *ast, char **env, t_exec data)
 		close(data.fd_in);
 	if (data.fd_out != -1)
 		close(data.fd_out);
+	builtin(ast->data.cmd.args, env);
 	if (!ast->data.cmd.args[0] || ast->data.cmd.args[0][0] == '\0')
 		error_exit(127, err_message_custom("''",
 				": command not found\n"), ast, 0);
@@ -31,7 +33,7 @@ void	execve_cmd(t_ast *ast, char **env, t_exec data)
 	if (!path)
 		error_exit(127, err_message_custom(ast->data.cmd.args[0],
 				": command not found\n"), ast, 0);
-	execve(path, ast->data.cmd.args, env);
+	// execve(path, ast->data.cmd.args, env);
 	free(path);
 	error_exit(126, NULL, ast, 0);
 }
