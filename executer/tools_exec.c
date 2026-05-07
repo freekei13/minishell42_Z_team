@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 00:10:35 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:09:07 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	free_ast(t_ast *ast)
 
 void	error_exit(int status, char *message, t_ast *ast, int parent)
 {
+	g_status = status;
 	if (message)
 	{
 		ft_putstr_fd(message, 2);

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/12 18:21:04 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:00:58 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
+
+extern int g_status;
 
 typedef enum e_type
 {

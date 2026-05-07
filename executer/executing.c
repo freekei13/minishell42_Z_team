@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 17:02:01 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:06:38 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ void	executer(t_ast *ast, char **env)
 	else if (ast->type == AST_PIPE)
 		pipe_exec(ast, env, &data);
 	else if (ast->type == AST_ERROR)
+	{
 		error_exit(ast->data.err.status_code, 
 			ft_strdup(ast->data.err.err_message), ast, 1);
+		g_status = ast->data.err.status_code;
+	}
 }

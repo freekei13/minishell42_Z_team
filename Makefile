@@ -5,6 +5,7 @@ FLAGS = -Wall -Werror -Wextra
 LEXER_PATH = lexer/
 PARSER_PATH = parser/
 EXECUTER_PATH = executer/
+SIGNAL_PATH = signal/
 OBJ_PATH = obj/
 
 SRC_LEXER 	= 	main.c lst_tokens.c lexing.c \
@@ -12,9 +13,12 @@ SRC_LEXER 	= 	main.c lst_tokens.c lexing.c \
 SRC_PARSER 	= 	parsing.c lst_redirects.c tools_parse.c
 SRC_EXECUTER = 	executing.c path.c redirects_exec.c \
 				tools_exec.c cmd_exec.c pipe_exec.c
+SRC_SIGNAL	=	signal.c
 SRCS = 	$(addprefix $(LEXER_PATH), $(SRC_LEXER)) \
 		$(addprefix $(PARSER_PATH), $(SRC_PARSER)) \
-		$(addprefix $(EXECUTER_PATH), $(SRC_EXECUTER))
+		$(addprefix $(EXECUTER_PATH), $(SRC_EXECUTER)) \
+		$(addprefix $(SIGNAL_PATH), $(SRC_SIGNAL))
+
 OBJ = $(SRCS:.c=.o)
 OBJS = $(addprefix $(OBJ_PATH), $(notdir $(OBJ)))
 INC = -I ./includes/
@@ -35,6 +39,10 @@ $(OBJ_PATH)%.o:$(PARSER_PATH)%.c
 	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 
 $(OBJ_PATH)%.o:$(EXECUTER_PATH)%.c
+	mkdir -p $(OBJ_PATH)
+	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
+
+$(OBJ_PATH)%.o:$(SIGNAL_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 	

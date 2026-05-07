@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/16 01:14:04 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/07 17:58:58 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	quotes_status(int *quote)
 void	word_final_handle(t_wdata data, t_token **tokens)
 {
 	if (!data.word_final)
+	{
 		ft_putstr_fd("minishell: syntax error\n", 2);
+		g_status = 2;
+	}
 	else
 		add_token_back(tokens, new_token(data.word_final, WORD));
 }

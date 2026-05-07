@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:02:58 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/07 18:05:45 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+
+extern int g_status;
 
 typedef struct s_exec
 {
