@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:30 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/07 19:28:18 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/11 20:01:34 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <signal.h>
 # include <stddef.h>
+# include "lexing.h"
 
 void	signal_set(void);
 
