@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/07 18:05:45 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:43:28 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,21 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include "signals.h"
 
 extern int g_status;
 
 typedef struct s_exec
 {
-	int		pipefd[2];
-	int		fd_in;
-	int		fd_out;
-	pid_t	pid_left;
-	pid_t	pid_right;
+	int			pipefd[2];
+	int			fd_in;
+	int			fd_out;
+	pid_t		pid_left;
+	pid_t		pid_right;
+	t_sigdata	*sigdata;
 }	t_exec;
 
-void	executer(t_ast *ast, char **env);
+void	executer(t_ast *ast, char **env, t_sigdata *sigdata);
 
 void	here_doc(t_ast *ast, t_exec *data);
 int		redirects(t_ast *ast, t_exec *data);

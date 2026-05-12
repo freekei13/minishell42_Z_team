@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/07 18:00:58 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/12 11:30:19 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include "../gnl/get_next_line.h"
 
 extern int g_status;
+
+typedef struct s_sigdata
+{
+	char	*cmd;
+	int		exit_status;
+	pid_t	pid;
+}	t_sigdata;
 
 typedef enum e_type
 {

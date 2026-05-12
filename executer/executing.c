@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/07 18:06:38 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:48:04 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
 
-void	executer(t_ast *ast, char **env)
+void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
 {
 	t_exec	data;
 	
@@ -20,6 +20,7 @@ void	executer(t_ast *ast, char **env)
 		return ;
 	data.fd_in = -1;
 	data.fd_out = -1;
+	data.sigdata = sigdata;
 	if (ast->type == AST_CMD)
 	{
 		if (redirects(ast, &data) == -1 || !ast->data.cmd.args[0])
@@ -32,6 +33,6 @@ void	executer(t_ast *ast, char **env)
 	{
 		error_exit(ast->data.err.status_code, 
 			ft_strdup(ast->data.err.err_message), ast, 1);
-		g_status = ast->data.err.status_code;
+		sigdata->exit_status = ast->data.err.status_code;
 	}
 }

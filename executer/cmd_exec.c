@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 00:46:20 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/12 14:25:12 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,16 @@ void	execve_cmd(t_ast *ast, char **env, t_exec data)
 
 void	cmd_exec(t_ast *ast, char **env, t_exec data)
 {
-	pid_t	pid_cmd;
 
-	pid_cmd = fork();
-	if (pid_cmd == -1)
+	data.sigdata->pid = fork();
+	printf("PID: %d\n", data.sigdata->pid);
+	if (data.sigdata->pid == -1)
 		return (error_exit(1, NULL, ast, 1));
-	if (pid_cmd == 0)
+	if (data.sigdata->pid == 0)
 		execve_cmd(ast, env, data);
 	if (data.fd_in != -1)
 		close(data.fd_in);
 	if (data.fd_out != -1)
 		close(data.fd_out);
-	waitpid(pid_cmd, NULL, 0);
+	waitpid(data.sigdata->pid, NULL, 0);
 }
