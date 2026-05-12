@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/05 12:17:09 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:48:16 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	env_bi(char **env);
 void	pwd(char **env);
 char	**unset(char **env, t_ast cmd);
 char	**export(char **env, t_ast cmd);
-void	echo_fct(t_ast cmd);
+void	echo_fct(char	**str, int option);
 int		args_size(char **args);
 int		cd(char **args, char **env);
 

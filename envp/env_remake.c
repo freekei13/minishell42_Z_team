@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:25:03 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/30 11:09:16 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:22:20 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ char	**rmv_env(char **env, char **rmv)
 	while (env[j])
 		j++;
 	new_env = rmv_env2(env, rmv, j + i - i, 0);
-	// split_free(env);
-	return (new_env);
+	split_free(env);
+	env = make_env(new_env);
+	split_free(new_env);
+	return (env);
 }
 
 char	**chg_env2(char **env, char **change, char **fi_chg, char **new_env)
@@ -126,6 +128,8 @@ char	**chg_env(char **env, char **change)
 	new_env = malloc(sizeof(char **) * (i + 1));
 	find_chg = find_change(change);
 	new_env = chg_env2(env, change, find_chg, new_env);
-	// split_free(env);
-	return (new_env);
+	split_free(env);
+	env = make_env(new_env);
+	split_free(new_env);
+	return (env);
 }

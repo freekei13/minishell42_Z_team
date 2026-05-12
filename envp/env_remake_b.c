@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 12:02:04 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:21:24 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,8 @@ char	**add_env(char **env, char **add)
 	while (add[++i])
 		new_env[j + i] = ft_strdup(add[i]);
 	new_env[j + i] = NULL;
-	return (new_env);
+	split_free(env);
+	env = make_env(new_env);
+	split_free(new_env);
+	return (env);
 }

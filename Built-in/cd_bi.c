@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/30 11:56:28 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/12 13:56:21 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 	
 // }
 
-char	**pwd_update(char **env, char *path)
+void	pwd_update(char **env, char *path)
 {
 	char	**pwd;
 
@@ -28,7 +28,7 @@ char	**pwd_update(char **env, char *path)
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
 	split_free(pwd);
-	return (env);
+	return ;
 }
 
 int		cd(char **args, char **env)
@@ -42,7 +42,7 @@ int		cd(char **args, char **env)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
 		if (i.ks == 0)
-			env = pwd_update(env, find_env(env, "OLDPWD"));
+			pwd_update(env, find_env(env, "OLDPWD"));
 		else if (i.ks == -1)
 			return (0);
 	}
@@ -50,10 +50,9 @@ int		cd(char **args, char **env)
 	{
 		i.ks = chdir(args[1]);
 		if (i.ks == 0)
-			env = pwd_update(env, args[1]);
+			pwd_update(env, args[1]);
 		else if (i.ks == -1)
 			return (0);
 	}
 	return (1);
 }
-//glr a changer l env
