@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/12 14:25:12 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/13 21:46:28 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,20 @@ void	execve_cmd(t_ast *ast, char **env, t_exec data)
 
 void	cmd_exec(t_ast *ast, char **env, t_exec data)
 {
-
 	data.sigdata->pid = fork();
-	printf("PID: %d\n", data.sigdata->pid);
 	if (data.sigdata->pid == -1)
 		return (error_exit(1, NULL, ast, 1));
 	if (data.sigdata->pid == 0)
+	{
+		signal_set(*data.sigdata);
 		execve_cmd(ast, env, data);
+	}
 	if (data.fd_in != -1)
 		close(data.fd_in);
 	if (data.fd_out != -1)
 		close(data.fd_out);
-	waitpid(data.sigdata->pid, NULL, 0);
+	waitpid(data.sigdata->pid, &data.status, 0);
+	g_status = data.status >> 8;
+	if ((data.status & 0x7f) == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 }

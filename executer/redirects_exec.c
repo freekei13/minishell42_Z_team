@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:04:08 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/13 22:34:15 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 
 void	here_doc(t_ast *ast, t_exec *data)
 {
-	pid_t		pid;
-	
 	if (pipe(data->pipefd) == -1)
 		return (error_exit(1, NULL, ast, 1));
-	pid = fork();
-	if (pid == -1)
+	data->sigdata->pid = fork();
+	if (data->sigdata->pid == -1)
 		return (error_exit(1, NULL, ast, 1));
-	if (pid == 0)
+	if (data->sigdata->pid == 0)
+	{
 		here_doc_loop(ast, data->pipefd);
+	}
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
-	waitpid(pid, NULL, 0);
+	waitpid(data->sigdata->pid, &data->status, 0);
 }
 
 int	fds_redirects(t_ast *ast, int type)

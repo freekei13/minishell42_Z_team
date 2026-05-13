@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/12 13:28:44 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/13 20:36:37 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,6 @@ void	pipe_exec(t_ast *ast, char **env, t_exec *data)
 			child_exec(ast, env, *data, 1);
 		close(data->pipefd[0]);
 		close(data->pipefd[1]);
-		waitpid(data->pid_left, NULL, 0);
-		waitpid(data->pid_right, NULL, 0);
+		waitpid(data->pid_left, &data->status, 0);
+		waitpid(data->pid_right, &data->status, 0);
 }
