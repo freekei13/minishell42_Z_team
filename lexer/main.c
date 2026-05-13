@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/12 14:06:43 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:31:04 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	btin_test(char **env)
 	// cm.data.cmd.args[2] = ft_strdup("USER>tl");
 	// cm.data.cmd.args[3] = ft_strdup("PWD");
 	cm.data.cmd.args[2] = NULL;
-	printf("%s\n%s\n", find_env(env, "PWD"), find_env(env, "OLDPWD"));
+	printf("%s\n%s\n\n", find_env(env, "PWD"), find_env(env, "OLDPWD"));
 	// printf("%s\n%s\n\n", find_env(env, "pli"), find_env(env, "barte"));
 	// echo_fct(cm);
 	cd(cm.data.cmd.args, env);
@@ -65,7 +65,7 @@ int	main(int argc, char **argv, char **envi)
 		ast = NULL;
 	}
 	rl_clear_history();
-	if (envp)
+	if (envp[0])
 		split_free(envp);
 	return (0);
 }

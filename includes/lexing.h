@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/12 13:14:51 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:47:30 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
+# include "minishell.h"
 # include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
 

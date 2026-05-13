@@ -6,8 +6,15 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:44 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 12:58:05 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/12 14:13:32 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+
+void	exit_fct(t_ast ast, char **env)
+{
+	free_ast(&ast);
+	split_free(env);
+	exit(0) ;
+}

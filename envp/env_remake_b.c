@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/12 13:21:24 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 12:06:54 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,82 @@ char	**add_env(char **env, char **add)
 	while (add[++i])
 		new_env[j + i] = ft_strdup(add[i]);
 	new_env[j + i] = NULL;
-	split_free(env);
-	env = make_env(new_env);
+	i = -1;
+	while (env[++i])
+		env[i] = ft_strdup(new_env[i]);
+	env[i] = NULL;
+	split_free(new_env);
+	return (env);
+}
+
+char	**rmv_env_remake(char **env, t_int i, char **new_env)
+{
+
+	while (env)
+	{
+		i.k = -1;
+		while (new_env[i.k] && strcmp(env[i.k], new_env[i.k] == 0))
+			i.k++;
+		if (!new_env[i.k] && !env[i.k])
+			return(env);
+		else
+		{
+			i.k--;
+			while(new_env[++i.k])
+				env[i.k] = ft_strdup(new_env[i.k]);
+			env[i.k] = NULL;
+			while (env[++i.k])
+			{
+				free(env[i.k]);
+			}
+		}
+	}
+}
+
+char	**rmv_env2(char **env, char **rmv, int x, int i)
+{
+	int		j;
+	int		r;
+	char	**new_env;
+
+	i = -1;
+	j = -1;
+	new_env = malloc(sizeof(char **) * x);
+	while (env[++i])
+	{
+		r = -1;
+		while (rmv[++r])
+		{
+			x = 0;
+			while (env[i][x] != '=')
+				x++;
+			if (find_env(env, rmv[r]) == env[i] + x + 1)
+			{
+				i++;
+				r = -1;
+			}
+		}
+		new_env[++j] = ft_strdup(env[i]);
+	}
+	new_env[++j] = NULL;
+	return (new_env);
+}
+
+char	**rmv_env(char **env, char **rmv)
+{
+	t_int	i;
+	char	**new_env;
+
+	if (rmv == NULL)
+		return (env);
+	i.i = 0;
+	while (rmv[i.i] != NULL)
+		i.i++;
+	i.j = 0;
+	while (env[i.j])
+		i.j++;
+	new_env = rmv_env2(env, rmv, i.j - i.i + 1, 0);
+	env = rmv_env_remake(env, i, new_env);
 	split_free(new_env);
 	return (env);
 }

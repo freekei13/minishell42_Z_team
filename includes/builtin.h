@@ -6,16 +6,14 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/12 13:48:16 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 11:47:51 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "executing.h"
-# include "lexing.h"
-# include "parsing.h"
+# include "minishell.h"
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
