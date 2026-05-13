@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/13 11:17:32 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:14:38 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,7 @@ char	**env_dup(char **env, int x)
 	new_env = malloc(sizeof(char **) * (i + 1 + x));
 	i = -1;
 	while (env[++i])
-	{
 		new_env[i] = ft_strdup(env[i]);
-		// free(env[i]);
-	}
-	// free(env);
 	new_env[i] = NULL;
 	return (new_env);
 }
@@ -42,7 +38,7 @@ char	**make_env(char **env)
 	while (env[j])
 		j++;
 	i = -1;
-	res = malloc(sizeof(char **) * (j + 2));
+	res = malloc(sizeof(char **) * (j + 1));
 	while (env[++i])
 		res[i] = ft_strdup(env[i]);
 	res[i] = NULL;
@@ -65,7 +61,7 @@ char	*find_env(char **env, char *cherche)
 			while (cherche[i] == env[j][i])
 				i++;
 		}
-		if (env[j][i] == '=')
+		if (env[j][i] && env[j][i] == '=')
 			return (env[j] + i + 1);
 	}
 	return (NULL);

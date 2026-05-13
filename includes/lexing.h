@@ -6,17 +6,17 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 11:47:30 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 14:32:14 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXING_H
 # define LEXING_H
+
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-# include "minishell.h"
 # include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
 
@@ -71,7 +71,7 @@ char	**make_env(char **env);
 char	*find_env(char **env, char *cherche);
 char	**dequote(t_dquote qt, char *str, char **env);
 void	split_free(char **split);
-char	**add_env(char **env, char **add);
+char	***add_env(char ***env, char **add);
 char	**rmv_env(char **env, char **rmv);
 char	**chg_env(char **env, char **change);
 char	**env_dup(char **env, int x);

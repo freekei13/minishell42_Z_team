@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/12 13:16:30 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:07:25 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char	**export2(char **env, char **valid_find, t_int i, t_ast cmd)
 {
-	char	**new_env;
 	char	**temp_env;
 	char	**valid_add;
 	char	**valid_chg;
@@ -35,9 +34,9 @@ char	**export2(char **env, char **valid_find, t_int i, t_ast cmd)
 		else if (find_env(env, valid_find[i.i]) == NULL)
 			valid_add[++i.k] = ft_strdup(cmd.data.cmd.args[i.i]);
 	}
-	temp_env = add_env(env, valid_add);
-	new_env = chg_env(temp_env, valid_chg);
-	return (new_env);
+	temp_env = *add_env(&env, valid_add);
+	env = chg_env(temp_env, valid_chg);
+	return (env);
 }
 
 int	args_size(char **args)
@@ -53,7 +52,6 @@ int	args_size(char **args)
 char	**export(char **env, t_ast cmd)
 {
 	char	**valid_find;
-	char	**new_env;
 	t_int	i;
 
 	i.k = args_size(cmd.data.cmd.args);
@@ -74,6 +72,6 @@ char	**export(char **env, t_ast cmd)
 				valid_find[++i.j] = ft_strdup(cmd.data.cmd.args[i.i]);
 		}
 	}
-	new_env = export2(env, valid_find, i, cmd);
-	return (new_env);
+	env = export2(env, valid_find, i, cmd);
+	return (env);
 }

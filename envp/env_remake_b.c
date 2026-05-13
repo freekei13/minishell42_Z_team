@@ -6,13 +6,14 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/13 12:06:54 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/13 15:03:34 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing.h"
+#include "builtin.h"
 
-char	**add_env(char **env, char **add)
+char	***add_env(char ***env, char **add)
 {
 	int		i;
 	int		j;
@@ -23,7 +24,7 @@ char	**add_env(char **env, char **add)
 	i = 0;
 	while (add[i] != NULL)
 		i++;
-	new_env = env_dup(env, i);
+	new_env = env_dup(env[0], i);
 	j = 0;
 	while (new_env[j])
 		j++;
@@ -31,36 +32,13 @@ char	**add_env(char **env, char **add)
 	while (add[++i])
 		new_env[j + i] = ft_strdup(add[i]);
 	new_env[j + i] = NULL;
+	env[0] = malloc(sizeof(char ***)* (i + j + 1));
 	i = -1;
-	while (env[++i])
-		env[i] = ft_strdup(new_env[i]);
-	env[i] = NULL;
+	while (new_env[++i])
+		env[0][i] = ft_strdup(new_env[i]);
+	env[0][i] = NULL;
 	split_free(new_env);
 	return (env);
-}
-
-char	**rmv_env_remake(char **env, t_int i, char **new_env)
-{
-
-	while (env)
-	{
-		i.k = -1;
-		while (new_env[i.k] && strcmp(env[i.k], new_env[i.k] == 0))
-			i.k++;
-		if (!new_env[i.k] && !env[i.k])
-			return(env);
-		else
-		{
-			i.k--;
-			while(new_env[++i.k])
-				env[i.k] = ft_strdup(new_env[i.k]);
-			env[i.k] = NULL;
-			while (env[++i.k])
-			{
-				free(env[i.k]);
-			}
-		}
-	}
 }
 
 char	**rmv_env2(char **env, char **rmv, int x, int i)
@@ -71,7 +49,7 @@ char	**rmv_env2(char **env, char **rmv, int x, int i)
 
 	i = -1;
 	j = -1;
-	new_env = malloc(sizeof(char **) * x);
+	new_env = malloc(sizeof(char **) * (x + 1));
 	while (env[++i])
 	{
 		r = -1;
@@ -105,8 +83,13 @@ char	**rmv_env(char **env, char **rmv)
 	i.j = 0;
 	while (env[i.j])
 		i.j++;
-	new_env = rmv_env2(env, rmv, i.j - i.i + 1, 0);
-	env = rmv_env_remake(env, i, new_env);
+	new_env = rmv_env2(env, rmv, i.j - i.i, 0);
+	i.k = -1;
+	while(new_env[++i.k])
+		env[i.k] = ft_strdup(new_env[i.k]);
+	env[i.k] = NULL;
+	while (env[++i.k])
+		free(env[i.k]);
 	split_free(new_env);
 	return (env);
 }
