@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 21:59:12 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:04:23 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == -1)
 		return (0);
 	env = make_env(envp);
-	sigdata_init(&sigdata);
-	signal_set(sigdata);
 	argv[1] = NULL;
 	while (1)
 	{
+		sigdata_init(&sigdata);
+		signal_set(sigdata);
 		sigdata.cmd = readline("minishell $");
 		if (!sigdata.cmd)
 			break ;

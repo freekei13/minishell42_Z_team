@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 22:34:15 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/15 15:09:08 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 			close(pipefd[1]);
 			exit(0);
 		}
+		if (g_status == 130)
+		{
+			printf("I'm here now\n");	
+			break ;
+		}
 		ft_putstr_fd(prompt, pipefd[1]);
 		ft_putstr_fd("\n", pipefd[1]);
 		free(prompt);
@@ -42,8 +47,10 @@ void	here_doc(t_ast *ast, t_exec *data)
 		return (error_exit(1, NULL, ast, 1));
 	if (data->sigdata->pid == 0)
 	{
+		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
+	sigint_ign();
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
 	waitpid(data->sigdata->pid, &data->status, 0);

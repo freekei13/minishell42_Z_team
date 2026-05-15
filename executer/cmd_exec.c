@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 21:46:28 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/15 14:02:56 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	cmd_exec(t_ast *ast, char **env, t_exec data)
 		signal_set(*data.sigdata);
 		execve_cmd(ast, env, data);
 	}
+	sigint_ign();
 	if (data.fd_in != -1)
 		close(data.fd_in);
 	if (data.fd_out != -1)
