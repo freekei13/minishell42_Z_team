@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:30 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/15 14:20:11 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/19 21:36:52 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,9 @@
 void	signal_set(t_sigdata sigdata);
 void	sigint_ign(void);
 void	sigint_heredoc(void);
+
+void	sigint_mod(int sig);
+void	sigint_mod_child(int sig);
+void	sigint_mod_heredoc(int sig);
 
 #endif

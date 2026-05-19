@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/15 14:04:23 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/19 22:40:31 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,16 @@ int	main(int argc, char **argv, char **envp)
 		signal_set(sigdata);
 		sigdata.cmd = readline("minishell $");
 		if (!sigdata.cmd)
+		{
+			printf("exit\n");
 			break ;
+		}
 		add_history(sigdata.cmd);
 		tokens = tokenize(sigdata.cmd, env);
 		free(sigdata.cmd);
 		ast = parser(tokens);
 		free_tokens(tokens);
-		print_ast(ast, 0);
+		//print_ast(ast, 0);
 		executer(ast, env, &sigdata);
 		free_ast(ast);
 		ast = NULL;

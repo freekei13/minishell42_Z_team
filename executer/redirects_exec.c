@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/15 15:09:08 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/19 22:22:36 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,15 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 	close(pipefd[0]);
 	while (1)
 	{
-		prompt = readline(">");
+		prompt = readline("> ");
+		if (!prompt)
+			break ;
 		if (ft_strncmp(prompt, ast->data.cmd.redirects->file,
 			ft_strlen(ast->data.cmd.redirects->file) + 1) == 0)
 		{
 			free(prompt);
 			close(pipefd[1]);
 			exit(0);
-		}
-		if (g_status == 130)
-		{
-			printf("I'm here now\n");	
-			break ;
 		}
 		ft_putstr_fd(prompt, pipefd[1]);
 		ft_putstr_fd("\n", pipefd[1]);

@@ -13,7 +13,7 @@ SRC_LEXER 	= 	main.c lst_tokens.c lexing.c \
 SRC_PARSER 	= 	parsing.c lst_redirects.c tools_parse.c
 SRC_EXECUTER = 	executing.c path.c redirects_exec.c \
 				tools_exec.c cmd_exec.c pipe_exec.c
-SRC_SIGNAL	=	signal.c
+SRC_SIGNAL	=	signal.c signal_mod.c
 SRCS = 	$(addprefix $(LEXER_PATH), $(SRC_LEXER)) \
 		$(addprefix $(PARSER_PATH), $(SRC_PARSER)) \
 		$(addprefix $(EXECUTER_PATH), $(SRC_EXECUTER)) \
