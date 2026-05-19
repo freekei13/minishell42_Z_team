@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/13 15:03:34 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/19 14:47:50 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	***add_env(char ***env, char **add)
 	if (add == NULL)
 		return (env);
 	i = 0;
-	while (add[i] != NULL)
+	while (add[i] && add[i] != NULL)
 		i++;
 	new_env = env_dup(env[0], i);
 	j = 0;
@@ -56,7 +56,7 @@ char	**rmv_env2(char **env, char **rmv, int x, int i)
 		while (rmv[++r])
 		{
 			x = 0;
-			while (env[i][x] != '=')
+			while (env[i] && env[i][x] != '=')
 				x++;
 			if (find_env(env, rmv[r]) == env[i] + x + 1)
 			{

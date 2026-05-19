@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:25:03 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/13 13:18:59 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/19 14:46:22 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**chg_env2(char **env, char **change, char **fi_chg, char **new_env)
 	{
 		i.j = 0;
 		i.js = 0;
-		while(change[i.j][i.js] != '=')
+		while(change[i.j][i.js] && change[i.j][i.js] != '=')
 			i.js++;
 		while (change[i.j + 1] != NULL
 				&& find_env(env, fi_chg[i.j]) != env[i.i] + i.js + 1)
@@ -70,7 +70,7 @@ char	**chg_env(char **env, char **change)
 	char	**new_env;
 	char	**find_chg;
 
-	if (change == NULL)
+	if (change[0] == NULL)
 		return (env);
 	i = 0;
 	while (env[i])

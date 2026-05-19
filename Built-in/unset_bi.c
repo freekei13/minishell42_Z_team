@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/05 12:04:51 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:33:23 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	**mlc_init(char **cmd)
 	return (mlc);
 }
 
-char	**unset(char **env, t_ast cmd)
+char	**unset(char **env, char **cmd)
 {
 	char	**new_env;
 	char	**valid_args;
@@ -32,13 +32,13 @@ char	**unset(char **env, t_ast cmd)
 	int		s;
 
 	i = 0;
-	valid_args = mlc_init(cmd.data.cmd.args);
+	valid_args = mlc_init(cmd);
 	i = -1;
 	s = -1;
-	while (cmd.data.cmd.args[++i] != NULL)
+	while (cmd[++i] != NULL)
 	{
-		if (find_env(env, cmd.data.cmd.args[i]) != NULL)
-			valid_args[++s] = ft_strdup(cmd.data.cmd.args[i]);
+		if (find_env(env, cmd[i]) != NULL)
+			valid_args[++s] = ft_strdup(cmd[i]);
 	}
 	valid_args[++s] = NULL;
 	if (s >= 0)

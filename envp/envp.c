@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/13 15:14:38 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/19 12:03:42 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*find_env(char **env, char *cherche)
 		i = 0;
 		if (cherche[0] == env[j][0])
 		{
-			while (cherche[i] == env[j][i])
+			while (cherche[i] && env[j][i] && cherche[i] == env[j][i])
 				i++;
 		}
 		if (env[j][i] && env[j][i] == '=')
