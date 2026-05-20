@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 21:03:59 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/19 22:00:24 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/20 16:36:29 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ void	sigint_mod_heredoc(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	write(1,"\n", 1);
+	//write(1,"\n", 1);
 	exit(g_status);
 }

@@ -6,7 +6,7 @@
 /*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/19 22:22:36 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/20 16:38:10 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	here_doc(t_ast *ast, t_exec *data)
 		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
-	sigint_ign();
+	//sigint_ign();
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
 	waitpid(data->sigdata->pid, &data->status, 0);
