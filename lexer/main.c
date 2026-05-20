@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/19 14:46:44 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/20 13:47:45 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	btin_test(char ***env)
 	cm = malloc(100);
 	cm->data.cmd.args = malloc(1000);
 	cm->data.cmd.args[0] = ft_strdup("export");
-	cm->data.cmd.args[1] = ft_strdup("pli=123");
-	cm->data.cmd.args[2] = ft_strdup("pla=321");
+	cm->data.cmd.args[1] = ft_strdup("pli=plier");
+	cm->data.cmd.args[2] = ft_strdup("pla=plateau");
 	// cm.data.cmd.args[1] = ft_strdup("barte");
 	// cm.data.cmd.args[2] = ft_strdup("USER>tl");
 	// cm.data.cmd.args[3] = ft_strdup("PWD");
@@ -36,7 +36,10 @@ void	btin_test(char ***env)
 	// printf("%s\n%s\n\n", find_env(env, "PWD"), find_env(env, "OLDPWD"));
 	// printf("%s\n%s\n\n", find_env(env, "pli"), find_env(env, "barte"));
 	// echo_fct(cm);
+	// printf("\n\n%s\n", find_env(*env, "pli"));
 	builtin(cm, env);
+	printf("%s\n", find_env(*env, "pli"));
+	printf("%s\n", find_env(*env, "pla"));
 	builtin(cmd, env);
 	// env = add_env(env, cm->data.cmd.args);
 	// env = chg_env(env, cm.data.cmd.args);
@@ -45,6 +48,10 @@ void	btin_test(char ***env)
 	// printf("%s\n%s\n", find_env(env, "PWD"), find_env(env, "USER"));
 	// printf("%s\n%s\n\n", find_env(env, "pli"), find_env(env, "barte"));
 	// split_free(cm->data.cmd.args);
+
+	//a voir pr fct
+	//cd
+	//export -> unset
 }
 
 int	main(int argc, char **argv, char **envi)
@@ -59,9 +66,11 @@ int	main(int argc, char **argv, char **envi)
 	envp = malloc(sizeof(char ***) * 2);
 	envp[0] = make_env(envi);
 	envp[1] = NULL;
-	printf("%s\n%s\n", find_env(envp[0], "pli"), find_env(envp[0], "pla"));
+	printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
 	btin_test(envp);
+	printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
 	printf("%s\n%s\n", find_env(envp[0], "pli"), find_env(envp[0], "pla"));
+
 	argv[1] = NULL;
 	while (1)
 	{
@@ -74,7 +83,6 @@ int	main(int argc, char **argv, char **envi)
 		ast = parser(tokens);
 		free_tokens(tokens);
 		print_ast(ast, 0);
-		echo_fct(ast->data.cmd.args, 1);
 		executer(ast, envp[0]);
 		free_ast(ast);
 		ast = NULL;

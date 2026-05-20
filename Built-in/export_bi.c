@@ -6,15 +6,14 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/19 14:37:57 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/20 13:51:30 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-char	**export2(char **env, char **valid_find, t_int i, char **cmd)
+void	export2(char ***env, char **valid_find, t_int i, char **cmd)
 {
-	char	**temp_env;
 	char	**valid_add;
 	char	**valid_chg;
 
@@ -28,16 +27,16 @@ char	**export2(char **env, char **valid_find, t_int i, char **cmd)
 	i.k = -1;
 	while (valid_find[++i.i])
 	{
-		if (find_env(env, valid_find[i.i]) != NULL)
+		if (find_env(*env, valid_find[i.i]) != NULL)
 			valid_chg[++i.j] = ft_strdup(cmd[i.i]);
-		else if (find_env(env, valid_find[i.i]) == NULL)
+		else if (find_env(*env, valid_find[i.i]) == NULL)
 			valid_add[++i.k] = ft_strdup(cmd[i.i]);
 	}
 	valid_chg[++i.j] = NULL;
 	valid_add[++i.k] = NULL;
-	temp_env = *add_env(&env, valid_add);
-	env = chg_env(temp_env, valid_chg);
-	return (env);
+	env = add_env(env, valid_add);
+	*env = chg_env(*env, valid_chg);
+	return ;
 }
 
 int	args_size(char **args)
@@ -50,7 +49,7 @@ int	args_size(char **args)
 	return (i);
 }
 
-char	**export(char **env, char	**cmd)
+void	export(char ***env, char	**cmd)
 {
 	char	**valid_find;
 	t_int	i;
@@ -74,6 +73,6 @@ char	**export(char **env, char	**cmd)
 		}
 	}
 	valid_find[++i.j] = NULL;
-	env = export2(env, valid_find, i, cmd);
-	return (env);
+	export2(env, valid_find, i, cmd);
+	return ;
 }

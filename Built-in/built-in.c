@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/19 14:12:23 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/20 12:06:36 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	keep_builtin(t_ast *cmd, char ***env, int i, int nberr)
 		
 	}
 	else if (i == 4)
-		*env = export(*env, cmd->data.cmd.args + 1);
+		export(env, cmd->data.cmd.args + 1);
 	else if (i == 5)
 		pwd(*env);
 	else if (i == 6)
-		*env = unset(*env, cmd->data.cmd.args + 1);
+		unset(env, cmd->data.cmd.args + 1);
 	else if (i == 7) //not Built-in
 	{
 		

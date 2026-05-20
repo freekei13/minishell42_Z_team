@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/19 13:33:23 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/20 13:36:38 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ char	**mlc_init(char **cmd)
 	return (mlc);
 }
 
-char	**unset(char **env, char **cmd)
+void	unset(char ***env, char **cmd)
 {
-	char	**new_env;
 	char	**valid_args;
 	int		i;
 	int		s;
@@ -37,18 +36,18 @@ char	**unset(char **env, char **cmd)
 	s = -1;
 	while (cmd[++i] != NULL)
 	{
-		if (find_env(env, cmd[i]) != NULL)
+		if (find_env(*env, cmd[i]) != NULL)
 			valid_args[++s] = ft_strdup(cmd[i]);
 	}
 	valid_args[++s] = NULL;
-	if (s >= 0)
-		new_env = rmv_env(env, valid_args);
+	if (s > 0)
+		*env = rmv_env(*env, valid_args);
 	else
 	{
 		split_free(valid_args);
-		printf("arguments non valides\n");
-		return (env);
+		printf("unset - arguments non valides\n");
+		return ;
 	}
 	split_free(valid_args);
-	return (new_env);
+	return ;
 }
