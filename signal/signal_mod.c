@@ -32,9 +32,9 @@ void	sigint_mod_child(int sig)
 void	sigint_mod_heredoc(int sig)
 {
 	g_status = 128 + sig;
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	//write(1,"\n", 1);
+	write(1,"\n", 1);
+	//rl_on_new_line();
+	//rl_replace_line("", 0);
+	//rl_redisplay();
 	exit(g_status);
 }

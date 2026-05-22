@@ -47,10 +47,18 @@ void	here_doc(t_ast *ast, t_exec *data)
 		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
-	//sigint_ign();
+	signal_set(*data->sigdata);
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
 	waitpid(data->sigdata->pid, &data->status, 0);
+	g_status = data->status >> 8;
+	if (EOF)
+	{
+		ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `",
+			2);
+		ft_putstr_fd(ast->data.cmd.redirects->file, 2);
+		ft_putstr_fd("')\n", 2);
+	}
 }
 
 int	fds_redirects(t_ast *ast, int type)

@@ -28,7 +28,7 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT
 			|| tokens->type == APPEND || tokens->type == HEREDOC)
 		{
-			if (!tokens->next)
+			if (!tokens->next || tokens->next->type != WORD)
 			{
 				err_ast(node, REDIRECTS_UN);
 				return ;

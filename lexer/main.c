@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 		free(sigdata.cmd);
 		ast = parser(tokens);
 		free_tokens(tokens);
-		//print_ast(ast, 0);
+		print_ast(ast, 0);
 		executer(ast, env, &sigdata);
 		free_ast(ast);
 		ast = NULL;
