@@ -20,8 +20,12 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 	while (1)
 	{
 		prompt = readline("> ");
+
 		if (!prompt)
-			break ;
+		{
+			close(pipefd[1]);
+			exit(1);
+		}
 		if (ft_strncmp(prompt, ast->data.cmd.redirects->file,
 			ft_strlen(ast->data.cmd.redirects->file) + 1) == 0)
 		{
@@ -37,6 +41,9 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 
 void	here_doc(t_ast *ast, t_exec *data)
 {
+	struct	termios	saved;
+
+	tcgetattr(STDIN_FILENO, &saved);
 	if (pipe(data->pipefd) == -1)
 		return (error_exit(1, NULL, ast, 1));
 	data->sigdata->pid = fork();
@@ -47,17 +54,25 @@ void	here_doc(t_ast *ast, t_exec *data)
 		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
-	signal_set(*data->sigdata);
+	//sigint_ign();
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
 	waitpid(data->sigdata->pid, &data->status, 0);
 	g_status = data->status >> 8;
-	if (EOF)
+	if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
 	{
+		g_status = 0;
 		ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `",
 			2);
 		ft_putstr_fd(ast->data.cmd.redirects->file, 2);
 		ft_putstr_fd("')\n", 2);
+	}
+	if ((data->status & 0x7f) == SIGINT)
+	{
+		tcsetattr(STDIN_FILENO, TCSANOW, &saved);
+		g_status = 130;
+		close(data->pipefd[0]);
+		data->fd_in = -1;
 	}
 }
 

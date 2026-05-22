@@ -14,6 +14,7 @@
 # define SIGNALS_H
 
 # include <signal.h>
+# include <termios.h>
 # include <stddef.h>
 # include "lexing.h"
 

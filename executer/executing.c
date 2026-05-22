@@ -24,7 +24,13 @@ void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
 	if (ast->type == AST_CMD)
 	{
 		if (redirects(ast, &data) == -1 || !ast->data.cmd.args[0])
+		{
+			if (data.fd_in != -1)
+				close(data.fd_in);
+			if (data.fd_out != -1)
+				close(data.fd_out);
 			return ;
+		}
 		cmd_exec(ast, env, data);
 	}
 	else if (ast->type == AST_PIPE)
