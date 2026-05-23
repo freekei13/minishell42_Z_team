@@ -39,22 +39,22 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 	}
 }
 
-void	here_doc(t_ast *ast, t_exec *data)
+int	here_doc(t_ast *ast, t_exec *data)
 {
 	struct	termios	saved;
 
 	tcgetattr(STDIN_FILENO, &saved);
 	if (pipe(data->pipefd) == -1)
-		return (error_exit(1, NULL, ast, 1));
+		return (error_exit(1, NULL, ast, 1), 0);
 	data->sigdata->pid = fork();
 	if (data->sigdata->pid == -1)
-		return (error_exit(1, NULL, ast, 1));
+		return (error_exit(1, NULL, ast, 1), 0);
 	if (data->sigdata->pid == 0)
 	{
 		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
-	//sigint_ign();
+	signal_set(*data->sigdata);
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
 	waitpid(data->sigdata->pid, &data->status, 0);
@@ -66,6 +66,9 @@ void	here_doc(t_ast *ast, t_exec *data)
 			2);
 		ft_putstr_fd(ast->data.cmd.redirects->file, 2);
 		ft_putstr_fd("')\n", 2);
+		close(data->pipefd[0]);
+		data->fd_in = -1;
+		return (-1);
 	}
 	if ((data->status & 0x7f) == SIGINT)
 	{
@@ -73,7 +76,9 @@ void	here_doc(t_ast *ast, t_exec *data)
 		g_status = 130;
 		close(data->pipefd[0]);
 		data->fd_in = -1;
+		return (-1);
 	}
+	return (0);
 }
 
 int	fds_redirects(t_ast *ast, int type)
@@ -104,7 +109,10 @@ int	redirects(t_ast *ast, t_exec *data)
 				return (error_exit(1, NULL, ast, 1), -1);
 		}
 		else if (ast->data.cmd.redirects->type == HEREDOC)
-			here_doc(ast, data);
+		{
+			if (here_doc(ast, data) == -1)
+				return (-1);
+		}
 		else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
 		{
 			data->fd_out = fds_redirects(ast, REDIRECT_OUT);

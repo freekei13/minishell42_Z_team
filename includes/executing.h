@@ -34,7 +34,7 @@ typedef struct s_exec
 
 void	executer(t_ast *ast, char **env, t_sigdata *sigdata);
 
-void	here_doc(t_ast *ast, t_exec *data);
+int		here_doc(t_ast *ast, t_exec *data);
 int		redirects(t_ast *ast, t_exec *data);
 
 void	pipe_exec(t_ast *ast, char **env, t_exec *data);
