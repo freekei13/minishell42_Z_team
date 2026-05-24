@@ -49,7 +49,7 @@ void 	sigint_heredoc(void)
 	struct	sigaction	sa;
 	
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = SIG_DFL;
+	sa.sa_handler = sigint_mod_heredoc;
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 }

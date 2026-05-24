@@ -14,7 +14,7 @@
 
 void	sigint_mod(int sig)
 {
-	g_status = 128 + sig;
+	(void)sig;
 	write(1,"\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -23,7 +23,7 @@ void	sigint_mod(int sig)
 
 void	sigint_mod_child(int sig)
 {
-	g_status = 128 + sig;
+	(void)sig;
 	write(1,"\n", 1);
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -31,10 +31,7 @@ void	sigint_mod_child(int sig)
 
 void	sigint_mod_heredoc(int sig)
 {
-	g_status = 128 + sig;
-	write(1,"\n", 1);
-	//rl_on_new_line();
-	//rl_replace_line("", 0);
-	//rl_redisplay();
-	exit(g_status);
+	(void)sig;
+	write(1, "\n", 1);
+	exit(130);
 }

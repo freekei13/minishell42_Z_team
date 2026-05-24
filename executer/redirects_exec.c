@@ -24,7 +24,7 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 		if (!prompt)
 		{
 			close(pipefd[1]);
-			exit(1);
+			exit(130);
 		}
 		if (ft_strncmp(prompt, ast->data.cmd.redirects->file,
 			ft_strlen(ast->data.cmd.redirects->file) + 1) == 0)
@@ -54,10 +54,11 @@ int	here_doc(t_ast *ast, t_exec *data)
 		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
-	signal_set(*data->sigdata);
+	sigint_ign();
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
 	waitpid(data->sigdata->pid, &data->status, 0);
+	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
 	g_status = data->status >> 8;
 	if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
 	{
@@ -70,9 +71,8 @@ int	here_doc(t_ast *ast, t_exec *data)
 		data->fd_in = -1;
 		return (-1);
 	}
-	if ((data->status & 0x7f) == SIGINT)
+	if ((data->status & 0x7f) == SIGINT || g_status == 130)
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &saved);
 		g_status = 130;
 		close(data->pipefd[0]);
 		data->fd_in = -1;
@@ -111,7 +111,7 @@ int	redirects(t_ast *ast, t_exec *data)
 		else if (ast->data.cmd.redirects->type == HEREDOC)
 		{
 			if (here_doc(ast, data) == -1)
-				return (-1);
+				return (error_exit(1, "", ast, 1), -1);
 		}
 		else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
 		{
