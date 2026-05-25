@@ -24,7 +24,7 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 		if (!prompt)
 		{
 			close(pipefd[1]);
-			exit(130);
+			exit(1);
 		}
 		if (ft_strncmp(prompt, ast->data.cmd.redirects->file,
 			ft_strlen(ast->data.cmd.redirects->file) + 1) == 0)
@@ -54,12 +54,14 @@ int	here_doc(t_ast *ast, t_exec *data)
 		sigint_heredoc();
 		here_doc_loop(ast, data->pipefd);
 	}
-	sigint_ign();
+	sigint_after_heredoc();
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
+	
 	waitpid(data->sigdata->pid, &data->status, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
-	g_status = data->status >> 8;
+	g_status = data->status >> 8;	
+	printf("status: %d\n", data->status);
 	if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
 	{
 		g_status = 0;
@@ -111,7 +113,7 @@ int	redirects(t_ast *ast, t_exec *data)
 		else if (ast->data.cmd.redirects->type == HEREDOC)
 		{
 			if (here_doc(ast, data) == -1)
-				return (error_exit(1, "", ast, 1), -1);
+				return (error_exit(1, ft_strdup(""), ast, 1), -1);
 		}
 		else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
 		{

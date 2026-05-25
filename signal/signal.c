@@ -34,7 +34,7 @@ void	signal_set(t_sigdata sigdata)
 	}
 }
 
-void	sigint_ign(void)
+void	sigint_after_cmd(void)
 {
 	struct	sigaction	sa;
 	
@@ -51,5 +51,15 @@ void 	sigint_heredoc(void)
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = sigint_mod_heredoc;
 	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+}
+
+void	sigint_after_heredoc(void)
+{
+	struct	sigaction	sa;
+	
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = sigint_mod_heredoc_parent;
+	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 }

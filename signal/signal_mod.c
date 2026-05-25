@@ -35,3 +35,10 @@ void	sigint_mod_heredoc(int sig)
 	write(1, "\n", 1);
 	exit(130);
 }
+
+void	sigint_mod_heredoc_parent(int sig)
+{
+	(void)sig;
+	rl_replace_line("", 0);
+	rl_redisplay();
+}

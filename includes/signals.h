@@ -19,11 +19,13 @@
 # include "lexing.h"
 
 void	signal_set(t_sigdata sigdata);
-void	sigint_ign(void);
 void	sigint_heredoc(void);
+void	sigint_after_heredoc(void);
+void	sigint_after_cmd(void);
 
 void	sigint_mod(int sig);
 void	sigint_mod_child(int sig);
 void	sigint_mod_heredoc(int sig);
+void	sigint_mod_heredoc_parent(int sig);
 
 #endif

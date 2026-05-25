@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal_set(sigdata);
-		sigdata.cmd = readline("minishell $");
+		sigdata.cmd = readline("minishell $ ");
 		if (!sigdata.cmd)
 		{
 			printf("exit\n");

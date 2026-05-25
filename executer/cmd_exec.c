@@ -46,7 +46,7 @@ void	cmd_exec(t_ast *ast, char **env, t_exec data)
 		signal_set(*data.sigdata);
 		execve_cmd(ast, env, data);
 	}
-	sigint_ign();
+	sigint_after_cmd();
 	if (data.fd_in != -1)
 		close(data.fd_in);
 	if (data.fd_out != -1)
