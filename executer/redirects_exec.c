@@ -61,7 +61,6 @@ int	here_doc(t_ast *ast, t_exec *data)
 	waitpid(data->sigdata->pid, &data->status, 0);
 	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
 	g_status = data->status >> 8;	
-	printf("status: %d\n", data->status);
 	if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
 	{
 		g_status = 0;
