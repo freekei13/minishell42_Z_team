@@ -6,14 +6,11 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:46:18 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:52:31 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexing.h"
-#include "parsing.h"
-#include "executing.h"
-#include "signals.h"
+# include "minishell.h"
 
 int	g_status;
 
@@ -46,7 +43,7 @@ void	btin_test(char ***env)
 	// printf("%s\n%s\n\n", find_env(env, "pli"), find_env(env, "barte"));
 	// echo_fct(cm);
 	// printf("\n\n%s\n", find_env(*env, "pli"));
-	builtin(cm, env);
+	builtin(cmd, env);
 	printf("%s\n", find_env(*env, "pli"));
 	printf("%s\n", find_env(*env, "pla"));
 	builtin(cmd, env);
@@ -65,7 +62,6 @@ void	btin_test(char ***env)
 
 int	main(int argc, char **argv, char **envi)
 {
-	char	*cmd;
 	t_token	*tokens;
 	t_ast	*ast;
 	char	***envp;
@@ -93,12 +89,12 @@ int	main(int argc, char **argv, char **envi)
 			break ;
 		}
 		add_history(sigdata.cmd);
-		tokens = tokenize(sigdata.cmd, envi[0]);
+		tokens = tokenize(sigdata.cmd, envp[0]);
 		free(sigdata.cmd);
 		ast = parser(tokens);
 		free_tokens(tokens);
 		print_ast(ast, 0);
-		executer(ast, envi[0], &sigdata);
+		executer(ast, envp[0], &sigdata);
 		free_ast(ast);
 		ast = NULL;
 	}
