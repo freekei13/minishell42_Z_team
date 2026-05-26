@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/20 14:04:40 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 10:50:01 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**rmv_env2(char **env, char **rmv, int x, int i)
 			x = 0;
 			while (env[i] && env[i][x] != '=')
 				x++;
-			if (find_env(env, rmv[r]) == env[i] + x + 1)
+			if (env[i + 1] &&find_env(env, rmv[r]) == env[i] + x + 1)
 			{
 				i++;
 				r = -1;
