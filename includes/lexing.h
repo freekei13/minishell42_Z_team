@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 20:15:40 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:46:09 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXING_H
 # define LEXING_H
+
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -78,6 +79,10 @@ char	**make_env(char **env);
 char	*find_env(char **env, char *cherche);
 char	**dequote(t_dquote qt, char *str, char **env);
 void	split_free(char **split);
-
+char	***add_env(char ***env, char **add);
+char	**rmv_env(char **env, char **rmv);
+char	**chg_env(char **env, char **change);
+char	**env_dup(char **env, int x);
 t_token	*tokenize(char *line, char **env);
+
 #endif
