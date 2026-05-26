@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/12 13:56:21 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:20:06 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ int		cd(char **args, char **env)
 
 	i.i = -1;
 	if (args_size(args) != 2)
-		return (0);
+		return (1);
 	if (args[1] && strncmp(args[1], "-", 2) == 0)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
 		if (i.ks == 0)
 			pwd_update(env, find_env(env, "OLDPWD"));
 		else if (i.ks == -1)
-			return (0);
+			return (1);
 	}
 	else
 	{
@@ -52,7 +52,7 @@ int		cd(char **args, char **env)
 		if (i.ks == 0)
 			pwd_update(env, args[1]);
 		else if (i.ks == -1)
-			return (0);
+			return (1);
 	}
-	return (1);
+	return (0);
 }

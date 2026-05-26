@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/20 12:06:36 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:31:40 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	keep_builtin(t_ast *cmd, char ***env, int i, int nberr)
 	return(nberr);
 }
 
-void	builtin(t_ast *cmd, char ***env)
+int	builtin(t_ast *cmd, char ***env)
 {
 	char	**names;
 	int		i;
@@ -59,6 +59,8 @@ void	builtin(t_ast *cmd, char ***env)
 	i = 0;
 	while(names[i] && strcmp(cmd->data.cmd.args[0], names[i]) != 0)
 		i++;
+	if (i >= 7)
+		return(1);
 	if (i == 0)
 	{
 		if (!cmd->data.cmd.args[2] && cmd->data.cmd.args[1])
@@ -79,4 +81,5 @@ void	builtin(t_ast *cmd, char ***env)
 	nberr = keep_builtin(cmd, env, i, 0);
 	//errhandle(nberr);
 	split_free(names);
+	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/20 12:05:59 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:30:44 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_int
 
 }	t_int;
 
-void	builtin(t_ast *cmd, char ***env);
+int	builtin(t_ast *cmd, char ***env);
 void	env_bi(char **env);
 void	pwd(char **env);
 void	unset(char ***env, char **cmd);

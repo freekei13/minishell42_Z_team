@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/20 13:47:45 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:26:19 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ int	main(int argc, char **argv, char **envi)
 	envp = malloc(sizeof(char ***) * 2);
 	envp[0] = make_env(envi);
 	envp[1] = NULL;
-	printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
-	btin_test(envp);
-	printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
-	printf("%s\n%s\n", find_env(envp[0], "pli"), find_env(envp[0], "pla"));
+	// printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
+	// btin_test(envp);
+	// printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
+	// printf("%s\n%s\n", find_env(envp[0], "pli"), find_env(envp[0], "pla"));
 
 	argv[1] = NULL;
 	while (1)
