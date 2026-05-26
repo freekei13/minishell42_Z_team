@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:55:24 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:59:51 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,4 @@ void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
 	else if (ast->type == AST_ERROR)
 		error_exit(ast->data.err.status_code, 
 			ft_strdup(ast->data.err.err_message), ast, 1);
-	
 }

@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:44:28 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:58:02 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execve_cmd(t_ast *ast, char **env, t_exec data)
 	if (!path)
 		error_exit(127, err_message_custom(ast->data.cmd.args[0],
 				": command not found\n"), ast, 0);
-	// execve(path, ast->data.cmd.args, env);
+	execve(path, ast->data.cmd.args, env);
 	free(path);
 	error_exit(126, NULL, ast, 0);
 }
