@@ -53,7 +53,6 @@ int	builtin(t_ast *cmd, char ***env)
 {
 	char	**names;
 	int		i;
-	int		nberr;
 
 	names = bi_names();
 	i = 0;
@@ -64,7 +63,7 @@ int	builtin(t_ast *cmd, char ***env)
 	if (i == 0)
 	{
 		if (!cmd->data.cmd.args[2] && cmd->data.cmd.args[1])
-			nberr = cd(cmd->data.cmd.args + 1, *env);
+			 g_status = cd(cmd->data.cmd.args + 1, *env);
 	}
 	else if (i == 1)
 	{
@@ -78,8 +77,8 @@ int	builtin(t_ast *cmd, char ***env)
 		if (!cmd->data.cmd.args[1])
 			env_bi(*env);
 	}
-	nberr = keep_builtin(cmd, env, i, 0);
-	//errhandle(nberr);
+	 g_status = keep_builtin(cmd, env, i, 0);
+	//errhandle( g_status);
 	split_free(names);
 	return(0);
 }
