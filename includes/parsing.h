@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:56:23 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:10:17 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,9 @@ typedef struct s_ast
 t_redirect	*new_redirect(char *value, int type);
 void		add_redirect_back(t_redirect **lst, t_redirect *new);
 void		free_redirects(t_redirect *lst);
-
 t_ast		*parser(t_token *tokens);
-
 int			lst_word_counter(t_token *tokens);
 void		*err_ast(t_ast *node, char *message);
 void		print_ast(t_ast *ast, int level);
+
 #endif

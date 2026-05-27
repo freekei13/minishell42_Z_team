@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 21:34:32 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/05/26 11:59:51 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "executing.h"
 
 void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
@@ -31,7 +32,8 @@ void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
 				close(data.fd_out);
 			return ;
 		}
-		cmd_exec(ast, env, data);
+		if (builtin(ast, &env) == 1)
+			cmd_exec(ast, env, data);
 	}
 	else if (ast->type == AST_PIPE)
 		pipe_exec(ast, env, &data);
