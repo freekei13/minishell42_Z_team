@@ -12,26 +12,22 @@
 
 #include "executing.h"
 
-void	here_doc_loop(t_ast *ast, int *pipefd)
+void	here_doc_loop(t_redirect *redirects, int *pipefd)
 {
 	char		*prompt;
 	
-	close(pipefd[0]);
 	while (1)
 	{
 		prompt = readline("> ");
-
 		if (!prompt)
 		{
-			close(pipefd[1]);
-			exit(1);
+			return ;
 		}
-		if (ft_strncmp(prompt, ast->data.cmd.redirects->file,
-			ft_strlen(ast->data.cmd.redirects->file) + 1) == 0)
+		if (ft_strncmp(prompt, redirects->file, 
+				ft_strlen(redirects->file) + 1) == 0)
 		{
 			free(prompt);
-			close(pipefd[1]);
-			exit(0);
+			return ;
 		}
 		ft_putstr_fd(prompt, pipefd[1]);
 		ft_putstr_fd("\n", pipefd[1]);
@@ -41,44 +37,41 @@ void	here_doc_loop(t_ast *ast, int *pipefd)
 
 int	here_doc(t_ast *ast, t_exec *data)
 {
-	struct	termios	saved;
+	//struct	termios	saved;
 
-	tcgetattr(STDIN_FILENO, &saved);
+	//tcgetattr(STDIN_FILENO, &saved);
 	if (pipe(data->pipefd) == -1)
 		return (error_exit(1, NULL, ast, 1), 0);
-	data->sigdata->pid = fork();
-	if (data->sigdata->pid == -1)
-		return (error_exit(1, NULL, ast, 1), 0);
-	if (data->sigdata->pid == 0)
-	{
-		sigint_heredoc();
-		here_doc_loop(ast, data->pipefd);
-	}
-	sigint_after_heredoc();
+	//data->sigdata->pid = fork();
+	// if (data->sigdata->pid == -1)
+	// 	return (error_exit(1, NULL, ast, 1), 0);
+	// if (data->sigdata->pid == 0)
+	// {
+	//here_doc_loop(ast, data->pipefd);
+	// }
 	close(data->pipefd[1]);
 	data->fd_in = data->pipefd[0];
-	
-	waitpid(data->sigdata->pid, &data->status, 0);
-	tcsetattr(STDIN_FILENO, TCSANOW, &saved);
-	g_status = data->status >> 8;	
-	if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
-	{
-		g_status = 0;
-		ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `",
-			2);
-		ft_putstr_fd(ast->data.cmd.redirects->file, 2);
-		ft_putstr_fd("')\n", 2);
-		close(data->pipefd[0]);
-		data->fd_in = -1;
-		return (-1);
-	}
-	if ((data->status & 0x7f) == SIGINT || g_status == 130)
-	{
-		g_status = 130;
-		close(data->pipefd[0]);
-		data->fd_in = -1;
-		return (-1);
-	}
+	//waitpid(data->sigdata->pid, &data->status, 0);
+	//tcsetattr(STDIN_FILENO, TCSANOW, &saved);
+	// g_status = data->status >> 8;	
+	// if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
+	// {
+	// 	g_status = 0;
+	// 	ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `",
+	// 		2);
+	// 	ft_putstr_fd(ast->data.cmd.redirects->file, 2);
+	// 	ft_putstr_fd("')\n", 2);
+	// 	close(data->pipefd[0]);
+	// 	data->fd_in = -1;
+	// 	return (-1);
+	// }
+	// if ((data->status & 0x7f) == SIGINT || g_status == 130)
+	// {
+	// 	g_status = 130;
+	// 	close(data->pipefd[0]);
+	// 	data->fd_in = -1;
+	// 	return (-1);
+	// }
 	return (0);
 }
 
@@ -111,8 +104,7 @@ int	redirects(t_ast *ast, t_exec *data)
 		}
 		else if (ast->data.cmd.redirects->type == HEREDOC)
 		{
-			if (here_doc(ast, data) == -1)
-				return (error_exit(1, ft_strdup(""), ast, 1), -1);
+			data->fd_in = ast->data.cmd.redirects->fd;
 		}
 		else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
 		{
