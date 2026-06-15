@@ -12,67 +12,60 @@
 
 #include "executing.h"
 
-void	here_doc_loop(t_redirect *redirects, int *pipefd)
+char *read_heredoc_line(void)
+{
+    char    buf[2];
+    char    *line;
+    char    *tmp;
+    int     bytes;
+
+    buf[1] = '\0';
+    line = ft_strdup("");
+    while (1)
+    {
+        bytes = read(0, buf, 1);
+        if (bytes <= 0 || buf[0] == '\n')
+            break ;
+        tmp = line;
+        line = ft_strjoin(tmp, buf);
+        free(tmp);
+    }
+    if (bytes <= 0 && !*line)
+   		return (free(line), NULL);
+	if (bytes <= 0) 
+    	return (line);
+    return (line);
+}
+
+int	here_doc_loop(t_redirect *redirects, int *pipefd)
 {
 	char		*prompt;
-	
+
+	sigint_heredoc();
 	while (1)
 	{
-		prompt = readline("> ");
+		write(1, "> ", 2);
+		prompt = read_heredoc_line();
 		if (!prompt)
 		{
-			return ;
+			if (g_status == 2)
+			{
+				g_status = 130;
+				return (-2);
+			}
+			g_status = 0;
+			return (-1);
 		}
 		if (ft_strncmp(prompt, redirects->file, 
 				ft_strlen(redirects->file) + 1) == 0)
 		{
 			free(prompt);
-			return ;
+			return (0);
 		}
 		ft_putstr_fd(prompt, pipefd[1]);
 		ft_putstr_fd("\n", pipefd[1]);
 		free(prompt);
 	}
-}
-
-int	here_doc(t_ast *ast, t_exec *data)
-{
-	//struct	termios	saved;
-
-	//tcgetattr(STDIN_FILENO, &saved);
-	if (pipe(data->pipefd) == -1)
-		return (error_exit(1, NULL, ast, 1), 0);
-	//data->sigdata->pid = fork();
-	// if (data->sigdata->pid == -1)
-	// 	return (error_exit(1, NULL, ast, 1), 0);
-	// if (data->sigdata->pid == 0)
-	// {
-	//here_doc_loop(ast, data->pipefd);
-	// }
-	close(data->pipefd[1]);
-	data->fd_in = data->pipefd[0];
-	//waitpid(data->sigdata->pid, &data->status, 0);
-	//tcsetattr(STDIN_FILENO, TCSANOW, &saved);
-	// g_status = data->status >> 8;	
-	// if ((data->status & 0x7f) == 0 && data->status >> 8 == 1)
-	// {
-	// 	g_status = 0;
-	// 	ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `",
-	// 		2);
-	// 	ft_putstr_fd(ast->data.cmd.redirects->file, 2);
-	// 	ft_putstr_fd("')\n", 2);
-	// 	close(data->pipefd[0]);
-	// 	data->fd_in = -1;
-	// 	return (-1);
-	// }
-	// if ((data->status & 0x7f) == SIGINT || g_status == 130)
-	// {
-	// 	g_status = 130;
-	// 	close(data->pipefd[0]);
-	// 	data->fd_in = -1;
-	// 	return (-1);
-	// }
-	return (0);
 }
 
 int	fds_redirects(t_ast *ast, int type)

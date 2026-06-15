@@ -54,12 +54,3 @@ void 	sigint_heredoc(void)
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	sigint_after_heredoc(void)
-{
-	struct	sigaction	sa;
-	
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigint_mod_heredoc_parent;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-}

@@ -32,10 +32,10 @@ typedef struct s_exec
 	t_sigdata	*sigdata;
 }	t_exec;
 
-void	executer(t_ast *ast, char **env, t_sigdata *sigdata);
+void	executer(t_ast *ast, char **env, t_sigdata *sigdata, int is_child);
 
 int		here_doc(t_ast *ast, t_exec *data);
-void	here_doc_loop(t_redirect *redirects, int *pipefd);
+int		here_doc_loop(t_redirect *redirects, int *pipefd);
 int		redirects(t_ast *ast, t_exec *data);
 
 void	pipe_exec(t_ast *ast, char **env, t_exec *data);

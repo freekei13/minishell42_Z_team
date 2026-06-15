@@ -19,7 +19,7 @@ void	child_exec(t_ast *ast, char **env, t_exec data, int side)
 		dup2(data.pipefd[1], STDOUT_FILENO);
 		close(data.pipefd[0]);
 		close(data.pipefd[1]);
-		executer(ast->data.pipe.left, env, data.sigdata);
+		executer(ast->data.pipe.left, env, data.sigdata, 1);
 		exit(0);
 	}
 	else
@@ -27,7 +27,7 @@ void	child_exec(t_ast *ast, char **env, t_exec data, int side)
 		dup2(data.pipefd[0], STDIN_FILENO);
 		close(data.pipefd[0]);
 		close(data.pipefd[1]);
-		executer(ast->data.pipe.right, env, data.sigdata);
+		executer(ast->data.pipe.right, env, data.sigdata, 1);
 		exit(0);
 	}
 }

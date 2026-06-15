@@ -93,8 +93,8 @@ int	main(int argc, char **argv, char **envi)
 		free(sigdata.cmd);
 		ast = parser(tokens);
 		free_tokens(tokens);
-		print_ast(ast, 0);
-		executer(ast, envp[0], &sigdata);
+		//print_ast(ast, 0);
+		executer(ast, envp[0], &sigdata, 0);
 		free_ast(ast);
 		ast = NULL;
 	}
