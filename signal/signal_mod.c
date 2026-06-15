@@ -31,9 +31,9 @@ void	sigint_mod_child(int sig)
 
 void	sigint_mod_heredoc(int sig)
 {
-	(void)sig;
+	g_status = sig;
 	write(1, "\n", 1);
-	exit(130);
+	return ;
 }
 
 void	sigint_mod_heredoc_parent(int sig)
