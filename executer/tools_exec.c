@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/16 19:23:52 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/17 20:09:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,19 @@ void	error_exit(int status, char *message, t_ast *ast, int parent)
 	}
 	return ;
 }
+
 char	*err_message_custom(char *cause, char *message)
 {
 	char	*msg;
 	char	*tmp;
-
-	tmp = ft_strjoin("minishell: ", cause);
-	msg	= ft_strjoin(tmp, message);
+	char	*new_str;
+	
+	new_str = ft_strjoin(cause, ": ");
+	tmp = ft_strjoin("minishell: ", new_str);
+	free(new_str);
+	new_str = ft_strjoin(tmp, message);
 	free(tmp);
+	msg = ft_strjoin(new_str, "\n");
+	free(new_str);
 	return (msg);
 }
