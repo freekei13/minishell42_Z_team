@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/20 16:38:10 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/17 01:03:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,17 @@ int	here_doc_loop(t_redirect *redirects, int *pipefd)
 	}
 }
 
-int	fds_redirects(t_ast *ast, int type)
+int	fds_redirects(t_redirect *redirects, int type)
 {
 	int	fd;
 	
 	if (type == REDIRECT_IN)
-		fd = open(ast->data.cmd.redirects->file, O_RDONLY);
+		fd = open(redirects->file, O_RDONLY);
 	else if (type == REDIRECT_OUT)
-		fd = open(ast->data.cmd.redirects->file, O_WRONLY |
+		fd = open(redirects->file, O_WRONLY |
 				O_CREAT | O_TRUNC, 0644);
 	else if (type == APPEND)
-		fd = open(ast->data.cmd.redirects->file, O_WRONLY |
+		fd = open(redirects->file, O_WRONLY |
 				O_CREAT | O_APPEND, 0644);
 	else
 			fd = -1;
@@ -87,31 +87,32 @@ int	fds_redirects(t_ast *ast, int type)
 
 int	redirects(t_ast *ast, t_exec *data)
 {
-	while (ast->data.cmd.redirects)
+	t_redirect	*redirects_tmp;
+	
+	redirects_tmp = ast->data.cmd.redirects;
+	while (redirects_tmp)
 	{
-		if (ast->data.cmd.redirects->type == REDIRECT_IN)
+		if (redirects_tmp->type == REDIRECT_IN)
 		{
-			data->fd_in = fds_redirects(ast, REDIRECT_IN);
+			data->fd_in = fds_redirects(redirects_tmp, REDIRECT_IN);
 			if (data->fd_in == -1)
 				return (error_exit(1, NULL, ast, 1), -1);
 		}
-		else if (ast->data.cmd.redirects->type == HEREDOC)
+		else if (redirects_tmp->type == HEREDOC)
+			data->fd_in = redirects_tmp->fd;
+		else if (redirects_tmp->type == REDIRECT_OUT)
 		{
-			data->fd_in = ast->data.cmd.redirects->fd;
-		}
-		else if (ast->data.cmd.redirects->type == REDIRECT_OUT)
-		{
-			data->fd_out = fds_redirects(ast, REDIRECT_OUT);
+			data->fd_out = fds_redirects(redirects_tmp, REDIRECT_OUT);
 			if (data->fd_out == -1)
 				return (error_exit(1, NULL, ast, 1), -1);
 		}
-		else if (ast->data.cmd.redirects->type == APPEND)
+		else if (redirects_tmp->type == APPEND)
 		{
-			data->fd_out = fds_redirects(ast, APPEND);
+			data->fd_out = fds_redirects(redirects_tmp, APPEND);
 			if (data->fd_out == -1)
 				return (error_exit(1, NULL, ast, 1), -1);
 		}
-		ast->data.cmd.redirects = ast->data.cmd.redirects->next;
+		redirects_tmp = redirects_tmp->next;
 	}
 	return (0);
 }

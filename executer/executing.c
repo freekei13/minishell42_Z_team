@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:59:51 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/16 18:20:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	heredoc_handle(t_ast *ast)
 	int				pipefd[2];
 	t_redirect		*redirects_tmp;
 	int				ret;
-	//struct termios	saved;
 
 	if (!ast)
 		return (0);
@@ -41,9 +40,7 @@ int	heredoc_handle(t_ast *ast)
 			{
 				if (pipe(pipefd) == -1)
 					return (0);
-				//tcgetattr(STDIN_FILENO, &saved);
 				ret = here_doc_loop(redirects_tmp, pipefd);
-				//tcsetattr(STDIN_FILENO, TCSANOW, &saved);
 				close(pipefd[1]);
 				if (ret == -2)
 					return (-2);

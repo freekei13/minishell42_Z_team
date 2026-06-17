@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/07 18:09:07 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/16 19:23:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	error_exit(int status, char *message, t_ast *ast, int parent)
 	}
 	else
 		perror("minishell");
-	ast = NULL;
 	if (parent == 0)
 	{
 		free_ast(ast);

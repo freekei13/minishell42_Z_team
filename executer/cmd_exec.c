@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:58:02 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/16 18:19:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	execve_cmd(t_ast *ast, char **env, t_exec data)
 {
 	char	*path;
-	
+
 	if (data.fd_in != -1)
 		dup2(data.fd_in, STDIN_FILENO);
 	if (data.fd_out != -1)
