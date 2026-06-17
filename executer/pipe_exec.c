@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 20:36:37 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/17 01:58:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	child_exec(t_ast *ast, char **env, t_exec data, int side)
 		close(data.pipefd[0]);
 		close(data.pipefd[1]);
 		executer(ast->data.pipe.left, env, data.sigdata, 1);
-		exit(0);
 	}
 	else
 	{
@@ -28,8 +27,11 @@ void	child_exec(t_ast *ast, char **env, t_exec data, int side)
 		close(data.pipefd[0]);
 		close(data.pipefd[1]);
 		executer(ast->data.pipe.right, env, data.sigdata, 1);
-		exit(0);
 	}
+	free_ast(data.sigdata->root_ast);
+	free_all(env);
+	rl_clear_history();
+	exit(0);
 }
 
 void	pipe_exec(t_ast *ast, char **env, t_exec *data)
