@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/17 18:48:31 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/22 23:15:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,37 +68,38 @@ int	heredoc_handle(t_ast *ast)
 	return (0);
 }
 
-void	executer(t_ast *ast, char **env, t_sigdata *sigdata, int is_child)
+void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 {
-	t_exec	data;
+	t_exec	exc_data;
 
 	if (!ast)
 		return ;
-	data.fd_in = -1;
-	data.fd_out = -1;
-	data.sigdata = sigdata;
+	exc_data.fd_in = -1;
+	exc_data.fd_out = -1;
+	exc_data.data = data;
 	if (ast->type == AST_CMD)
 	{
 		if (is_child == 0 && heredoc_handle(ast) == -2)
 			return ;
-		if (redirects(ast, &data) == -1 || !ast->data.cmd.args[0])
+		if (redirects(ast, &exc_data) == -1 || !ast->data.cmd.args[0])
 		{
-			if (data.fd_in != -1)
-				close(data.fd_in);
-			if (data.fd_out != -1)
-				close(data.fd_out);
+			if (exc_data.fd_in != -1)
+				close(exc_data.fd_in);
+			if (exc_data.fd_out != -1)
+				close(exc_data.fd_out);
 			return ;
 		}
 		if (builtin(ast, &env) == 1)
-			cmd_exec(ast, env, data);
+			cmd_exec(ast, env, exc_data);
 	}
 	else if (ast->type == AST_PIPE)
 	{
 		if (is_child == 0 && heredoc_handle(ast) == -2)
 			return ;
-		pipe_exec(ast, env, &data);
+		pipe_exec(ast, env, &exc_data);
 	}
 	else if (ast->type == AST_ERROR)
 		error_exit(ast->data.err.status_code, 
 			ft_strdup(ast->data.err.err_message), ast, 1);
+
 }

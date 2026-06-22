@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/17 21:21:42 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/22 23:35:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	fds_redirects(t_redirect *redirects, int type)
 	return (fd);
 }
 
-int	redirects(t_ast *ast, t_exec *data)
+int	redirects(t_ast *ast, t_exec *exc_data)
 {
 	t_redirect	*rtmp;
 
@@ -90,19 +90,19 @@ int	redirects(t_ast *ast, t_exec *data)
 	while (rtmp)
 	{
 		if (rtmp->type == REDIRECT_IN)
-			data->fd_in = fds_redirects(rtmp, REDIRECT_IN);
+			exc_data->fd_in = fds_redirects(rtmp, REDIRECT_IN);
 		else if (rtmp->type == HEREDOC)
-			data->fd_in = rtmp->fd;
+			exc_data->fd_in = rtmp->fd;
 		else if (rtmp->type == REDIRECT_OUT)
-			data->fd_out = fds_redirects(rtmp, REDIRECT_OUT);
+			exc_data->fd_out = fds_redirects(rtmp, REDIRECT_OUT);
 		else if (rtmp->type == APPEND)
-			data->fd_out = fds_redirects(rtmp, APPEND);
+			exc_data->fd_out = fds_redirects(rtmp, APPEND);
 		if ((rtmp->type == REDIRECT_IN || rtmp->type == HEREDOC)
-			&& data->fd_in == -1)
+			&& exc_data->fd_in == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,
 						strerror(errno)), ast, 1), -1);
 		if ((rtmp->type == REDIRECT_OUT || rtmp->type == APPEND)
-			&& data->fd_out == -1)
+			&& exc_data->fd_out == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,
 						strerror(errno)), ast, 1), -1);
 		rtmp = rtmp->next;
