@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/17 20:09:53 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/22 23:28:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	free_ast(t_ast *ast)
 
 void	error_exit(int status, char *message, t_ast *ast, int parent)
 {
-	g_status = status;
 	if (message)
 	{
 		ft_putstr_fd(message, 2);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/17 02:05:59 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/22 23:01:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ extern int g_status;
 
 typedef struct s_ast	t_ast;
 
-typedef struct s_sigdata
+typedef struct s_data
 {
 	char	*cmd;
+	int		exit_status;
 	pid_t	pid;
 	t_ast	*root_ast;
-}	t_sigdata;
+}	t_data;
 
 typedef enum e_type
 {
