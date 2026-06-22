@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/26 11:52:14 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/22 13:36:38 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_int
 
 }	t_int;
 
+int		dash_lengh(char *str);
 int		builtin(t_ast *cmd, char ***env);
 void	env_bi(char **env);
 void	pwd(char **env);

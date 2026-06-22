@@ -16,7 +16,8 @@ SRC_PARSER	=	parsing.c lst_redirects.c tools_parse.c
 SRC_EXECUTER =	executing.c path.c redirects_exec.c \
 				tools_exec.c cmd_exec.c pipe_exec.c
 SRC_BUILTIN	=	built-in.c cd_bi.c echo_bi.c env_bi.c \
-				exit_bi.c export_bi.c pwd_bi.c unset_bi.c
+				exit_bi.c export_bi.c pwd_bi.c unset_bi.c \
+				helper_bi.c
 SCR_ENVP	=	envp.c env_remake.c env_remake_b.c
 SRC_SIGNAL	=	signal.c signal_mod.c
 SRCS = 	$(addprefix $(LEXER_PATH), $(SRC_LEXER)) \
