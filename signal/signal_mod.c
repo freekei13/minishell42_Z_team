@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 21:03:59 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/17 19:04:00 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/24 01:14:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sigint_mod_child(int sig)
 
 void	sigint_mod_heredoc(int sig)
 {
-	g_status = sig;
+	g_signal = sig;
 	write(1, "\n", 1);
 	return ;
 }
