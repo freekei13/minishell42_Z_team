@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/07 17:58:58 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/23 11:22:57 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	word_final_handle(t_wdata data, t_token **tokens)
 	if (!data.word_final)
 	{
 		ft_putstr_fd("minishell: syntax error\n", 2);
-		g_status = 2;
 	}
 	else
 		add_token_back(tokens, new_token(data.word_final, WORD));

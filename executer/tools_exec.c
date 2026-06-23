@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 23:28:32 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/23 11:17:16 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	free_ast(t_ast *ast)
 	free(ast);
 }
 
-void	error_exit(int status, char *message, t_ast *ast, int parent)
+void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data)
 {
+	exc_data.data->exit_status = status;
 	if (message)
 	{
 		ft_putstr_fd(message, 2);
@@ -38,7 +39,7 @@ void	error_exit(int status, char *message, t_ast *ast, int parent)
 	}
 	else
 		perror("minishell");
-	if (parent == 0)
+	if (exc_data.data->pid == 0)
 	{
 		free_ast(ast);
 		exit (status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 23:35:23 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/23 11:34:51 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*read_heredoc_line(void)
 	return (line);
 }
 
-int	here_doc_loop(t_redirect *redirects, int *pipefd)
+int	here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data)
 {
 	char	*prompt;
 
@@ -48,12 +48,12 @@ int	here_doc_loop(t_redirect *redirects, int *pipefd)
 		prompt = read_heredoc_line();
 		if (!prompt)
 		{
-			if (g_status == 2)
+			if (g_signal == 2)
 			{
-				g_status = 130;
+				exc_data.data->exit_status = 130;
 				return (-2);
 			}
-			g_status = 0;
+			exc_data.data->exit_status = 0;
 			return (-1);
 		}
 		if (ft_strncmp(prompt, redirects->file,
@@ -100,11 +100,11 @@ int	redirects(t_ast *ast, t_exec *exc_data)
 		if ((rtmp->type == REDIRECT_IN || rtmp->type == HEREDOC)
 			&& exc_data->fd_in == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,
-						strerror(errno)), ast, 1), -1);
+						strerror(errno)), ast, *exc_data), -1);
 		if ((rtmp->type == REDIRECT_OUT || rtmp->type == APPEND)
 			&& exc_data->fd_out == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,
-						strerror(errno)), ast, 1), -1);
+						strerror(errno)), ast, *exc_data), -1);
 		rtmp = rtmp->next;
 	}
 	return (0);
