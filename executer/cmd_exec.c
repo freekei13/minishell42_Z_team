@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 23:22:21 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/23 11:17:48 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ void	execve_cmd(t_ast *ast, char **env, t_exec exc_data)
 	// builtin(ast->data.cmd.args, env);
 	if (!ast->data.cmd.args[0] || ast->data.cmd.args[0][0] == '\0')
 		error_exit(127, err_message_custom("''",
-				": command not found\n"), ast, 0);
+				": command not found\n"), ast, exc_data);
 	path = find_path(ast, env);
 	if (!path)
 		error_exit(127, err_message_custom(ast->data.cmd.args[0],
-				": command not found\n"), ast, 0);
+				": command not found\n"), ast, exc_data);
 	execve(path, ast->data.cmd.args, env);
 	free(path);
-	error_exit(126, NULL, ast, 0);
+	error_exit(126, NULL, ast, exc_data);
 }
 
-void	cmd_exec(t_ast *ast, char **env, t_exec data)
+void	cmd_exec(t_ast *ast, char **env, t_exec exc_data)
 {
 	exc_data.data->pid = fork();
 	if (exc_data.data->pid == -1)
-		return (error_exit(1, NULL, ast, 1));
+		return (error_exit(1, NULL, ast, exc_data));
 	if (exc_data.data->pid == 0)
 	{
 		signal_set(*exc_data.data);
@@ -55,6 +55,6 @@ void	cmd_exec(t_ast *ast, char **env, t_exec data)
 		close(exc_data.fd_out);
 	waitpid(exc_data.data->pid, &exc_data.status, 0);
 	exc_data.data->exit_status = exc_data.status >> 8;
-	if ((data.status & 0x7f) == SIGQUIT)
+	if ((exc_data.status & 0x7f) == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)\n", 2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 23:32:09 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/23 11:19:19 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,15 @@ void	child_exec(t_ast *ast, char **env, t_exec exc_data, int side)
 void	pipe_exec(t_ast *ast, char **env, t_exec *exc_data)
 {
 	if (pipe(exc_data->pipefd) == -1)
-			return (error_exit(1, NULL, ast, 1));
+			return (error_exit(1, NULL, ast, *exc_data));
 		exc_data->pid_left = fork();
 		if (exc_data->pid_left == -1)
-			return (error_exit(1, NULL, ast, 1));
+			return (error_exit(1, NULL, ast, *exc_data));
 		if (exc_data->pid_left == 0)
 			child_exec(ast, env, *exc_data, 0);
 		exc_data->pid_right = fork();
 		if (exc_data->pid_right == -1)
-			return (error_exit(1, NULL, ast, 1));
+			return (error_exit(1, NULL, ast, *exc_data));
 		if (exc_data->pid_right == 0)
 			child_exec(ast, env, *exc_data, 1);
 		close(exc_data->pipefd[0]);
