@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:30 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 23:07:56 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/24 01:17:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 # include <termios.h>
 # include <stddef.h>
 # include "lexing.h"
+
+extern int g_signal;
 
 void	signal_set(t_data data);
 void	sigint_heredoc(void);

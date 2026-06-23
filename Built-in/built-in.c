@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/26 11:31:40 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/24 01:30:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	builtin(t_ast *cmd, char ***env)
 	if (i == 0)
 	{
 		if (!cmd->data.cmd.args[2] && cmd->data.cmd.args[1])
-			 g_status = cd(cmd->data.cmd.args + 1, *env);
+			 g_signal = cd(cmd->data.cmd.args + 1, *env);
 	}
 	else if (i == 1)
 	{
@@ -77,7 +77,7 @@ int	builtin(t_ast *cmd, char ***env)
 		if (!cmd->data.cmd.args[1])
 			env_bi(*env);
 	}
-	 g_status = keep_builtin(cmd, env, i, 0);
+	 g_signal = keep_builtin(cmd, env, i, 0);
 	//errhandle( g_status);
 	split_free(names);
 	return(0);
