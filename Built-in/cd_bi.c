@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/06/22 13:30:53 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/23 11:32:57 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@ void	pwd_update(char **env, char *path)
 
 	pwd = malloc(sizeof(char **) * 3);
 	pwd[0] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
-	pwd[1] = ft_strjoin("PWD=", ft_strjoin(find_env(env, "PWD"),
-		ft_strjoin("/", path)));
+	if (ft_strcmp(path, find_env(env, "OLDPWD")) == 0)
+		pwd[0] = ft_strjoin("PWD=", path);
+	else
+	{
+		pwd[1] = ft_strjoin("PWD=", ft_strjoin(find_env(env, "PWD"),
+			ft_strjoin("/", path)));
+	}
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
 	split_free(pwd);
@@ -64,11 +69,16 @@ char	*no_dash(char *arg, int x)
 	int		i;
 
 	i = -1;
-	str = malloc(sizeof(char *) * x + 1);
-	while (arg[++i] && arg[i] != '/')
-		str[i] = arg[i];
-	str[i] = '\0';
-	return(str);
+	if (x != -1)
+	{
+		str = malloc(sizeof(char *) * (x + 1));
+		while (arg[++i] && arg[i] != '/')
+			str[i] = arg[i];
+		str[i] = '\0';
+		return(str);
+	}
+	else
+		return(NULL);
 }
 
 int	dot_cd(char **arg, char **env, t_int i)
@@ -76,7 +86,7 @@ int	dot_cd(char **arg, char **env, t_int i)
 	char *str;
 
 	if (arg[1][0] == '.' && arg[1][1] == '.' &&
-		(arg[1][2] == '.' 	|| !arg[1][2] || arg[1][2] == '/'))
+		(!arg[1][2] || arg[1][2] == '.' || arg[1][2] == '/'))
 	{
 		i.i = dash_lengh(arg[1]);
 		str = no_dash(arg[1], i.i);
@@ -86,9 +96,10 @@ int	dot_cd(char **arg, char **env, t_int i)
 			i.ks = chdir(str);
 		if (i.ks == -1)
 			return(1);
-		free(str);
+		if (i.i != -1)
+			free(str);
 		pwd_dot_update(env);
-		if (i.i == -1)
+		if (i.i != -1)
 			return (cd(&arg[1] + 3, env));
 		return(0);
 	}

@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:52:31 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/22 14:19:00 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	main(int argc, char **argv, char **envi)
 		ast = parser(tokens);
 		free_tokens(tokens);
 		print_ast(ast, 0);
-		executer(ast, envp[0], &sigdata);
+		executer(ast, envp, &sigdata);
 		free_ast(ast);
 		ast = NULL;
 	}

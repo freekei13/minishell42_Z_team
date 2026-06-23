@@ -6,14 +6,14 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:59:51 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/22 14:21:26 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executing.h"
 
-void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
+void	executer(t_ast *ast, char ***env, t_sigdata *sigdata)
 {
 	t_exec	data;
 	
@@ -32,8 +32,8 @@ void	executer(t_ast *ast, char **env, t_sigdata *sigdata)
 				close(data.fd_out);
 			return ;
 		}
-		if (builtin(ast, &env) == 1)
-			cmd_exec(ast, env, data);
+		if (builtin(ast, env) == 1)
+			cmd_exec(ast, env[0], data);
 	}
 	else if (ast->type == AST_PIPE)
 		pipe_exec(ast, env, &data);

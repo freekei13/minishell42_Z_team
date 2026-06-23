@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/13 20:36:37 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/22 14:21:38 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
 
-void	child_exec(t_ast *ast, char **env, t_exec data, int side)
+void	child_exec(t_ast *ast, char ***env, t_exec data, int side)
 {
 	if (side == 0)
 	{
@@ -32,7 +32,7 @@ void	child_exec(t_ast *ast, char **env, t_exec data, int side)
 	}
 }
 
-void	pipe_exec(t_ast *ast, char **env, t_exec *data)
+void	pipe_exec(t_ast *ast, char ***env, t_exec *data)
 {
 	if (pipe(data->pipefd) == -1)
 			return (error_exit(1, NULL, ast, 1));

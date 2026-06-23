@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:45:55 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/22 14:21:54 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ typedef struct s_exec
 	t_sigdata	*sigdata;
 }	t_exec;
 
-void	executer(t_ast *ast, char **env, t_sigdata *sigdata);
+void	executer(t_ast *ast, char ***env, t_sigdata *sigdata);
 
 int		here_doc(t_ast *ast, t_exec *data);
 int		redirects(t_ast *ast, t_exec *data);
 
-void	pipe_exec(t_ast *ast, char **env, t_exec *data);
+void	pipe_exec(t_ast *ast, char ***env, t_exec *data);
 
 char	*find_path(t_ast *ast, char **env);
 
