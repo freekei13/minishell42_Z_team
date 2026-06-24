@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:17:16 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/24 18:34:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_ast(t_ast *ast)
 void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data)
 {
 	exc_data.data->exit_status = status;
+	
 	if (message)
 	{
 		ft_putstr_fd(message, 2);
