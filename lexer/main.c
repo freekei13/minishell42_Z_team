@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/24 01:51:54 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/24 17:49:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,5 @@ int	main(int argc, char **argv, char **envi)
 	if (envp[0][0])
 		split_free(envp[0]);
 	free(envp);
-	printf("EXIT CODE: %d\n", data.exit_status);
 	return (0);
 }
