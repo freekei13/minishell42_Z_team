@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:09 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 23:00:52 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/29 20:18:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	signal_set(t_data data)
 {
 	struct	sigaction	sa;
 
+	g_signal = 0;
 	sigemptyset(&sa.sa_mask);
 	if (data.pid == 0)
 	{

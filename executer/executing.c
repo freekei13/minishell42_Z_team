@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:33:38 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/29 20:09:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	heredoc_ast_cmd(t_redirect *redirects, int *pipefd, t_exec exc_data)
 			if (pipe(pipefd) == -1)
 				return (0);
 			ret = here_doc_loop(redirects, pipefd, exc_data);
+			printf("DEBUG:ret = %d\n", ret);
 			close(pipefd[1]);
 			if (ret == -2)
 				return (-2);
