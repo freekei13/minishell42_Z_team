@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/19 12:03:42 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/01 10:34:06 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**make_env(char **env)
 	while (env[j])
 		j++;
 	i = -1;
-	res = malloc(sizeof(char **) * (j + 1));
+	res = malloc(sizeof(char *) * (j + 1));
 	while (env[++i])
 		res[i] = ft_strdup(env[i]);
 	res[i] = NULL;

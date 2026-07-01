@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/22 14:19:00 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/01 10:32:36 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	main(int argc, char **argv, char **envi)
 
 	if (argc == -1)
 		return (0);
-	envp = malloc(sizeof(char ***) * 2);
+	envp = malloc(sizeof(char **) * 2);
 	envp[0] = make_env(envi);
 	envp[1] = NULL;
 	sigdata_init(&sigdata);
