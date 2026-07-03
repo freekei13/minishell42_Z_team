@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/03 23:16:56 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/04 00:38:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 			return ;
 		}
 		if (builtin(ast, &env) == 1)
-			cmd_exec(ast, env, exc_data);
+			cmd_exec(ast, env, &exc_data);
 	}
 	else if (ast->type == AST_PIPE)
 	{
@@ -100,6 +100,6 @@ void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 	}
 	else if (ast->type == AST_ERROR)
 		error_exit(ast->data.err.status_code, 
-			ft_strdup(ast->data.err.err_message), ast, exc_data);
+			ft_strdup(ast->data.err.err_message), ast, &exc_data);
 
 }

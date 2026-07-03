@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/29 20:29:09 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/03 23:58:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	main(int argc, char **argv, char **envi)
 			free_ast(ast);
 			ast = NULL;
 		}
+		printf("Tmp: $? = %d\n", data.exit_status);
 	}
 	rl_clear_history();
 	if (envp[0][0])

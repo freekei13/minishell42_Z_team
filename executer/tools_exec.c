@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/24 18:34:10 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/04 00:36:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	free_ast(t_ast *ast)
 	free(ast);
 }
 
-void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data)
+void	error_exit(int status, char *message, t_ast *ast, t_exec *exc_data)
 {
-	exc_data.data->exit_status = status;
+	exc_data->data->exit_status = status;
 	
 	if (message)
 	{
@@ -40,7 +40,7 @@ void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data)
 	}
 	else
 		perror("minishell");
-	if (exc_data.data->pid == 0)
+	if (exc_data->data->pid == 0)
 	{
 		free_ast(ast);
 		exit (status);

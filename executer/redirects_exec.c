@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_exec.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:34:51 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/04 00:34:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,11 @@ int	redirects(t_ast *ast, t_exec *exc_data)
 		if ((rtmp->type == REDIRECT_IN || rtmp->type == HEREDOC)
 			&& exc_data->fd_in == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,
-						strerror(errno)), ast, *exc_data), -1);
+						strerror(errno)), ast, exc_data), -1);
 		if ((rtmp->type == REDIRECT_OUT || rtmp->type == APPEND)
 			&& exc_data->fd_out == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,
-						strerror(errno)), ast, *exc_data), -1);
+						strerror(errno)), ast, exc_data), -1);
 		rtmp = rtmp->next;
 	}
 	return (0);
