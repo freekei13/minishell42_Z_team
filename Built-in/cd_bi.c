@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 11:58:20 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/06 12:06:39 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	pwd_dot_update(char **env)
 	while(cmp[++i.i] && i.i < i.is)
 		str[i.i] = cmp[i.i];
 	str[i.i] = '\0';
-	pwd[1] = ft_strjoin("PWD=", str);
-	pwd[0] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
+	pwd[0] = ft_strjoin("PWD=", str);
+	pwd[1] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
 	printf("CMP : %s \nPWD : %s\nOLDPWD : %s\n\n", cmp, pwd[1], pwd[0]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:22:31 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/06 12:10:49 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-# include "../gnl/get_next_line.h"
+# include "../libft/libft.h"
 
 typedef struct s_ast	t_ast;
 
