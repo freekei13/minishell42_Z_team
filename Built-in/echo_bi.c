@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_bi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:02:45 by lalamino          #+#    #+#             */
-/*   Updated: 2026/06/17 21:32:52 by marvin           ###   ########.fr       */
+/*   Updated: 2026/05/12 14:06:00 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	echo_fct(char	**str, int option)
 	}
 	if (option == 0 && !str[i.i])
 		printf("\n");
-}
+	}
 	

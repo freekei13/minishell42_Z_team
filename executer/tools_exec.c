@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/24 18:34:10 by marvin           ###   ########.fr       */
+/*   Updated: 2026/05/07 18:09:07 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@ void	free_ast(t_ast *ast)
 	free(ast);
 }
 
-void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data)
+void	error_exit(int status, char *message, t_ast *ast, int parent)
 {
-	exc_data.data->exit_status = status;
-	
+	g_status = status;
 	if (message)
 	{
 		ft_putstr_fd(message, 2);
@@ -40,26 +39,21 @@ void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data)
 	}
 	else
 		perror("minishell");
-	if (exc_data.data->pid == 0)
+	ast = NULL;
+	if (parent == 0)
 	{
 		free_ast(ast);
 		exit (status);
 	}
 	return ;
 }
-
 char	*err_message_custom(char *cause, char *message)
 {
 	char	*msg;
 	char	*tmp;
-	char	*new_str;
-	
-	new_str = ft_strjoin(cause, ": ");
-	tmp = ft_strjoin("minishell: ", new_str);
-	free(new_str);
-	new_str = ft_strjoin(tmp, message);
+
+	tmp = ft_strjoin("minishell: ", cause);
+	msg	= ft_strjoin(tmp, message);
 	free(tmp);
-	msg = ft_strjoin(new_str, "\n");
-	free(new_str);
 	return (msg);
 }

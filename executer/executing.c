@@ -3,103 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:33:38 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/22 14:21:26 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "executing.h"
 
-int	heredoc_ast_cmd(t_redirect *redirects, int *pipefd, t_exec exc_data)
+void	executer(t_ast *ast, char ***env, t_sigdata *sigdata)
 {
-	int	ret;
+	t_exec	data;
 	
-	while (redirects)
-	{
-		if (redirects->type == HEREDOC)
-		{
-			if (pipe(pipefd) == -1)
-				return (0);
-			ret = here_doc_loop(redirects, pipefd, exc_data);
-			close(pipefd[1]);
-			if (ret == -2)
-				return (-2);
-			if (ret == -1)
-			{
-				ft_putstr_fd("warning: here-document delimited by end-of-file (wanted `", 2);
-    			ft_putstr_fd(redirects->file, 2);
-    			ft_putstr_fd("')\n", 2);
-				redirects->fd = pipefd[0];
-    			return (-1);
-			}
-			redirects->fd = pipefd[0];
-		}
-		redirects = redirects->next;
-	}
-	return (0);
-}
-
-int	heredoc_handle(t_ast *ast, t_exec exc_data)
-{
-	int				pipefd[2];
-	t_redirect		*redirects_tmp;
-	int				ret;
-
-	if (!ast)
-		return (0);
-	if (ast->type == AST_PIPE)
-	{
-		ret = heredoc_handle(ast->data.pipe.left, exc_data);
-		if (ret == -2)
-			return (-2);
-		ret = heredoc_handle(ast->data.pipe.right, exc_data);
-		if (ret == -2)
-			return (-2);
-	}
-	else if (ast->type == AST_CMD)
-	{
-		redirects_tmp = ast->data.cmd.redirects;
-		ret = heredoc_ast_cmd(redirects_tmp, pipefd, exc_data);
-		return (ret);
-	}
-	return (0);
-}
-
-void	executer(t_ast *ast, char **env, t_data *data, int is_child)
-{
-	t_exec	exc_data;
-
 	if (!ast)
 		return ;
-	exc_data.fd_in = -1;
-	exc_data.fd_out = -1;
-	exc_data.data = data;
+	data.fd_in = -1;
+	data.fd_out = -1;
+	data.sigdata = sigdata;
 	if (ast->type == AST_CMD)
 	{
-		if (is_child == 0 && heredoc_handle(ast, exc_data) == -2)
-			return ;
-		if (redirects(ast, &exc_data) == -1 || !ast->data.cmd.args[0])
+		if (redirects(ast, &data) == -1 || !ast->data.cmd.args[0])
 		{
-			if (exc_data.fd_in != -1)
-				close(exc_data.fd_in);
-			if (exc_data.fd_out != -1)
-				close(exc_data.fd_out);
+			if (data.fd_in != -1)
+				close(data.fd_in);
+			if (data.fd_out != -1)
+				close(data.fd_out);
 			return ;
 		}
-		if (builtin(ast, &env) == 1)
-			cmd_exec(ast, env, exc_data);
+		if (builtin(ast, env) == 1)
+			cmd_exec(ast, env[0], data);
 	}
 	else if (ast->type == AST_PIPE)
-	{
-		if (is_child == 0 && heredoc_handle(ast, exc_data) == -2)
-			return ;
-		pipe_exec(ast, env, &exc_data);
-	}
+		pipe_exec(ast, env, &data);
 	else if (ast->type == AST_ERROR)
 		error_exit(ast->data.err.status_code, 
-			ft_strdup(ast->data.err.err_message), ast, exc_data);
-
+			ft_strdup(ast->data.err.err_message), ast, 1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/16 19:35:22 by marvin           ###   ########.fr       */
+/*   Updated: 2026/04/13 16:59:16 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ t_ast	*cmd_node_parser(t_token *tokens)
 		return (NULL);
 	node->type = AST_CMD;
 	node->data.cmd.args = malloc(sizeof(char *) * (type_word_nb + 1));
-	if (!node->data.cmd.args)
-		return (free_ast(node), NULL);
 	node->data.cmd.redirects = NULL;
 	cmd_node_loop(tokens, node);
 	return (node);

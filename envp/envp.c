@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/19 12:03:42 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/02 14:43:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**env_dup(char **env, int x)
 	i = 0;
 	while (env[i])
 		i++;
-	new_env = malloc(sizeof(char **) * (i + 1 + x));
+	new_env = malloc(sizeof(char *) * (i + 1 + x));
 	i = -1;
 	while (env[++i])
 		new_env[i] = ft_strdup(env[i]);
@@ -38,7 +38,7 @@ char	**make_env(char **env)
 	while (env[j])
 		j++;
 	i = -1;
-	res = malloc(sizeof(char **) * (j + 1));
+	res = malloc(sizeof(char *) * (j + 1));
 	while (env[++i])
 		res[i] = ft_strdup(env[i]);
 	res[i] = NULL;

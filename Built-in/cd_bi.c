@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/06/22 13:30:53 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/06 11:21:22 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@ void	pwd_update(char **env, char *path)
 
 	pwd = malloc(sizeof(char **) * 3);
 	pwd[0] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
-	pwd[1] = ft_strjoin("PWD=", ft_strjoin(find_env(env, "PWD"),
-		ft_strjoin("/", path)));
+	if (ft_strcmp(path, find_env(env, "OLDPWD")) == 0)
+		pwd[1] = ft_strjoin("PWD=", path);
+	else
+	{
+		pwd[1] = ft_strjoin("PWD=", ft_strjoin(find_env(env, "PWD"),
+			ft_strjoin("/", path)));
+	}
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
 	split_free(pwd);
@@ -37,24 +42,27 @@ void	pwd_dot_update(char **env)
 	char	**pwd;
 	char	*str;
 	char	*cmp;
-	int		i;
+	t_int		i;
 
-	i = -1;
 	str = malloc(sizeof(char *) * ft_strlen(find_env(env, "PWD")));
 	cmp  = malloc(sizeof(char *) * ft_strlen(find_env(env, "PWD")));
-	pwd = malloc(sizeof(char **) * 3);
+	pwd = malloc(sizeof(char *) * 3);
 	cmp = find_env(env, "PWD");
-	while(cmp[++i] && cmp[i] != '/')
-		str[i] = cmp[i];
-	str[i] = '\0';
+	i.is = ft_strlen(cmp) - 1;
+	while(cmp[i.is] != '/')
+		i.is--;
+	i.i = -1;
+	while(cmp[++i.i] && i.i < i.is)
+		str[i.i] = cmp[i.i];
+	str[i.i] = '\0';
 	pwd[0] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
 	pwd[1] = ft_strjoin("PWD=", str);
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
-	printf("PWD : %s\nOLDPWD : %s\n\n", pwd[1], pwd[0]);
+	printf("CMP : %s \nPWD : %s\nOLDPWD : %s\n\n", cmp, pwd[1], pwd[0]);
 	free(str);
-	free(cmp);
-	split_free(pwd);
+	//free(cmp);
+	//split_free(pwd);
 	return ;
 }
 
@@ -64,19 +72,25 @@ char	*no_dash(char *arg, int x)
 	int		i;
 
 	i = -1;
-	str = malloc(sizeof(char *) * x + 1);
-	while (arg[++i] && arg[i] != '/')
-		str[i] = arg[i];
-	str[i] = '\0';
-	return(str);
+	if (x != -1)
+	{
+		str = malloc(sizeof(char *) * (x + 1));
+		while (arg[++i] && arg[i] != '/')
+			str[i] = arg[i];
+		str[i] = '\0';
+		return(str);
+	}
+	else
+		return(NULL);
 }
 
 int	dot_cd(char **arg, char **env, t_int i)
 {
-	char *str;
+	char	*str;
+	char	**arguments;
 
 	if (arg[1][0] == '.' && arg[1][1] == '.' &&
-		(arg[1][2] == '.' 	|| !arg[1][2] || arg[1][2] == '/'))
+		(!arg[1][2] || arg[1][2] == '.' || arg[1][2] == '/'))
 	{
 		i.i = dash_lengh(arg[1]);
 		str = no_dash(arg[1], i.i);
@@ -86,11 +100,18 @@ int	dot_cd(char **arg, char **env, t_int i)
 			i.ks = chdir(str);
 		if (i.ks == -1)
 			return(1);
-		free(str);
+		if (i.i != -1)
+			free(str);
 		pwd_dot_update(env);
-		if (i.i == -1)
-			return (cd(&arg[1] + 3, env));
-		return(0);
+		arguments = malloc(sizeof(char *) * 2);
+		arguments[0] = ft_strdup(arg[0]);
+		arguments[1] = ft_strdup(arg[1] + 3);
+		arguments[2] = NULL;
+		i.j = 0;
+		if (arguments && i.i != -1)
+			i.j = cd(arguments, env);
+		split_free(arguments);
+		return(i.j);
 	}
 	return (1);
 }

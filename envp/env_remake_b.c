@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_remake_b.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/26 10:50:01 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/02 14:43:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	***add_env(char ***env, char **add)
 	while (add[++i])
 		new_env[j + i] = ft_strdup(add[i]);
 	new_env[j + i] = NULL;
-	env[0] = malloc(sizeof(char ***)* (i + j + 1));
+	env[0] = malloc(sizeof(char *)* (i + j + 1));
 	i = -1;
 	while (new_env[++i])
 		env[0][i] = ft_strdup(new_env[i]);
@@ -49,7 +49,7 @@ char	**rmv_env2(char **env, char **rmv, int x, int i)
 
 	i = -1;
 	j = -1;
-	new_env = malloc(sizeof(char **) * (x + 1));
+	new_env = malloc(sizeof(char *) * (x + 1));
 	while (env[++i])
 	{
 		r = -1;

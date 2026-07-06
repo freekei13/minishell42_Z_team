@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/06/24 01:30:54 by marvin           ###   ########.fr       */
+/*   Updated: 2026/06/24 18:23:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ char	**bi_names(void)
 	
 	i = -1;
 	names = malloc(sizeof(char **) * 8);
-	names[++i] = ft_strdup("cd");
-	names[++i] = ft_strdup("echo");
-	names[++i] = ft_strdup("env");
-	names[++i] = ft_strdup("exit");
-	names[++i] = ft_strdup("export");
-	names[++i] = ft_strdup("pwd");
-	names[++i] = ft_strdup("unset");
+	names[++i] = "cd";
+	names[++i] = "echo";
+	names[++i] = "env";
+	names[++i] = "exit";
+	names[++i] = "export";
+	names[++i] = "pwd";
+	names[++i] = "unset";
 	names[++i] = NULL;
 	return (names);
 }
@@ -53,6 +53,7 @@ int	builtin(t_ast *cmd, char ***env)
 {
 	char	**names;
 	int		i;
+	int		nberr;
 
 	names = bi_names();
 	i = 0;
@@ -63,7 +64,7 @@ int	builtin(t_ast *cmd, char ***env)
 	if (i == 0)
 	{
 		if (!cmd->data.cmd.args[2] && cmd->data.cmd.args[1])
-			 g_signal = cd(cmd->data.cmd.args + 1, *env);
+			nberr = cd(cmd->data.cmd.args, *env);
 	}
 	else if (i == 1)
 	{
@@ -77,8 +78,9 @@ int	builtin(t_ast *cmd, char ***env)
 		if (!cmd->data.cmd.args[1])
 			env_bi(*env);
 	}
-	 g_signal = keep_builtin(cmd, env, i, 0);
-	//errhandle( g_status);
-	split_free(names);
+	nberr = keep_builtin(cmd, env, i, 0);
+	//errhandle(nberr);
+	i = nberr;
+	free(names);
 	return(0);
 }

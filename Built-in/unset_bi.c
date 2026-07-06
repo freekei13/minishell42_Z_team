@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_bi.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/20 13:36:38 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/02 14:41:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**mlc_init(char **cmd)
 	i = 0;
 	while (cmd[i])
 		i++;
-	mlc = malloc(sizeof(char **) * (i + 1));
+	mlc = malloc(sizeof(char *) * (i + 1));
 	return (mlc);
 }
 

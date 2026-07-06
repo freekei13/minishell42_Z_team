@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:30 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/24 01:17:35 by marvin           ###   ########.fr       */
+/*   Updated: 2026/05/19 21:36:52 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@
 # include <stddef.h>
 # include "lexing.h"
 
-extern int g_signal;
-
-void	signal_set(t_data data);
+void	signal_set(t_sigdata sigdata);
 void	sigint_heredoc(void);
 void	sigint_after_heredoc(void);
 void	sigint_after_cmd(void);

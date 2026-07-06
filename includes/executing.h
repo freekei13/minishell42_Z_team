@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:34:05 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/22 14:21:54 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <sys/wait.h>
 # include "signals.h"
 
-extern int g_signal;
+extern int g_status;
 
 typedef struct s_exec
 {
@@ -29,21 +29,21 @@ typedef struct s_exec
 	pid_t		pid_left;
 	pid_t		pid_right;
 	int			status;
-	t_data		*data;
+	t_sigdata	*sigdata;
 }	t_exec;
 
-void	executer(t_ast *ast, char **env, t_data *data, int is_child);
+void	executer(t_ast *ast, char ***env, t_sigdata *sigdata);
 
-int		here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data);
-int		redirects(t_ast *ast, t_exec *exc_data);
+int		here_doc(t_ast *ast, t_exec *data);
+int		redirects(t_ast *ast, t_exec *data);
 
-void	pipe_exec(t_ast *ast, char **env, t_exec *exc_data);
+void	pipe_exec(t_ast *ast, char ***env, t_exec *data);
 
 char	*find_path(t_ast *ast, char **env);
 
-void	cmd_exec(t_ast *ast, char **env, t_exec exc_data);
+void	cmd_exec(t_ast *ast, char **env, t_exec data);
 
-void	error_exit(int status, char *message, t_ast *ast, t_exec exc_data);
+void	error_exit(int status, char *message, t_ast *ast, int parent);
 char	*err_message_custom(char *cause, char *message);
 void	free_ast(t_ast *ast);
 

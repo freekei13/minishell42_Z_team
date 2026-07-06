@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 10:15:17 by marvin            #+#    #+#             */
-/*   Updated: 2026/05/29 10:15:17 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/02 14:00:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	dash_lengh(char *str)
 	i = 0;
 	while (str[i] && str[i] != '/')
 		i++;
-	if (!str[i])
+	if (!str[i] || !str[i + 1])
 		return (-1);
 	return(i);
 }

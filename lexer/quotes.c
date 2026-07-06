@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/26 11:46:43 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/02 14:44:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*quote_sep(char *str, char **env)
 	qt.i = -1;
 	qt.s = 0;
 	qt.quote = str[0];
-	qt.split = malloc(sizeof (char **) * (ft_strlen(str) + 1));
+	qt.split = malloc(sizeof (char *) * (ft_strlen(str) + 1));
 	qt.split[qt.s] = NULL;
 	if (quote_check(str) == -1 || !str)
 		return (NULL);

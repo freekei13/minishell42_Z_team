@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_bi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/05/20 13:51:30 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/02 14:41:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	export2(char ***env, char **valid_find, t_int i, char **cmd)
 	i.i = 0;
 	while (valid_find[i.i])
 		i.i++;
-	valid_add = malloc(sizeof(char **) * (i.i + 1));
-	valid_chg = malloc(sizeof(char **) * (i.i + 1));
+	valid_add = malloc(sizeof(char *) * (i.i + 1));
+	valid_chg = malloc(sizeof(char *) * (i.i + 1));
 	i.i = -1;
 	i.j = -1;
 	i.k = -1;
@@ -55,7 +55,7 @@ void	export(char ***env, char	**cmd)
 	t_int	i;
 
 	i.k = args_size(cmd);
-	valid_find = malloc(sizeof(char **) * (i.k + 1));
+	valid_find = malloc(sizeof(char *) * (i.k + 1));
 	i.i = -1;
 	i.j = -1;
 	while (cmd[++i.i])

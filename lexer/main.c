@@ -6,20 +6,18 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/24 18:50:44 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/02 14:30:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int	g_signal;
+int	g_status;
 
-void	data_init(t_data *data)
+void	sigdata_init(t_sigdata *sigdata)
 {
-	g_signal = 0;
-	data->exit_status = 0;
-	data->pid = -1;
-	data->root_ast = NULL;
+	g_status = 0;
+	sigdata->pid = -1;
 }
 
 void	btin_test(char ***env)
@@ -67,14 +65,14 @@ int	main(int argc, char **argv, char **envi)
 	t_token	*tokens;
 	t_ast	*ast;
 	char	***envp;
-	t_data	data;
+	t_sigdata	sigdata;
 
 	if (argc == -1)
 		return (0);
-	envp = malloc(sizeof(char ***) * 2);
+	envp = malloc(sizeof(char **) * 2);
 	envp[0] = make_env(envi);
 	envp[1] = NULL;
-	data_init(&data);
+	sigdata_init(&sigdata);
 	// printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
 	// btin_test(envp);
 	// printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
@@ -83,26 +81,22 @@ int	main(int argc, char **argv, char **envi)
 	argv[1] = NULL;
 	while (1)
 	{
-		signal_set(data);
-		data.cmd = readline("minishell $ ");
-		if (!data.cmd)
+		signal_set(sigdata);
+		sigdata.cmd = readline("minishell $ ");
+		if (!sigdata.cmd)
 		{
 			printf("exit\n");
 			break ;
 		}
-		add_history(data.cmd);
-		tokens = tokenize(data.cmd, envp[0]);
-		free(data.cmd);
+		add_history(sigdata.cmd);
+		tokens = tokenize(sigdata.cmd, envp[0]);
+		free(sigdata.cmd);
 		ast = parser(tokens);
-		if (ast)
-		{
-			data.root_ast = ast;
-			free_tokens(tokens);
-			//print_ast(ast, 0);
-			executer(ast, envp[0], &data, 0);
-			free_ast(ast);
-			ast = NULL;
-		}
+		free_tokens(tokens);
+		print_ast(ast, 0);
+		executer(ast, envp, &sigdata);
+		free_ast(ast);
+		ast = NULL;
 	}
 	rl_clear_history();
 	if (envp[0][0])
