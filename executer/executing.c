@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/06 11:35:28 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/06 11:47:50 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 				close(exc_data.fd_out);
 			return ;
 		}
-		if (builtin(ast, &env) == 1)
+		if (builtin(ast, &env, &exc_data) == 1)
 			cmd_exec(ast, env, &exc_data);
 	}
 	else if (ast->type == AST_PIPE)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_bi.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/02 14:41:33 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/06 11:58:45 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	args_size(char **args)
 	return (i);
 }
 
-void	export(char ***env, char	**cmd)
+void	export(char ***env, char **cmd, t_exec *exc_data)
 {
 	char	**valid_find;
 	t_int	i;
@@ -74,5 +74,6 @@ void	export(char ***env, char	**cmd)
 	}
 	valid_find[++i.j] = NULL;
 	export2(env, valid_find, i, cmd);
+	(void) exc_data;
 	return ;
 }

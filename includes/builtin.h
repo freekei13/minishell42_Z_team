@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/06/22 13:36:38 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/06 11:57:40 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ typedef struct s_int
 }	t_int;
 
 int		dash_lengh(char *str);
-int		builtin(t_ast *cmd, char ***env);
-void	env_bi(char **env);
-void	pwd(char **env);
-void	unset(char ***env, char **cmd);
-void	export(char ***env, char **cmd);
-void	echo_fct(char	**str, int option);
+int		builtin(t_ast *cmd, char ***env, t_exec *exc_data);
+void	env_bi(char **env, t_exec *exc_data);
+void	pwd(char **env, t_exec *exc_data);
+void	unset(char ***env, char **cmd, t_exec *exc_data);
+void	export(char ***env, char **cmd, t_exec *exc_data);
+void	echo_fct(char	**str, int option, t_exec *exc_data);
 int		args_size(char **args);
-int		cd(char **args, char **env);
+void	cd(char **args, char **env, t_exec *exc_data);
 
 #endif

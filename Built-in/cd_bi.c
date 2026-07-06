@@ -6,7 +6,7 @@
 /*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 11:27:19 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/06 11:58:20 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*no_dash(char *arg, int x)
 		return(NULL);
 }
 
-int	dot_cd(char **arg, char **env, t_int i)
+void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 {
 	char	*str;
 	char	**arguments;
@@ -99,7 +99,7 @@ int	dot_cd(char **arg, char **env, t_int i)
 		else
 			i.ks = chdir(str);
 		if (i.ks == -1)
-			return(1);
+			return ;
 		if (i.i != -1)
 			free(str);
 		pwd_dot_update(env);
@@ -107,39 +107,37 @@ int	dot_cd(char **arg, char **env, t_int i)
 		arguments[0] = ft_strdup(arg[0]);
 		arguments[1] = ft_strdup(arg[1] + 3);
 		arguments[2] = NULL;
-		i.j = 0;
 		if (arguments && i.i != -1)
-			i.j = cd(arguments, env);
+			cd(arguments, env, exc_data);
 		split_free(arguments);
-		return(i.j);
 	}
-	return (1);
 }
 
-int		cd(char **args, char **env)
+void		cd(char **args, char **env, t_exec *exc_data)
 {
 	t_int	i;
 
 	i.js = 0;
 	if (args_size(args) != 2)
-		return (1);
+		return ;
 	if (args[1] && strncmp(args[1], "-", 2) == 0)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
 		if (i.ks == 0)
 			pwd_update(env, find_env(env, "OLDPWD"));
 		else if (i.ks == -1)
-			return (1);
+			return ;
 	}
 	else if (args[1][0] == '.')
-		return (dot_cd(args, env, i));
+		return (dot_cd(args, env, i, exc_data));
 	else
 	{
 		i.ks = chdir(args[1]);
 		if (i.ks == 0)
 			pwd_update(env, args[1]);
 		else if (i.ks == -1)
-			return (1);
+			return ;
 	}
-	return (0);
+	(void) exc_data;
+	return ;
 }

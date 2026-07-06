@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_bi.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:15 by lalamino          #+#    #+#             */
-/*   Updated: 2026/06/22 13:03:29 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/06 11:59:41 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-void	pwd(char **env)
+void	pwd(char **env, t_exec *exc_data)
 {
+	(void) exc_data;
 	printf("%s\n", find_env(env, "PWD"));
 }
 

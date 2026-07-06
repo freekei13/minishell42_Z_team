@@ -33,8 +33,6 @@ INC = -I ./includes/
 
 LIBFT_PATH = libft/
 LIBFT = $(addprefix $(LIBFT_PATH), libft.a)
-GNL_PATH = gnl/
-GNL = $(addprefix $(GNL_PATH), gnl.a)
 
 all: $(NAME)
 
@@ -62,23 +60,19 @@ $(OBJ_PATH)%.o:$(ENVP_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 
-$(NAME): $(OBJS) $(GNL) $(LIBFT)
+$(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(FLAGS) $^ -lreadline -o $@ -g
 
 $(LIBFT):
 	make -C $(LIBFT_PATH)
 
-$(GNL):
-	make -C $(GNL_PATH)
 
 clean:
 	$(RM) $(OBJS)
 	make clean -C $(LIBFT_PATH)
-	make clean -C $(GNL_PATH)
 
 fclean: clean
 	$(RM) $(NAME)
 	make fclean -C $(LIBFT_PATH)
-	make fclean -C $(GNL_PATH)
 
 re: fclean all
