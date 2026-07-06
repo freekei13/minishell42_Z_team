@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/09 15:07:25 by csamakka          #+#    #+#             */
-/*   Updated: 2025/10/09 17:07:14 by csamakka         ###   ####lausanne.ch   */
+/*   Updated: 2026/06/16 19:33:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	free_all(char **strs)
 {
 	size_t	i;
 
+	if (!strs)
+		return ;
 	i = 0;
 	while (strs[i])
 	{

@@ -62,7 +62,7 @@ $(OBJ_PATH)%.o:$(ENVP_PATH)%.c
 	mkdir -p $(OBJ_PATH)
 	$(CC) $(FLAGS) $(INC) -c $< -o $@ -g
 
-$(NAME): $(OBJS) $(LIBFT) $(GNL)
+$(NAME): $(OBJS) $(GNL) $(LIBFT)
 	$(CC) $(FLAGS) $^ -lreadline -o $@ -g
 
 $(LIBFT):

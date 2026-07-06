@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:09 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/20 16:20:05 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/06/29 20:18:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 
-void	signal_set(t_sigdata sigdata)
+void	signal_set(t_data data)
 {
 	struct	sigaction	sa;
 
+	g_signal = 0;
 	sigemptyset(&sa.sa_mask);
-	if (sigdata.pid == 0)
+	if (data.pid == 0)
 	{
 		sa.sa_handler = SIG_DFL;
 		sa.sa_flags = 0;
@@ -54,12 +55,3 @@ void 	sigint_heredoc(void)
 	sigaction(SIGINT, &sa, NULL);
 }
 
-void	sigint_after_heredoc(void)
-{
-	struct	sigaction	sa;
-	
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigint_mod_heredoc_parent;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-}

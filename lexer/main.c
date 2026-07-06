@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/02 14:30:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/06 11:39:01 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int	g_status;
+int	g_signal;
 
-void	sigdata_init(t_sigdata *sigdata)
+void	data_init(t_data *data)
 {
-	g_status = 0;
-	sigdata->pid = -1;
+	data->exit_status = 0;
+	data->pid = -1;
+	data->root_ast = NULL;
 }
 
 void	btin_test(char ***env)
@@ -65,14 +66,14 @@ int	main(int argc, char **argv, char **envi)
 	t_token	*tokens;
 	t_ast	*ast;
 	char	***envp;
-	t_sigdata	sigdata;
+	t_data	data;
 
 	if (argc == -1)
 		return (0);
 	envp = malloc(sizeof(char **) * 2);
 	envp[0] = make_env(envi);
 	envp[1] = NULL;
-	sigdata_init(&sigdata);
+	data_init(&data);
 	// printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
 	// btin_test(envp);
 	// printf("%s\n%s\n", find_env(envp[0], "PWD"), find_env(envp[0], "OLDPWD"));
@@ -81,22 +82,27 @@ int	main(int argc, char **argv, char **envi)
 	argv[1] = NULL;
 	while (1)
 	{
-		signal_set(sigdata);
-		sigdata.cmd = readline("minishell $ ");
-		if (!sigdata.cmd)
+		signal_set(data);
+		data.cmd = readline("minishell $ ");
+		if (!data.cmd)
 		{
 			printf("exit\n");
 			break ;
 		}
-		add_history(sigdata.cmd);
-		tokens = tokenize(sigdata.cmd, envp[0]);
-		free(sigdata.cmd);
+		add_history(data.cmd);
+		tokens = tokenize(data.cmd, envp[0]);
+		free(data.cmd);
 		ast = parser(tokens);
-		free_tokens(tokens);
-		print_ast(ast, 0);
-		executer(ast, envp, &sigdata);
-		free_ast(ast);
-		ast = NULL;
+		if (ast)
+		{
+			data.root_ast = ast;
+			free_tokens(tokens);
+			//print_ast(ast, 0);
+			executer(ast, envp[0], &data, 0);
+			free_ast(ast);
+			ast = NULL;
+		}
+		printf("Tmp: $? = %d\n", data.exit_status);
 	}
 	rl_clear_history();
 	if (envp[0][0])

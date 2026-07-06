@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:46:09 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/23 11:22:31 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-# include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
 
-extern int g_status;
+typedef struct s_ast	t_ast;
 
-typedef struct s_sigdata
+typedef struct s_data
 {
 	char	*cmd;
+	int		exit_status;
 	pid_t	pid;
-}	t_sigdata;
+	t_ast	*root_ast;
+}	t_data;
 
 typedef enum e_type
 {

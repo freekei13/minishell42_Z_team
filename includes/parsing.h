@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/05/26 11:10:17 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/06/16 19:39:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ typedef struct s_redirect
 {
 	int					type;
 	char				*file;
+	int					fd;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -69,4 +70,5 @@ int			lst_word_counter(t_token *tokens);
 void		*err_ast(t_ast *node, char *message);
 void		print_ast(t_ast *ast, int level);
 
+# include "executing.h"
 #endif
