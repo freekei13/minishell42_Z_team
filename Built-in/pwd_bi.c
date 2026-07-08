@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_bi.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:15 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 11:59:41 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:38:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	pwd(char **env, t_exec *exc_data)
 {
-	(void) exc_data;
+	exc_data->data->exit_status = 0;
 	printf("%s\n", find_env(env, "PWD"));
 }
 

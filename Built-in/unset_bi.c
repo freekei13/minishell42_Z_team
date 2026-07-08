@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_bi.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 11:58:57 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:40:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	unset(char ***env, char **cmd, t_exec *exc_data)
 	int		i;
 	int		s;
 
+	exc_data->data->exit_status = 0;
 	i = 0;
 	valid_args = mlc_init(cmd);
 	i = -1;
@@ -49,6 +50,5 @@ void	unset(char ***env, char **cmd, t_exec *exc_data)
 		return ;
 	}
 	split_free(valid_args);
-	(void) exc_data;
 	return ;
 }

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/08 14:04:13 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/08 14:37:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 	{
 		if (!cmd->data.cmd.args[1])
 			env_bi(*env, exc_data);
+		else
+			exc_data->data->exit_status = 127;
 	}
 	keep_builtin(cmd, env, i, 0, exc_data);
 	free(names);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/08 14:14:01 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/08 14:32:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,11 @@ void	pwd_dot_update(char **env, t_int i)
 	return ;
 }
 
-char	*no_dash(char *arg, int x)
+void	make_arg(char **arguments, char **arg)
 {
-	char	*str;
-	int		i;
-
-	i = -1;
-	if (x != -1)
-	{
-		str = malloc(sizeof(char *) * (x + 1));
-		while (arg[++i] && arg[i] != '/')
-			str[i] = arg[i];
-		str[i] = '\0';
-		return(str);
-	}
-	else
-		return(NULL);
+		arguments[0] = ft_strdup(arg[0]);
+		arguments[1] = ft_strdup(arg[1] + 3);
+		arguments[2] = NULL;
 }
 
 void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
@@ -109,19 +98,20 @@ void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 			return ;
 		pwd_dot_update(env, i);
 		arguments = malloc(sizeof(char *) * 2);
-		arguments[0] = ft_strdup(arg[0]);
-		arguments[1] = ft_strdup(arg[1] + 3);
-		arguments[2] = NULL;
+		make_arg(arguments, arg);
 		if (arguments && i.i != -1 && ++i.js)
 			cd(arguments, env, exc_data, i);
+		exc_data->data->exit_status = 0;
 		split_free(arguments);
 	}
 }
 
 void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 {
+	exc_data->data->exit_status = 1;
 	if (args_size(args) != 2)
 		return ;
+	i.ks = chdir(args[1]);
 	if (args[1] && strncmp(args[1], "-", 2) == 0)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
@@ -130,8 +120,8 @@ void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 		else if (i.ks == -1)
 			return ;
 	}
-	else if (args[1][0] == '.')
-		return (dot_cd(args, env, i, exc_data));
+	else if (args[1][0] == '.' && i.ks == 0)
+			return (dot_cd(args, env, i, exc_data));
 	else
 	{
 		i.ks = chdir(args[1]);
@@ -140,6 +130,7 @@ void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 		else if (i.ks == -1)
 			return ;
 	}
-	(void) exc_data;
+	if (i.ks == 0)
+		exc_data->data->exit_status = 0;
 	return ;
 }
