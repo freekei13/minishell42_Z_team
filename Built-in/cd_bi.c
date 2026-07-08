@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_bi.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 12:06:39 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:14:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,35 @@
 	
 // }
 
-void	pwd_update(char **env, char *path)
+void	pwd_update(char **env, char *path, int i)
 {
 	char	**pwd;
+	char	*str;
 
 	pwd = malloc(sizeof(char **) * 3);
-	pwd[0] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
+	str = find_env(env, "PWD");
 	if (ft_strcmp(path, find_env(env, "OLDPWD")) == 0)
-		pwd[1] = ft_strjoin("PWD=", path);
+		pwd[0] = ft_strjoin("PWD=", path);
 	else
 	{
-		pwd[1] = ft_strjoin("PWD=", ft_strjoin(find_env(env, "PWD"),
+		pwd[0] = ft_strjoin("PWD=", ft_strjoin(find_env(env, "PWD"),
 			ft_strjoin("/", path)));
 	}
+	if (i == 0)
+		pwd[1] = ft_strjoin("OLDPWD=", str);
+	else
+		pwd[1] = NULL;
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
 	split_free(pwd);
 	return ;
 }
 
-void	pwd_dot_update(char **env)
+void	pwd_dot_update(char **env, t_int i)
 {
 	char	**pwd;
 	char	*str;
 	char	*cmp;
-	t_int		i;
 
 	str = malloc(sizeof(char *) * ft_strlen(find_env(env, "PWD")));
 	cmp  = malloc(sizeof(char *) * ft_strlen(find_env(env, "PWD")));
@@ -56,13 +60,14 @@ void	pwd_dot_update(char **env)
 		str[i.i] = cmp[i.i];
 	str[i.i] = '\0';
 	pwd[0] = ft_strjoin("PWD=", str);
-	pwd[1] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
+	if (i.js == 0)
+		pwd[1] = ft_strjoin("OLDPWD=", find_env(env, "PWD"));
+	else
+		pwd[1] = NULL;
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
-	printf("CMP : %s \nPWD : %s\nOLDPWD : %s\n\n", cmp, pwd[1], pwd[0]);
+	printf("CMP : %s \nPWD : %s\nOLDPWD : %s\n\n", cmp, pwd[0], pwd[1]);
 	free(str);
-	//free(cmp);
-	//split_free(pwd);
 	return ;
 }
 
@@ -98,33 +103,30 @@ void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 			i.ks = chdir(arg[1]);
 		else
 			i.ks = chdir(str);
-		if (i.ks == -1)
-			return ;
 		if (i.i != -1)
 			free(str);
-		pwd_dot_update(env);
+		if (i.ks == -1)
+			return ;
+		pwd_dot_update(env, i);
 		arguments = malloc(sizeof(char *) * 2);
 		arguments[0] = ft_strdup(arg[0]);
 		arguments[1] = ft_strdup(arg[1] + 3);
 		arguments[2] = NULL;
-		if (arguments && i.i != -1)
-			cd(arguments, env, exc_data);
+		if (arguments && i.i != -1 && ++i.js)
+			cd(arguments, env, exc_data, i);
 		split_free(arguments);
 	}
 }
 
-void		cd(char **args, char **env, t_exec *exc_data)
+void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 {
-	t_int	i;
-
-	i.js = 0;
 	if (args_size(args) != 2)
 		return ;
 	if (args[1] && strncmp(args[1], "-", 2) == 0)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
 		if (i.ks == 0)
-			pwd_update(env, find_env(env, "OLDPWD"));
+			pwd_update(env, find_env(env, "OLDPWD"), i.js);
 		else if (i.ks == -1)
 			return ;
 	}
@@ -134,7 +136,7 @@ void		cd(char **args, char **env, t_exec *exc_data)
 	{
 		i.ks = chdir(args[1]);
 		if (i.ks == 0)
-			pwd_update(env, args[1]);
+			pwd_update(env, args[1], i.js);
 		else if (i.ks == -1)
 			return ;
 	}

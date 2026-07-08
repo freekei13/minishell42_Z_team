@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 12:00:45 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:04:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ char	**bi_names(void)
 	return (names);
 }
 
-int	keep_builtin(t_ast *cmd, char ***env, int i, int nberr, t_exec *exc_data)
+int	keep_builtin(t_ast *cmd, char ***env, t_int i, int nberr, t_exec *exc_data)
 {
-	if (i == 3) //exit
+	if (i.js == 3) //exit
 	{
 		
 	}
-	else if (i == 4)
+	else if (i.js == 4)
 		export(env, cmd->data.cmd.args + 1, exc_data);
-	else if (i == 5)
+	else if (i.js == 5)
 		pwd(*env, exc_data);
-	else if (i == 6)
+	else if (i.js == 6)
 		unset(env, cmd->data.cmd.args + 1, exc_data);
 	return(nberr);
 }
@@ -48,27 +48,27 @@ int	keep_builtin(t_ast *cmd, char ***env, int i, int nberr, t_exec *exc_data)
 int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 {
 	char	**names;
-	int		i;
+	t_int		i;
 
 	names = bi_names();
-	i = 0;
-	while(names[i] && strcmp(cmd->data.cmd.args[0], names[i]) != 0)
-		i++;
-	if (i >= 7)
+	i.js = 0;
+	while(names[i.js] && strcmp(cmd->data.cmd.args[0], names[i.js]) != 0)
+		i.js++;
+	if (i.js >= 7)
 		return(1);
-	if (i == 0)
+	if (i.js == 0)
 	{
 		if (!cmd->data.cmd.args[2] && cmd->data.cmd.args[1])
-			cd(cmd->data.cmd.args, *env, exc_data);
+			cd(cmd->data.cmd.args, *env, exc_data, i);
 	}
-	else if (i == 1)
+	else if (i.js == 1)
 	{
 		if (strcmp(cmd->data.cmd.args[1], "-n") == 0)
 			echo_fct(cmd->data.cmd.args + 2, 1, exc_data);
 		else
 			echo_fct(cmd->data.cmd.args + 1, 0, exc_data);
 	}
-	else if (i == 2)
+	else if (i.js == 2)
 	{
 		if (!cmd->data.cmd.args[1])
 			env_bi(*env, exc_data);
