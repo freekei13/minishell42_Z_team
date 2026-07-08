@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/04/21 14:06:21 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 15:05:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_dquote	parenthese(t_dquote qt, char *str)
 	return (qt);
 }
 
-t_dquote	dollar(t_dquote qt, char *str, char **env)
+t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 {
 	if (qt.j + 1 != qt.i && qt.i != 0)
 		qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
@@ -50,6 +50,8 @@ t_dquote	dollar(t_dquote qt, char *str, char **env)
 	if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) != NULL)
 		qt.split[qt.s++] = ft_strdup(find_env(env, ft_substr(str, qt.j + 1,
 						qt.i - qt.j - 1)));
+	else if (str[qt.j + 1 == '$'])
+		qt.split[qt.s++] = ft_itoa(ext_status);
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
 		qt.quote = str[++qt.i];
@@ -66,7 +68,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env)
 	return (qt);
 }
 
-char	**dequote(t_dquote qt, char *str, char **env)
+char	**dequote(t_dquote qt, char *str, char **env, int ext_status)
 {
 	if (qt.i != -1 && str[qt.i] == '\0')
 		return (qt.split);
@@ -78,7 +80,7 @@ char	**dequote(t_dquote qt, char *str, char **env)
 		if (str[qt.i] == qt.quote && qt.i != 0)
 			qt = parenthese(qt, str);
 		else if (str[qt.i] == '$' && (qt.quote == 34 || qt.q_val == 0))
-			qt = dollar(qt, str, env);
+			qt = dollar(qt, str, env, ext_status);
 		else if ((str[qt.i] && qt.q_val == 0))
 			qt = spaces(qt, str);
 		if (str[qt.i] == '\0')

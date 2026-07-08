@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/06 11:56:21 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:55:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	main(int argc, char **argv, char **envi)
 			break ;
 		}
 		add_history(data.cmd);
-		tokens = tokenize(data.cmd, envp[0]);
+		tokens = tokenize(data.cmd, envp[0], data.exit_status);
 		free(data.cmd);
 		ast = parser(tokens);
 		if (ast)

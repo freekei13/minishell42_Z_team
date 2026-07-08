@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/23 11:22:57 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/08 14:55:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	word_final_handle(t_wdata data, t_token **tokens)
 		add_token_back(tokens, new_token(data.word_final, WORD));
 }
 
-void	word_token(t_token **tokens, char *line, int *index, char **env)
+void	word_token(t_token **tokens, char *line, int *index, char **env, int ext_status)
 {
 	t_wdata	data;
 
@@ -50,7 +50,7 @@ void	word_token(t_token **tokens, char *line, int *index, char **env)
 		data.counter++;
 	}
 	data.word = ft_substr(line, *index, data.counter - *index);
-	data.word_final = quote_sep(data.word, env);
+	data.word_final = quote_sep(data.word, env, ext_status);
 	free(data.word);
 	word_final_handle(data, tokens);
 	free(data.word_final);
@@ -77,7 +77,7 @@ void	redirec_token(t_token **tokens, char *line, char token, int *index)
 	}
 }
 
-t_token	*tokenize(char *line, char **env)
+t_token	*tokenize(char *line, char **env, int ext_status)
 {
 	t_token	*tokens;
 	int		i;
@@ -98,7 +98,7 @@ t_token	*tokenize(char *line, char **env)
 		else if (line[i] == '<')
 			redirec_token(&tokens, line, '<', &i);
 		else
-			word_token(&tokens, line, &i, env);
+			word_token(&tokens, line, &i, env, ext_status);
 	}
 	return (tokens);
 }
