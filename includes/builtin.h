@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 11:57:40 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/07 16:51:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ void	export(char ***env, char **cmd, t_exec *exc_data);
 void	echo_fct(char	**str, int option, t_exec *exc_data);
 int		args_size(char **args);
 void	cd(char **args, char **env, t_exec *exc_data);
+void	exit_fct(t_ast *ast, char ***env, t_exec *exc_data);
 
 #endif

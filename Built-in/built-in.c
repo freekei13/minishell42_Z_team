@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 12:00:45 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/08 01:52:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ char	**bi_names(void)
 	return (names);
 }
 
-int	keep_builtin(t_ast *cmd, char ***env, int i, int nberr, t_exec *exc_data)
+int	keep_builtin(t_ast *cmd, char ***env, int i, t_exec *exc_data)
 {
 	if (i == 3) //exit
 	{
-		
+		exit_fct(cmd, env, exc_data);
 	}
 	else if (i == 4)
 		export(env, cmd->data.cmd.args + 1, exc_data);
@@ -42,7 +42,7 @@ int	keep_builtin(t_ast *cmd, char ***env, int i, int nberr, t_exec *exc_data)
 		pwd(*env, exc_data);
 	else if (i == 6)
 		unset(env, cmd->data.cmd.args + 1, exc_data);
-	return(nberr);
+	return(exc_data->data->exit_status);
 }
 
 int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
@@ -73,7 +73,7 @@ int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 		if (!cmd->data.cmd.args[1])
 			env_bi(*env, exc_data);
 	}
-	keep_builtin(cmd, env, i, 0, exc_data);
+	keep_builtin(cmd, env, i, exc_data);
 	free(names);
 	return(0);
 }

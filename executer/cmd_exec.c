@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/04 00:44:28 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/08 02:51:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ void	execve_cmd(t_ast *ast, char **env, t_exec *exc_data)
 	if (!ast->data.cmd.args[0] || ast->data.cmd.args[0][0] == '\0')
 		error_exit(127, err_message_custom("''",
 				": command not found"), ast, exc_data);
-	path = find_path(ast, env);
+	if (ft_strchr(ast->data.cmd.args[0], '/') != NULL)
+		path = ft_strdup(ast->data.cmd.args[0]);
+	else
+		path = find_path(ast, env);
 	if (!path)
 		error_exit(127, err_message_custom(ast->data.cmd.args[0],
 				": command not found"), ast, exc_data);
