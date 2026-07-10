@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/08 01:52:30 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/10 17:02:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 	}
 	else if (i == 1)
 	{
-		if (strcmp(cmd->data.cmd.args[1], "-n") == 0)
+		if (cmd->data.cmd.args[1] && strcmp(cmd->data.cmd.args[1], "-n") == 0)
 			echo_fct(cmd->data.cmd.args + 2, 1, exc_data);
-		else
+		else if (cmd->data.cmd.args[1])
 			echo_fct(cmd->data.cmd.args + 1, 0, exc_data);
+		else
+			echo_fct(NULL, 0, exc_data);
 	}
 	else if (i == 2)
 	{
