@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/09 10:40:54 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/11 14:29:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_exec
 	pid_t		pid_left;
 	pid_t		pid_right;
 	int			status;
+	int			is_child;
 	t_data		*data;
 }	t_exec;
 

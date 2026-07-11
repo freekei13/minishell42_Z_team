@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/10 17:04:44 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/11 14:30:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 		return ;
 	exc_data.fd_in = -1;
 	exc_data.fd_out = -1;
+	exc_data.is_child = is_child;
 	exc_data.data = data;
 	if (ast->type == AST_CMD)
 	{
