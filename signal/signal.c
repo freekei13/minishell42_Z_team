@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:09 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/29 20:18:01 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/11 15:35:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,8 @@ void 	sigint_heredoc(void)
 	sa.sa_handler = sigint_mod_heredoc;
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sa.sa_flags = 0;
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
