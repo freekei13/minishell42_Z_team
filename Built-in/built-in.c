@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/13 15:24:52 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/13 15:36:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	**bi_names(void)
 	return (names);
 }
 
-int	keep_builtin(t_ast *cmd, char ***env, int i, t_exec *exc_data)
+int	keep_builtin(t_ast *cmd, char ***env, t_int i, t_exec *exc_data)
 {
 	if (i.js == 3) //exit
 	{

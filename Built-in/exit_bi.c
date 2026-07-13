@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:44 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/11 15:12:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/13 16:16:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ void	exit_fct(t_ast *ast, char ***env, t_exec *exc_data)
 	if (exc_data->is_child == 0)
 		printf("exit\n");
 	arg = ast->data.cmd.args;
-	if (numeric_check(arg[1], exc_data) == 1)
+	if (arg[1] && numeric_check(arg[1], exc_data) == 1)
 		return ;
-	if (arg[1][0] == '\0')
+	if (arg[1] && arg[1][0] == '\0')
 		return numeric_err_print(arg[1], exc_data);
 	if (args_len(arg) > 2)
 	{
