@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/04 00:36:04 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/09 00:19:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	error_exit(int status, char *message, t_ast *ast, t_exec *exc_data)
 	if (exc_data->data->pid == 0)
 	{
 		free_ast(ast);
-		exit (status);
+		exit(status);
 	}
 	return ;
 }

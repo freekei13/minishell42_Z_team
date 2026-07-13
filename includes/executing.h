@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/06 11:38:32 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/11 14:29:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@
 # include <fcntl.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include "signals.h"
+# include <stdbool.h>
 
 extern int g_signal;
+
+# define CMD_NF "command not found"
 
 typedef struct s_exec
 {
@@ -29,6 +33,7 @@ typedef struct s_exec
 	pid_t		pid_left;
 	pid_t		pid_right;
 	int			status;
+	int			is_child;
 	t_data		*data;
 }	t_exec;
 

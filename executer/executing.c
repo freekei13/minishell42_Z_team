@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executing.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/06 11:47:50 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/11 15:18:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,21 @@ int	heredoc_handle(t_ast *ast, t_exec exc_data)
 	return (0);
 }
 
+void	exc_data_init(t_exec *exc_data, t_data *data, int is_child)
+{
+	exc_data->fd_in = -1;
+	exc_data->fd_out = -1;
+	exc_data->is_child = is_child;
+	exc_data->data = data;
+}
+
 void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 {
 	t_exec	exc_data;
 
 	if (!ast)
 		return ;
-	exc_data.fd_in = -1;
-	exc_data.fd_out = -1;
-	exc_data.data = data;
+	exc_data_init(&exc_data, data, is_child);
 	if (ast->type == AST_CMD)
 	{
 		if (is_child == 0 && heredoc_handle(ast, exc_data) == -2)
