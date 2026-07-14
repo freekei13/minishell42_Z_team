@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_bi.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/08 14:32:26 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/14 12:37:07 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	pwd_dot_update(char **env, t_int i)
 		pwd[1] = NULL;
 	pwd[2] = NULL;
 	env = chg_env(env, pwd);
-	printf("CMP : %s \nPWD : %s\nOLDPWD : %s\n\n", cmp, pwd[0], pwd[1]);
 	free(str);
 	return ;
 }
@@ -80,22 +79,11 @@ void	make_arg(char **arguments, char **arg)
 
 void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 {
-	char	*str;
 	char	**arguments;
 
 	if (arg[1][0] == '.' && arg[1][1] == '.' &&
 		(!arg[1][2] || arg[1][2] == '.' || arg[1][2] == '/'))
 	{
-		i.i = dash_lengh(arg[1]);
-		str = no_dash(arg[1], i.i);
-		if (i.i == -1)
-			i.ks = chdir(arg[1]);
-		else
-			i.ks = chdir(str);
-		if (i.i != -1)
-			free(str);
-		if (i.ks == -1)
-			return ;
 		pwd_dot_update(env, i);
 		arguments = malloc(sizeof(char *) * 2);
 		make_arg(arguments, arg);
@@ -108,27 +96,45 @@ void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 
 void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 {
+	char	*str;
+	
 	exc_data->data->exit_status = 1;
 	if (args_size(args) != 2)
 		return ;
-	i.ks = chdir(args[1]);
 	if (args[1] && strncmp(args[1], "-", 2) == 0)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
+
 		if (i.ks == 0)
 			pwd_update(env, find_env(env, "OLDPWD"), i.js);
 		else if (i.ks == -1)
 			return ;
 	}
-	else if (args[1][0] == '.' && i.ks == 0)
-			return (dot_cd(args, env, i, exc_data));
+	else if (args[1][0] == '.')
+	{
+		i.i = dash_lengh(args[1]);
+		str = no_dash(args[1], i.i);
+		if (i.i == -1)
+			i.ks = chdir(args[1]);
+		else
+			i.ks = chdir(str);
+		if (i.i != -1)
+			free(str);
+		if (i.ks == -1)
+			return ;
+		if (i.ks == 0)
+		return (dot_cd(args, env, i, exc_data));
+	}
 	else
 	{
+		if (args[1][ft_strlen(args[1]) - 1] == '/')
+			args[1][ft_strlen(args[1]) - 1] = '\0';
 		i.ks = chdir(args[1]);
 		if (i.ks == 0)
 			pwd_update(env, args[1], i.js);
 		else if (i.ks == -1)
 			return ;
+
 	}
 	if (i.ks == 0)
 		exc_data->data->exit_status = 0;
