@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/08 15:05:17 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/14 15:09:25 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) != NULL)
 		qt.split[qt.s++] = ft_strdup(find_env(env, ft_substr(str, qt.j + 1,
 						qt.i - qt.j - 1)));
-	else if (str[qt.j + 1 == '$'])
+	else if (str[qt.j + 1 == '?'])
+	{
+		qt.i = qt.j += 1;
 		qt.split[qt.s++] = ft_itoa(ext_status);
+	}
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
 		qt.quote = str[++qt.i];
