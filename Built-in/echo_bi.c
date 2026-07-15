@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_bi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:02:45 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/14 11:33:14 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:58:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,13 @@ void	echo_fct(char **str, int option, t_exec *exc_data)
 		ft_putstr_fd("\n", fd);
 		return ;
 	}
-	i.i = -1;
-	while (str[++i.i] && str[i.i] != NULL)
+	i.i = 0;
+	while (str[i.i] && str[i.i] != NULL)
 	{
 		ft_putstr_fd(str[i.i], fd);
 		if (str[i.i + 1])
 			ft_putstr_fd(" ", fd);
+		i.i++;
 	}
 	if (option == 0 && !str[i.i])
 		ft_putstr_fd("\n", fd);

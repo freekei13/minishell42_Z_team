@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/14 15:09:25 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/15 17:47:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 		qt.j--;
 	if (str[qt.i] == qt.quote)
 		qt.i++;
-	printf("split : %s", qt.split[qt.s - 1]);
+	//printf("split : %s", qt.split[qt.s - 1]);
 	return (qt);
 }
 

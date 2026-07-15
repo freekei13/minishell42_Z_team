@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/14 11:57:50 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/15 18:01:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,11 @@ int	main(int argc, char **argv, char **envi)
 		{
 			data.root_ast = ast;
 			free_tokens(tokens);
-			//print_ast(ast, 0);
+			print_ast(ast, 0);
 			executer(ast, envp[0], &data, 0);
 			free_ast(ast);
 			ast = NULL;
 		}
-		printf("Tmp: $? = %d\n", data.exit_status);
 	}
 	rl_clear_history();
 	if (envp[0][0])
