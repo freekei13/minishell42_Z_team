@@ -68,19 +68,25 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 		qt.j--;
 	if (str[qt.i] == qt.quote)
 		qt.i++;
+	printf("split : %s", qt.split[qt.s - 1]);
 	return (qt);
 }
 
 char	**dequote(t_dquote qt, char *str, char **env, int ext_status)
 {
+	if (qt.i != -1)
+	{
+		qt.i -= 1;
+		qt.j -= 1;
+	}
 	if (qt.i != -1 && str[qt.i] == '\0')
 		return (qt.split);
 	qt.q_val = 1;
-	if (str[0] == '$')
+	if (str[qt.i + 1] == '$')
 		qt.q_val = 0;
 	while (str[++qt.i])
 	{
-		if (str[qt.i] == qt.quote && qt.i != 0)
+		if (str[qt.i] == qt.quote && qt.i != 0 && qt.quote != '$')
 			qt = parenthese(qt, str);
 		else if (str[qt.i] == '$' && (qt.quote == 34 || qt.q_val == 0))
 			qt = dollar(qt, str, env, ext_status);
