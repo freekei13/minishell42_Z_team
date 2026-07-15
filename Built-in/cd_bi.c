@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_bi.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/14 12:37:07 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/15 15:05:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ void	pwd_dot_update(char **env, t_int i)
 	return ;
 }
 
-void	make_arg(char **arguments, char **arg)
+void	make_arg(char **arguments, char **arg, int dash)
 {
 		arguments[0] = ft_strdup(arg[0]);
-		arguments[1] = ft_strdup(arg[1] + 3);
+		if (arg[1][1])
+			arguments[1] = ft_strdup(arg[1] + dash);
+		else 
+			arguments[1] = NULL;
 		arguments[2] = NULL;
 }
 
@@ -82,11 +85,20 @@ void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 	char	**arguments;
 
 	if (arg[1][0] == '.' && arg[1][1] == '.' &&
-		(!arg[1][2] || arg[1][2] == '.' || arg[1][2] == '/'))
+		(!arg[1][2] || arg[1][2] == '/'))
 	{
 		pwd_dot_update(env, i);
 		arguments = malloc(sizeof(char *) * 2);
-		make_arg(arguments, arg);
+		make_arg(arguments, arg, 3);
+		if (arguments && i.i != -1 && ++i.js)
+			cd(arguments, env, exc_data, i);
+		exc_data->data->exit_status = 0;
+		split_free(arguments);
+	}
+	else if (arg[1][0] == '.' && (arg[1][1] == '\0'  || arg[1][1] == '/'))
+	{
+		arguments = malloc(sizeof(char *) * 2);
+		make_arg(arguments, arg, 2);
 		if (arguments && i.i != -1 && ++i.js)
 			cd(arguments, env, exc_data, i);
 		exc_data->data->exit_status = 0;
@@ -97,18 +109,30 @@ void	dot_cd(char **arg, char **env, t_int i, t_exec *exc_data)
 void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 {
 	char	*str;
-	
+	int		fd;
+
+	if (exc_data->fd_out == -1)
+		fd = 1;
+	else
+		fd = exc_data->fd_out;
 	exc_data->data->exit_status = 1;
 	if (args_size(args) != 2)
-		return ;
+		{
+			ft_putstr_fd("cd : too many arguments\n", fd);
+			return ;
+		}
 	if (args[1] && strncmp(args[1], "-", 2) == 0)
 	{
 		i.ks = chdir(find_env(env, "OLDPWD"));
-
 		if (i.ks == 0)
 			pwd_update(env, find_env(env, "OLDPWD"), i.js);
 		else if (i.ks == -1)
+		{
+			ft_putstr_fd("cd: ", fd);
+			ft_putstr_fd(args[1], fd);
+			ft_putstr_fd(": No such file or directory\n", fd);
 			return ;
+		}
 	}
 	else if (args[1][0] == '.')
 	{
@@ -121,7 +145,12 @@ void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 		if (i.i != -1)
 			free(str);
 		if (i.ks == -1)
+		{
+			ft_putstr_fd("cd: ", fd);
+			ft_putstr_fd(args[1], fd);
+			ft_putstr_fd(": No such file or directory\n", fd);
 			return ;
+		}
 		if (i.ks == 0)
 		return (dot_cd(args, env, i, exc_data));
 	}
@@ -133,7 +162,12 @@ void		cd(char **args, char **env, t_exec *exc_data, t_int i)
 		if (i.ks == 0)
 			pwd_update(env, args[1], i.js);
 		else if (i.ks == -1)
+		{
+			ft_putstr_fd("cd: ", fd);
+			ft_putstr_fd(args[1], fd);
+			ft_putstr_fd(": No such file or directory\n", fd);
 			return ;
+		}
 
 	}
 	if (i.ks == 0)
