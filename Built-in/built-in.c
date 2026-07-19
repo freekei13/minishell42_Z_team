@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/19 04:00:40 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/20 00:57:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 		return(free(names), 1);
 	if (i.js == 0)
 	{
-		if (!cmd->data.cmd.args[2] && cmd->data.cmd.args[1])
-			cd(cmd->data.cmd.args, *env, exc_data, i);
+		if (cmd->data.cmd.args[1])
+			cd(cmd->data.cmd.args, *env, exc_data);
 	}
 	else if (i.js == 1)
 	{

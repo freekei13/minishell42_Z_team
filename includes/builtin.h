@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/19 04:01:26 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/20 00:56:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	unset(char ***env, char **cmd, t_exec *exc_data);
 void	export(char ***env, char **cmd, t_exec *exc_data);
 void	echo_fct(char	**str, int option, t_exec *exc_data);
 int		args_size(char **args);
-void	cd(char **args, char **env, t_exec *exc_data, t_int i);
+void	cd(char **args, char **env, t_exec *exc_data);
 void	exit_fct(t_ast *ast, char ***env, t_exec *exc_data);
 int		is_valid_id(char *s);
 void	id_error(char *bi, char *arg);
