@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_exec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/06 11:36:14 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/19 03:46:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
 
-void	child_exec(t_ast *ast, char **env, t_exec exc_data, int side)
+void	child_exec(t_ast *ast, char ***env, t_exec exc_data, int side)
 {
 	if (side == 0)
 	{
@@ -29,12 +29,12 @@ void	child_exec(t_ast *ast, char **env, t_exec exc_data, int side)
 		executer(ast->data.pipe.right, env, exc_data.data, 1);
 	}
 	free_ast(exc_data.data->root_ast);
-	free_all(env);
+	free_all(*env);
 	rl_clear_history();
 	exit(exc_data.data->exit_status);
 }
 
-void	pipe_exec(t_ast *ast, char **env, t_exec *exc_data)
+void	pipe_exec(t_ast *ast, char ***env, t_exec *exc_data)
 {
 	if (pipe(exc_data->pipefd) == -1)
 			return (error_exit(1, NULL, ast, exc_data));

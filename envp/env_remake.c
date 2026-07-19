@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:25:03 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/02 14:43:30 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/19 03:20:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ char	**chg_env(char **env, char **change)
 	new_env = chg_env2(env, change, find_chg, new_env);
 	i = -1;
 	while (env[++i])
+	{
+		free(env[i]);
 		env[i] = ft_strdup(new_env[i]);
+	}
 	env[i] = NULL;
 	split_free(new_env);
 	return (env);

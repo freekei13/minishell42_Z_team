@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/11 15:18:53 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/19 03:36:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	exc_data_init(t_exec *exc_data, t_data *data, int is_child)
 	exc_data->data = data;
 }
 
-void	executer(t_ast *ast, char **env, t_data *data, int is_child)
+void	executer(t_ast *ast, char ***env, t_data *data, int is_child)
 {
 	t_exec	exc_data;
 
@@ -95,8 +95,8 @@ void	executer(t_ast *ast, char **env, t_data *data, int is_child)
 				close(exc_data.fd_out);
 			return ;
 		}
-		if (builtin(ast, &env, &exc_data) == 1)
-			cmd_exec(ast, env, &exc_data);
+		if (builtin(ast, env, &exc_data) == 1)
+			cmd_exec(ast, *env, &exc_data);
 	}
 	else if (ast->type == AST_PIPE)
 	{

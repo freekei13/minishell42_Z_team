@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/11 14:29:30 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/19 03:37:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ typedef struct s_exec
 	t_data		*data;
 }	t_exec;
 
-void	executer(t_ast *ast, char **env, t_data *data, int is_child);
+void	executer(t_ast *ast, char ***env, t_data *data, int is_child);
 
 int		here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data);
 int		redirects(t_ast *ast, t_exec *exc_data);
 
-void	pipe_exec(t_ast *ast, char **env, t_exec *exc_data);
+void	pipe_exec(t_ast *ast, char ***env, t_exec *exc_data);
 
 char	*find_path(t_ast *ast, char **env);
 

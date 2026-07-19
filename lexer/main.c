@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:14 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/16 11:41:46 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/19 03:35:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	main(int argc, char **argv, char **envi)
 			data.root_ast = ast;
 			free_tokens(tokens);
 			//print_ast(ast, 0);
-			executer(ast, envp[0], &data, 0);
+			executer(ast, envp, &data, 0);
 			free_ast(ast);
 			ast = NULL;
 		}

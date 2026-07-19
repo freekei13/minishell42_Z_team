@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:24:55 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/06 11:34:16 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/19 03:05:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ char	*find_env(char **env, char *cherche)
 	while (env[++j])
 	{
 		i = 0;
-		if (cherche[0] == env[j][0])
-		{
-			while (cherche[i] && env[j][i] && cherche[i] == env[j][i])
-				i++;
-		}
-		if (env[j][i] && env[j][i] == '=')
+		while (cherche[i] && env[j][i] && cherche[i] == env[j][i])
+			i++;
+		if (cherche[i] == '\0' && env[j][i] == '=')
 			return (env[j] + i + 1);
 	}
 	return (NULL);
