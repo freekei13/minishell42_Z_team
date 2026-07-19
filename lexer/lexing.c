@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/08 14:55:55 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/20 01:57:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	quotes_status(int *quote)
 		*quote = 1;
 }
 
-void	word_final_handle(t_wdata data, t_token **tokens)
-{
-	if (!data.word_final)
-	{
-		ft_putstr_fd("minishell: syntax error\n", 2);
-	}
-	else
-		add_token_back(tokens, new_token(data.word_final, WORD));
-}
+// void	word_final_handle(t_wdata data, t_token **tokens)
+// {
+// 	if (!data.word_final)
+// 	{
+// 		ft_putstr_fd("minishell: syntax error\n", 2);
+// 	}
+// 	else
+// 		add_token_back(tokens, new_token(data.word_final, WORD));
+// }
 
 void	word_token(t_token **tokens, char *line, int *index, char **env, int ext_status)
 {
@@ -52,7 +52,8 @@ void	word_token(t_token **tokens, char *line, int *index, char **env, int ext_st
 	data.word = ft_substr(line, *index, data.counter - *index);
 	data.word_final = quote_sep(data.word, env, ext_status);
 	free(data.word);
-	word_final_handle(data, tokens);
+	//word_final_handle(data, tokens);
+	add_token_back(tokens, new_token(data.word_final, WORD));
 	free(data.word_final);
 	*index = data.counter;
 }

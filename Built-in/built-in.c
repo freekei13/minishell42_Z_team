@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/20 00:57:31 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/20 01:28:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	keep_builtin(t_ast *cmd, char ***env, t_int i, t_exec *exc_data)
 int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 {
 	char	**names;
-	t_int		i;
+	t_int	i;
 
 	names = bi_names();
 	i.js = 0;
-	while(names[i.js] && ft_strncmp(cmd->data.cmd.args[0], names[i.js], ft_strlen(cmd->data.cmd.args[0])) != 0)
+	while(names[i.js] && ft_strncmp(cmd->data.cmd.args[0], names[i.js], ft_strlen(names[i.js]) + 1) != 0)
 		i.js++;
 	if (i.js >= 7)
 		return(free(names), 1);
@@ -63,7 +63,7 @@ int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 	}
 	else if (i.js == 1)
 	{
-		if (cmd->data.cmd.args[1] && ft_strncmp(cmd->data.cmd.args[1], "-n", ft_strlen(cmd->data.cmd.args[1])) == 0)
+		if (cmd->data.cmd.args[1] && ft_strncmp(cmd->data.cmd.args[1], "-n", 3) == 0)
 			echo_fct(cmd->data.cmd.args + 2, 1, exc_data);
 		else if (cmd->data.cmd.args[1])
 			echo_fct(cmd->data.cmd.args + 1, 0, exc_data);
