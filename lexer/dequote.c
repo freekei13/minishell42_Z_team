@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/20 14:04:20 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/20 15:02:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 		qt.i = qt.j += 1;
 		qt.split[qt.s++] = ft_itoa(ext_status);
 	}
-	else if (!str[qt.j + 1] || str[qt.j + 1] == '\0')
+	else if (!str[qt.j + 1] || str[qt.j + 1] == '\0' || (qt.q_val == 1 && qt.quote != 36))
 		qt.split[qt.s++] = ft_strdup("$");
 	else if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) == NULL)
 		qt.split[qt.s++] = ft_strdup("");
