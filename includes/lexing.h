@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/08 14:56:54 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/20 11:45:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_dquote
 	int		i;
 	int		j;
 	int		s;
+	int		$;
 }	t_dquote;
 
 t_token	*new_token(char *value, int type);

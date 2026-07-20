@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/14 14:57:05 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/20 14:06:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing.h"
+
+t_dquote	empty_str(t_dquote qt)
+{
+	char	*tempo;
+	char	*réserve;
+	
+	while (qt.split[++qt.i])
+	{
+		tempo = ft_strdup(qt.split[qt.i]);
+		réserve = ft_strdup(qt.temp);
+		free(qt.temp);
+		qt.temp = ft_strjoin(réserve, tempo);
+		free(tempo);
+		free(réserve);
+		if (qt.split[qt.i][0] != '\0')
+			break;
+	}
+	if (!qt.split[qt.i])
+		--qt.i;
+	return (qt);
+}
 
 char	*dqt_sentence(t_dquote qt)
 {
@@ -18,9 +39,11 @@ char	*dqt_sentence(t_dquote qt)
 	qt.save = NULL;
 	qt.res = NULL;
 	qt.temp = NULL;
-	while (qt.split[++qt.i])
+	while (qt.split && qt.split[++qt.i])
 	{
 		qt.temp = ft_strdup(qt.split[qt.i]);
+		if (qt.split[qt.i + 1] && qt.split[qt.i + 1][0] == '\0')
+			qt = empty_str(qt);
 		if (qt.res != NULL)
 			free(qt.res);
 		qt.res = ft_strjoin(qt.save, qt.temp);
