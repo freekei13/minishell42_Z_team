@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/20 15:02:32 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 01:45:27 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ t_dquote	parenthese(t_dquote qt, char *str)
 
 t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 {
+	char	*substr_tmp;
+	char	*find_env_tmp;
+	
 	if (qt.j + 1 != qt.i && qt.i != 0 && str[qt.j] != 36)
 	{
 		qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
@@ -64,9 +67,11 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 			qt.$ = 1;
 		qt.i++;
 	}
-	if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) != NULL)
-		qt.split[qt.s++] = ft_strdup(find_env(env, ft_substr(str, qt.j + 1,
-						qt.i - qt.j - 1)));
+	substr_tmp = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
+	find_env_tmp = find_env(env, substr_tmp);
+	free(substr_tmp);
+	if (find_env_tmp != NULL)
+		qt.split[qt.s++] = ft_strdup(find_env_tmp);
 	else if (str[qt.j + 1] == '?')
 	{
 		qt.i = qt.j += 1;
@@ -74,7 +79,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	else if (!str[qt.j + 1] || str[qt.j + 1] == '\0' || (qt.q_val == 1 && qt.quote != 36))
 		qt.split[qt.s++] = ft_strdup("$");
-	else if (find_env(env, ft_substr(str, qt.j + 1, qt.i - qt.j - 1)) == NULL)
+	else if (find_env_tmp == NULL)
 		qt.split[qt.s++] = ft_strdup("");
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
@@ -91,7 +96,6 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 			qt.i++;
 	else if (str[qt.i] && str[qt.i] == 36)
 		--qt.i;
-	//printf("split : %s", qt.split[qt.s - 1]);
 	qt.$ = 0;
 	return (qt);
 }

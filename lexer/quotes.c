@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/20 14:06:13 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 01:55:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ char	*quote_sep(char *str, char **env, int ext_status)
 	qt.j = 0;
 	qt.i = -1;
 	qt.s = 0;
+	if (quote_check(str) == -1 || !str)
+		return (NULL);
 	qt.quote = str[0];
 	qt.split = malloc(sizeof (char *) * (ft_strlen(str) + 1));
 	qt.split[qt.s] = NULL;
-	if (quote_check(str) == -1 || !str)
-		return (NULL);
 	if (str[0] != 34 && str[0] != 39 && str[0] != '$')
 	{
 		while (str[++qt.i] && str[qt.i] != 34 && str[qt.i] != 39
@@ -91,6 +91,12 @@ char	*quote_sep(char *str, char **env, int ext_status)
 	}
 	qt.split[qt.s] = NULL;
 	qt.split = dequote(qt, str, env, ext_status);
+	int k = 0;
+	while (qt.split[k])
+	{
+    	printf("split[%d] = \"%s\"\n", k, qt.split[k]);
+    	k++;
+	}
 	qt.res = dqt_sentence(qt);
 	split_free(qt.split);
 	return (qt.res);

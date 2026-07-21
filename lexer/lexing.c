@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/21 00:20:54 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 01:45:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ void	word_token(t_token **tokens, char *line, int *index, char **env, int ext_st
 	data.word_final = quote_sep(data.word, env, ext_status);
 	free(data.word);
 	//word_final_handle(data, tokens);
-	if (data.word_final[0] != '\0')
+	if (data.word_final != NULL && data.word_final[0] != '\0')
+	{
 		add_token_back(tokens, new_token(data.word_final, WORD));
-	free(data.word_final);
+		free(data.word_final);
+	}
 	*index = data.counter;
 }
 
