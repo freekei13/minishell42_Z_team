@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/09 00:37:17 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 23:51:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,12 @@ void	cmd_exec(t_ast *ast, char **env, t_exec *exc_data)
 	if (exc_data->fd_out != -1)
 		close(exc_data->fd_out);
 	waitpid(exc_data->data->pid, &exc_data->status, 0);
-	exc_data->data->exit_status = exc_data->status >> 8;
-	if ((exc_data->status & 0x7f) == SIGQUIT)
-		ft_putstr_fd("Quit (core dumped)\n", 2);
+	if (WIFEXITED(exc_data->status) == true)
+		exc_data->data->exit_status = WEXITSTATUS(exc_data->status);
+	else if (WIFSIGNALED(exc_data->status) == true)
+	{
+		exc_data->data->exit_status = 128 + WTERMSIG(exc_data->status);
+		if (WTERMSIG(exc_data->status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+	}
 }

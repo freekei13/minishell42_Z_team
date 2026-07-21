@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:09 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/11 15:35:30 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 23:46:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	sigint_after_cmd(void)
 	
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = sigint_mod_child;
-	sa.sa_flags = 0;
+	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 }
 

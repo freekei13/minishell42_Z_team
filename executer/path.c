@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:13:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 15:27:59 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/22 00:35:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,18 @@ char	*path_construct(char **full_path, t_ast *ast)
 char	*find_path(t_ast *ast, char **env)
 {
 	int		i;
+	char	*path;
 	char	**full_path;
 	char	*cmd_path;
 	
 	i = 0;
+	cmd_path = NULL;
 	while (env[i])
 	{
 		if (ft_strncmp("PATH=", env[i], 5) == 0)
 		{
-			full_path = ft_split(env[i], ':');
+			path = ft_strchr(env[i], '=') + 1;
+			full_path = ft_split(path, ':');
 			cmd_path = path_construct(full_path, ast);
 			if (!cmd_path)
 			{
