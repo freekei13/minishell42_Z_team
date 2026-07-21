@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/21 01:55:40 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 12:45:19 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,19 @@ char	*dqt_sentence(t_dquote qt)
 			qt = empty_str(qt);
 		if (qt.res != NULL)
 			free(qt.res);
-		qt.res = ft_strjoin(qt.save, qt.temp);
+		if ((qt.save && qt.save[0] != '\0') || (qt.temp && qt.temp[0] != '\0'))
+			qt.res = ft_strjoin(qt.save, qt.temp);
+		else
+			qt.res = NULL;
 		if (qt.save != NULL)
 			free(qt.save);
 		if (qt.temp != NULL)
 			free(qt.temp);
-		qt.save = ft_strdup(qt.res);
+		if (qt.res != NULL)
+			qt.save = ft_strdup(qt.res);
 	}
+	if (qt.save != NULL)
 	free(qt.save);
-	qt.i = -1;
 	return (qt.res);
 }
 
@@ -91,13 +95,14 @@ char	*quote_sep(char *str, char **env, int ext_status)
 	}
 	qt.split[qt.s] = NULL;
 	qt.split = dequote(qt, str, env, ext_status);
-	int k = 0;
-	while (qt.split[k])
-	{
-    	printf("split[%d] = \"%s\"\n", k, qt.split[k]);
-    	k++;
-	}
+	// int k = 0;
+	// while (qt.split[k])
+	// {
+    // 	printf("split[%d] = \"%s\"\n", k, qt.split[k]);
+    // 	k++;
+	// }
 	qt.res = dqt_sentence(qt);
+	//printf("res = \"%s\"\n", qt.res);
 	split_free(qt.split);
 	return (qt.res);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/21 01:45:27 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/21 12:47:29 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	free(substr_tmp);
 	if (find_env_tmp != NULL)
 		qt.split[qt.s++] = ft_strdup(find_env_tmp);
-	else if (str[qt.j + 1] == '?')
+	else if (str[qt.j] == '$' && str[qt.j + 1] == '?')
 	{
 		qt.i = qt.j += 1;
 		qt.split[qt.s++] = ft_itoa(ext_status);
@@ -92,8 +92,8 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	if (str[qt.i - 1] == 39 || str[qt.i] == 32 || (str[qt.i] == 39
 			&& str[qt.i - 1] != 34))
 		qt.j--;
-	if (str[qt.i] && str[qt.i] == qt.quote && str[qt.i] != 36)
-			qt.i++;
+	// if (str[qt.i] && str[qt.i] == qt.quote && str[qt.i] != 36)
+	// 		qt.i++;
 	else if (str[qt.i] && str[qt.i] == 36)
 		--qt.i;
 	qt.$ = 0;
