@@ -6,17 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/20 00:55:34 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 00:45:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// #include "builtin.h"
-
-// int	cdERR(char **args)
-// {
-	
-// }
 
 void	pwd_update(char **env)
 {

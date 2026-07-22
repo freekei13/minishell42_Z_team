@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/23 00:09:00 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 00:29:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,29 @@ int	redirects(t_ast *ast, t_exec *exc_data)
 	while (rtmp)
 	{
 		if (rtmp->type == REDIRECT_IN)
+		{
+			if (exc_data->fd_in != -1)
+				close(exc_data->fd_in);
 			exc_data->fd_in = fds_redirects(rtmp, REDIRECT_IN);
+		}
 		else if (rtmp->type == HEREDOC)
+		{
+			if (exc_data->fd_in != -1)
+				close(exc_data->fd_in);
 			exc_data->fd_in = rtmp->fd;
+		}
 		else if (rtmp->type == REDIRECT_OUT)
+		{
+			if (exc_data->fd_out != -1)
+				close(exc_data->fd_out);
 			exc_data->fd_out = fds_redirects(rtmp, REDIRECT_OUT);
+		}
 		else if (rtmp->type == APPEND)
+		{
+			if (exc_data->fd_out != -1)
+				close(exc_data->fd_out);
 			exc_data->fd_out = fds_redirects(rtmp, APPEND);
+		}
 		if ((rtmp->type == REDIRECT_IN || rtmp->type == HEREDOC)
 			&& exc_data->fd_in == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,

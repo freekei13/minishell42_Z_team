@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/22 23:50:51 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 00:54:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	child_exec(t_ast *ast, char ***env, t_exec exc_data, int side)
 		close(exc_data.pipefd[0]);
 		close(exc_data.pipefd[1]);
 		executer(ast->data.pipe.left, env, exc_data.data, 1);
+		close(STDOUT_FILENO);
 	}
 	else
 	{
@@ -27,6 +28,7 @@ void	child_exec(t_ast *ast, char ***env, t_exec exc_data, int side)
 		close(exc_data.pipefd[0]);
 		close(exc_data.pipefd[1]);
 		executer(ast->data.pipe.right, env, exc_data.data, 1);
+		close(STDIN_FILENO);
 	}
 	free_ast(exc_data.data->root_ast);
 	free_all(*env);
