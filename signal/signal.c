@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:09 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/21 23:46:02 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/22 23:43:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	sigint_after_cmd(void)
 	struct	sigaction	sa;
 	
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigint_mod_child;
+	sa.sa_handler = sigint_mod_exec;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 }
@@ -50,7 +50,7 @@ void 	sigint_heredoc(void)
 	struct	sigaction	sa;
 	
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigint_mod_heredoc;
+	sa.sa_handler = sigint_mod_exec;
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
 	sa.sa_handler = SIG_IGN;
@@ -58,3 +58,12 @@ void 	sigint_heredoc(void)
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
+void	sigint_silent_child(void)
+{
+	struct	sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = sigint_mod_silent;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+}

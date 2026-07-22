@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/04 00:34:54 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 00:09:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,22 @@ char	*read_heredoc_line(void)
 int	here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data)
 {
 	char	*prompt;
+	struct termios	term_save;
+	struct termios	term_new;
 
+	
 	sigint_heredoc();
+	tcgetattr(STDIN_FILENO, &term_save);
+	term_new = term_save;
+	term_new.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term_new);
 	while (1)
 	{
 		write(1, "> ", 2);
 		prompt = read_heredoc_line();
 		if (!prompt)
 		{
+			tcsetattr(STDIN_FILENO, TCSANOW, &term_save);
 			if (g_signal == 2)
 			{
 				exc_data.data->exit_status = 130;
@@ -58,7 +66,10 @@ int	here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data)
 		}
 		if (ft_strncmp(prompt, redirects->file,
 				ft_strlen(redirects->file) + 1) == 0)
+		{
+			tcsetattr(STDIN_FILENO, TCSANOW, &term_save);
 			return (free(prompt), 0);
+		}
 		ft_putstr_fd(prompt, pipefd[1]);
 		ft_putstr_fd("\n", pipefd[1]);
 		free(prompt);

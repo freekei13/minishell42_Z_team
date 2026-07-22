@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/21 12:45:19 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/22 14:58:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,15 @@ char	*dqt_sentence(t_dquote qt)
 			qt = empty_str(qt);
 		if (qt.res != NULL)
 			free(qt.res);
-		if ((qt.save && qt.save[0] != '\0') || (qt.temp && qt.temp[0] != '\0'))
-			qt.res = ft_strjoin(qt.save, qt.temp);
-		else
-			qt.res = NULL;
+		qt.res = ft_strjoin(qt.save, qt.temp);
 		if (qt.save != NULL)
 			free(qt.save);
 		if (qt.temp != NULL)
 			free(qt.temp);
-		if (qt.res != NULL)
-			qt.save = ft_strdup(qt.res);
+		qt.save = ft_strdup(qt.res);
 	}
 	if (qt.save != NULL)
-	free(qt.save);
+		free(qt.save);
 	return (qt.res);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/09 00:19:34 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/22 22:01:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,16 @@ char	*err_message_custom(char *cause, char *message)
 	msg = ft_strjoin(new_str, "\n");
 	free(new_str);
 	return (msg);
+}
+
+void	status_control(t_exec *exc_data)
+{
+	if (WIFEXITED(exc_data->status) == true)
+		exc_data->data->exit_status = WEXITSTATUS(exc_data->status);
+	else if (WIFSIGNALED(exc_data->status) == true)
+	{
+		exc_data->data->exit_status = 128 + WTERMSIG(exc_data->status);
+		if (WTERMSIG(exc_data->status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+	}
 }

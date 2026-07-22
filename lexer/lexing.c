@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/21 11:58:36 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/22 15:34:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,6 @@ void	quotes_status(int *quote)
 	else
 		*quote = 1;
 }
-
-// void	word_final_handle(t_wdata data, t_token **tokens)
-// {
-// 	if (!data.word_final)
-// 	{
-// 		ft_putstr_fd("minishell: syntax error\n", 2);
-// 	}
-// 	else
-// 		add_token_back(tokens, new_token(data.word_final, WORD));
-// }
 
 void	word_token(t_token **tokens, char *line, int *index, char **env, int ext_status)
 {
@@ -51,16 +41,14 @@ void	word_token(t_token **tokens, char *line, int *index, char **env, int ext_st
 	}
 	data.word = ft_substr(line, *index, data.counter - *index);
 	data.word_final = quote_sep(data.word, env, ext_status);
-	free(data.word);
-	//word_final_handle(data, tokens);
-	if (data.word_final != NULL && data.word_final[0] != '\0')
-	{
+	if (data.word_final != NULL && (data.word_final[0] != '\0'
+			|| ft_strchr(data.word, '\'') || ft_strchr(data.word, '\"')))
 		add_token_back(tokens, new_token(data.word_final, WORD));
+	free(data.word);
+	if (data.word_final != NULL)
 		free(data.word_final);
-	}
 	*index = data.counter;
 }
-
 void	redirec_token(t_token **tokens, char *line, char token, int *index)
 {
 	if (line[*index + 1] == token)

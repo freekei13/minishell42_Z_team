@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/21 12:47:29 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/22 15:28:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_dquote	spaces(t_dquote qt, char *str)
 	{
 		qt.q_val = 1;
 		qt.quote = str[qt.i];
-		qt.i++;
+		//qt.i++;
 	}
 	qt.j = qt.i;
 	return (qt);
@@ -69,7 +69,6 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	substr_tmp = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	find_env_tmp = find_env(env, substr_tmp);
-	free(substr_tmp);
 	if (find_env_tmp != NULL)
 		qt.split[qt.s++] = ft_strdup(find_env_tmp);
 	else if (str[qt.j] == '$' && str[qt.j + 1] == '?')
@@ -77,10 +76,12 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 		qt.i = qt.j += 1;
 		qt.split[qt.s++] = ft_itoa(ext_status);
 	}
-	else if (!str[qt.j + 1] || str[qt.j + 1] == '\0' || (qt.q_val == 1 && qt.quote != 36))
+	// else if (!str[qt.j + 1] || str[qt.j + 1] == '\0' || (qt.q_val == 1 && qt.quote != 36))
+	else if (substr_tmp[0] == '\0')
 		qt.split[qt.s++] = ft_strdup("$");
-	else if (find_env_tmp == NULL)
+	else
 		qt.split[qt.s++] = ft_strdup("");
+	free(substr_tmp);
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
 		qt.quote = str[++qt.i];
@@ -88,6 +89,11 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	else if (str[qt.i] == qt.quote && str[qt.i + 1] != qt.quote)
 		qt.q_val = 0;
+	else if (str[qt.i] == 34 || str[qt.i] == 39) // fix pour $""hi
+	{
+		qt.quote = str[qt.i];
+		qt.q_val = 1;
+	}
 	qt.j = qt.i;
 	if (str[qt.i - 1] == 39 || str[qt.i] == 32 || (str[qt.i] == 39
 			&& str[qt.i - 1] != 34))

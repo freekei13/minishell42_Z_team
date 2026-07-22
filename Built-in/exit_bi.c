@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_bi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:44 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/16 11:31:06 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/22 20:37:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	numeric_check(char *arg, t_exec *exc_data)
 	sign = 1;
 	i = 0;
 	res = 0;
+	if (arg[0] == '\0')
+		return (numeric_err_print(arg, exc_data), 1);
 	while (arg[i])
 	{
 		if ((arg[i] == '-' || arg[i] == '+') && i == 0)
@@ -69,8 +71,6 @@ void	exit_fct(t_ast *ast, char ***env, t_exec *exc_data)
 	arg = ast->data.cmd.args;
 	if (arg[1] && numeric_check(arg[1], exc_data) == 1)
 		exit(exc_data->data->exit_status);
-	if (arg[1] && arg[1][0] == '\0')
-		return numeric_err_print(arg[1], exc_data);
 	if (args_len(arg) > 2)
 	{
 		ft_putstr_fd("exit: too many arguments\n", 2);

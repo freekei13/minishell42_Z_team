@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/21 23:51:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/22 23:46:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,14 @@ void	cmd_exec(t_ast *ast, char **env, t_exec *exc_data)
 		signal_set(*exc_data->data);
 		execve_cmd(ast, env, exc_data);
 	}
-	sigint_after_cmd();
 	if (exc_data->fd_in != -1)
 		close(exc_data->fd_in);
 	if (exc_data->fd_out != -1)
 		close(exc_data->fd_out);
+	if (!exc_data->is_child)
+		sigint_after_cmd();
+	else
+		sigint_silent_child();
 	waitpid(exc_data->data->pid, &exc_data->status, 0);
-	if (WIFEXITED(exc_data->status) == true)
-		exc_data->data->exit_status = WEXITSTATUS(exc_data->status);
-	else if (WIFSIGNALED(exc_data->status) == true)
-	{
-		exc_data->data->exit_status = 128 + WTERMSIG(exc_data->status);
-		if (WTERMSIG(exc_data->status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)\n", 2);
-	}
+	status_control(exc_data);
 }

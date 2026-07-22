@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/19 03:46:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/22 23:50:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ void	pipe_exec(t_ast *ast, char ***env, t_exec *exc_data)
 			child_exec(ast, env, *exc_data, 1);
 		close(exc_data->pipefd[0]);
 		close(exc_data->pipefd[1]);
+		if (!exc_data->is_child)
+			sigint_after_cmd();
+		else
+			sigint_silent_child();
 		waitpid(exc_data->pid_left, &exc_data->status, 0);
+		status_control(exc_data);
 		waitpid(exc_data->pid_right, &exc_data->status, 0);
-		exc_data->data->exit_status = exc_data->status >> 8;
+		status_control(exc_data);
 }
