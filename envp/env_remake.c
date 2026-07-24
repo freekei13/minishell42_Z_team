@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 11:25:03 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/19 03:20:51 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 22:57:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ char	**find_change(char **change)
 		i++;
 	res = malloc(sizeof(char *) * (i + 1));
 	i = -1;
-	while (change[++i] && change[i] != NULL)
+	// while (change[++i] && change[i] != NULL)
+	while (change[++i])
 	{
 		j = 0;
 		while (change[i][j] && change[i][j] != '=')
 			j++;
-		if (change[i][j] == '=')
-			res[i] = ft_substr(change[i], 0, j);
+		// if (change[i][j] == '=')
+		res[i] = ft_substr(change[i], 0, j);
 	}
 	res[i] = NULL;
 	return (res);

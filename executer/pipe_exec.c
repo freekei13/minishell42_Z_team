@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/23 00:54:13 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 23:29:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,22 @@ void	pipe_exec(t_ast *ast, char ***env, t_exec *exc_data)
 			return (error_exit(1, NULL, ast, exc_data));
 		exc_data->pid_left = fork();
 		if (exc_data->pid_left == -1)
+		{
+			close(exc_data->pipefd[0]);
+			close(exc_data->pipefd[1]);
 			return (error_exit(1, NULL, ast, exc_data));
+		}
 		if (exc_data->pid_left == 0)
 			child_exec(ast, env, *exc_data, 0);
 		exc_data->pid_right = fork();
 		if (exc_data->pid_right == -1)
+		{
+			close(exc_data->pipefd[0]);
+			close(exc_data->pipefd[1]);
+			kill(exc_data->pid_left, SIGKILL);
+			waitpid(exc_data->pid_left, &exc_data->status, 0);
 			return (error_exit(1, NULL, ast, exc_data));
+		}
 		if (exc_data->pid_right == 0)
 			child_exec(ast, env, *exc_data, 1);
 		close(exc_data->pipefd[0]);

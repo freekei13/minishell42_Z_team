@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/16 19:35:22 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/24 01:52:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 		{
 			if (!tokens->next || tokens->next->type != WORD)
 			{
+				// quand cat 42 > ; fail syntax error leaks
+				node->data.cmd.args[i] = NULL;//
+				free_all(node->data.cmd.args);//
+				free_redirects(node->data.cmd.redirects);//
 				err_ast(node, REDIRECTS_UN);
 				return ;
 			}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/22 22:01:56 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/23 23:13:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	error_exit(int status, char *message, t_ast *ast, t_exec *exc_data)
 	}
 	else
 		perror("minishell");
-	if (exc_data->data->pid == 0)
+	if (exc_data->data->pid == 0 || exc_data->is_child)
 	{
 		free_ast(ast);
 		exit(status);
