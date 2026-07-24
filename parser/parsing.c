@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/24 01:52:56 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/24 23:28:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	cmd_node_loop(t_token *tokens, t_ast *node)
 {
 	int	i;
-	
+
 	i = 0;
 	while (tokens && tokens->type != PIPE)
 	{
@@ -30,11 +30,7 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 		{
 			if (!tokens->next || tokens->next->type != WORD)
 			{
-				// quand cat 42 > ; fail syntax error leaks
-				node->data.cmd.args[i] = NULL;//
-				free_all(node->data.cmd.args);//
-				free_redirects(node->data.cmd.redirects);//
-				err_ast(node, REDIRECTS_UN);
+				syntax_err_node(node, i);
 				return ;
 			}
 			add_redirect_back(&node->data.cmd.redirects,
@@ -69,11 +65,11 @@ t_ast	*parser(t_token *tokens);
 
 t_token	*tokens_to_prev(t_token *tokens)
 {
-	while(tokens)
+	while (tokens)
 	{
-		if (tokens->next == NULL || tokens->next->type == PIPE) 
+		if (tokens->next == NULL || tokens->next->type == PIPE)
 			break ;
-		tokens = tokens->next;	
+		tokens = tokens->next;
 	}
 	return (tokens);
 }
@@ -84,7 +80,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	t_ast	*node;
 	t_token	*head;
 	t_token	*pipe;
-	
+
 	head = tokens;
 	node = malloc(sizeof(t_ast));
 	if (!node)
@@ -111,19 +107,19 @@ t_ast	*parser(t_token *tokens)
 	int			node_type;
 	t_ast		*node;
 	t_token		*head;
-	
+
 	if (!tokens)
 		return (NULL);
 	node_type = 0;
 	head = tokens;
-	while(tokens)
+	while (tokens)
 	{
 		if (tokens->type == PIPE)
 		{
 			node_type = 1;
 			break ;
 		}
-		tokens = tokens->next;	
+		tokens = tokens->next;
 	}
 	tokens = head;
 	if (node_type == 0)

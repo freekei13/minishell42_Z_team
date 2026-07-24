@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 21:03:59 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/22 23:44:36 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/24 02:36:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	sigint_mod(int sig)
 {
 	g_signal = sig;
-	write(1,"\n", 1);
+	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

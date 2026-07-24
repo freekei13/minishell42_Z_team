@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/06/16 19:39:26 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/24 23:29:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void		free_redirects(t_redirect *lst);
 t_ast		*parser(t_token *tokens);
 int			lst_word_counter(t_token *tokens);
 void		*err_ast(t_ast *node, char *message);
-void		print_ast(t_ast *ast, int level);
+void		syntax_err_node(t_ast *node, int index);
 
 # include "executing.h"
 #endif

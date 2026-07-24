@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/22 15:28:37 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/24 23:56:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_dquote	spaces(t_dquote qt, char *str)
 	{
 		qt.q_val = 1;
 		qt.quote = str[qt.i];
-		//qt.i++;
 	}
 	qt.j = qt.i;
 	return (qt);
@@ -33,13 +32,13 @@ t_dquote	parenthese(t_dquote qt, char *str)
 	qt.q_val = 0;
 	if (str[qt.i + 1] && (str[qt.i + 1] == 34 || str[qt.i + 1] == 39))
 	{
-		if ((str[qt.i] == 34 && str[qt.i + 1] == 34) ||
-				(str[qt.i] == 39 &&str[qt.i + 1] == 39))
+		if ((str[qt.i] == 34 && str[qt.i + 1] == 34)
+			|| (str[qt.i] == 39 && str[qt.i + 1] == 39))
 		{
-			qt.i +=2;
+			qt.i += 2;
 			qt.j = qt.i;
-			while (str[qt.i] && str[qt.i] != 34 && str[qt.i] != 39 &&
-					str[qt.i] != 36)
+			while (str[qt.i] && str[qt.i] != 34
+				&& str[qt.i] != 39 && str[qt.i] != 36)
 				qt.i++;
 			qt.split[qt.s++] = ft_substr(str, qt.j, qt.i - qt.j);
 		}
@@ -50,21 +49,26 @@ t_dquote	parenthese(t_dquote qt, char *str)
 	return (qt);
 }
 
+t_dquote	dollar_scan(t_dquote qt, char *str)
+{
+	
+}
+
 t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 {
 	char	*substr_tmp;
 	char	*find_env_tmp;
-	
+
 	if (qt.j + 1 != qt.i && qt.i != 0 && str[qt.j] != 36)
 	{
 		qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	}
 	qt.j = qt.i;
-	while (str[qt.i] && str[qt.i] != 34 && str[qt.i] != 32 && str[qt.i] != 39 &&
-				(str[qt.i] != 36 || qt.$ == 0))
+	while (str[qt.i] && str[qt.i] != 34 && str[qt.i] != 32
+		&& str[qt.i] != 39 && (str[qt.i] != 36 || qt.expand == 0))
 	{
 		if (str[qt.i] == 36)
-			qt.$ = 1;
+			qt.expand = 1;
 		qt.i++;
 	}
 	substr_tmp = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
@@ -73,10 +77,9 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 		qt.split[qt.s++] = ft_strdup(find_env_tmp);
 	else if (str[qt.j] == '$' && str[qt.j + 1] == '?')
 	{
-		qt.i = qt.j += 1;
+		qt.i = qt.j + 1;
 		qt.split[qt.s++] = ft_itoa(ext_status);
 	}
-	// else if (!str[qt.j + 1] || str[qt.j + 1] == '\0' || (qt.q_val == 1 && qt.quote != 36))
 	else if (substr_tmp[0] == '\0')
 		qt.split[qt.s++] = ft_strdup("$");
 	else
@@ -89,7 +92,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	else if (str[qt.i] == qt.quote && str[qt.i + 1] != qt.quote)
 		qt.q_val = 0;
-	else if (str[qt.i] == 34 || str[qt.i] == 39) // fix pour $""hi
+	else if (str[qt.i] == 34 || str[qt.i] == 39)
 	{
 		qt.quote = str[qt.i];
 		qt.q_val = 1;
@@ -98,11 +101,9 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	if (str[qt.i - 1] == 39 || str[qt.i] == 32 || (str[qt.i] == 39
 			&& str[qt.i - 1] != 34))
 		qt.j--;
-	// if (str[qt.i] && str[qt.i] == qt.quote && str[qt.i] != 36)
-	// 		qt.i++;
 	else if (str[qt.i] && str[qt.i] == 36)
 		--qt.i;
-	qt.$ = 0;
+	qt.expand = 0;
 	return (qt);
 }
 
@@ -118,7 +119,7 @@ char	**dequote(t_dquote qt, char *str, char **env, int ext_status)
 	qt.q_val = 1;
 	if (str[qt.i + 1] == '$')
 		qt.q_val = 0;
-	qt.$ = 0;
+	qt.expand = 0;
 	while (str[++qt.i])
 	{
 		if (str[qt.i] == qt.quote && qt.i != 0 && qt.quote != '$')

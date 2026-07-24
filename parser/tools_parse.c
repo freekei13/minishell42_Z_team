@@ -3,111 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tools_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/13 16:56:04 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/24 23:31:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "lexing.h"
-
-void	print_ast(t_ast *ast, int level)
-{
-	int			i;
-	char		*type;
-	t_redirect	*head;
-	t_redirect	*tmp;
-	
-	i = 0;
-	if (!ast)
-	{
-		printf("level %d -- ", level);
-		while (i < level)
-		{
-			printf("        ");
-			i++;
-		}
-		printf("NULL\n");
-		return ;
-	}
-	i = 0;
-	head = ast->data.cmd.redirects;
-	tmp = ast->data.cmd.redirects;
-	if (ast->type == AST_CMD)
-	{
-		printf("level %d -- ", level);
-		while (i < level)
-		{
-			printf("        ");
-			i++;
-		}
-		type = "CMD";
-		printf("%s : ", type);
-		i = 0;
-		if (tmp)
-		{
-			while (tmp)
-			{
-				if(tmp->type == HEREDOC
-					|| tmp->type == REDIRECT_IN)
-				{
-					if (tmp->type == HEREDOC)
-						type = "<<";
-					else if (tmp->type == REDIRECT_IN)
-						type = "<";
-					printf("%s %s ", type, tmp->file);
-				}
-				tmp = tmp->next;
-			}
-			printf("---> ");
-		}
-		i = 0;
-		while (ast->data.cmd.args[i])
-		{
-			printf("%s ", ast->data.cmd.args[i]);
-			i++;
-		}
-		tmp = head;
-		if (tmp)
-		{
-			if (ast->data.cmd.args[0])
-				printf("---> ");
-			while (tmp)
-			{
-				if(tmp->type == APPEND
-					|| tmp->type == REDIRECT_OUT)
-				{
-					if (tmp->type == APPEND)
-						type = ">>";
-					else if (tmp->type == REDIRECT_OUT)
-						type = ">";
-					printf("%s %s ", type, tmp->file);
-				}
-				tmp = tmp->next;
-			}
-		}
-		printf("\n");
-	}
-	else if (ast->type == AST_PIPE)
-	{
-		printf("level %d -- ", level);
-		while (i < level)
-		{
-			printf("        ");
-			i++;
-		}
-		type = "PIPE";
-		printf("%s\n", type);
-		print_ast(ast->data.pipe.left, level + 1);
-		print_ast(ast->data.pipe.right, level + 1);
-	}
-	else if (ast->type == AST_ERROR)
-	{
-		printf("ERROR(%d)\n", ast->data.err.status_code);
-	}
-}
 
 int	lst_word_counter(t_token *tokens)
 {
@@ -131,4 +35,12 @@ void	*err_ast(t_ast *node, char *message)
 	node->data.err.status_code = 2;
 	node->data.err.err_message = message;
 	return (node);
+}
+
+void	syntax_err_node(t_ast *node, int index)
+{
+	node->data.cmd.args[index] = NULL;
+	free_all(node->data.cmd.args);
+	free_redirects(node->data.cmd.redirects);
+	err_ast(node, REDIRECTS_UN);
 }
