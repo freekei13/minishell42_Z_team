@@ -6,14 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 13:57:57 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/19 03:16:55 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 01:57:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexing.h"
 #include "builtin.h"
 
-char	***add_env(char ***env, char **add)
+char	**add_env(char **env, char **add)
 {
 	int		i;
 	int		j;
@@ -24,7 +24,7 @@ char	***add_env(char ***env, char **add)
 	i = 0;
 	while (add[i])
 		i++;
-	new_env = env_dup(env[0], i);
+	new_env = env_dup(env, i);
 	j = 0;
 	while (new_env[j])
 		j++;
@@ -32,12 +32,12 @@ char	***add_env(char ***env, char **add)
 	while (add[++i])
 		new_env[j + i] = ft_strdup(add[i]);
 	new_env[j + i] = NULL;
-	split_free(env[0]);
-	env[0] = new_env;
+	split_free(env);
+	env = new_env;
 	return (env);
 }
 
-static int	in_rmv(char *entry, char **rmv)
+int	in_rmv(char *entry, char **rmv)
 {
 	int	i;
 	int	j;

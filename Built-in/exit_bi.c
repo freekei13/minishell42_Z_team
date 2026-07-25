@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:44 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/23 23:51:42 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 01:48:55 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	numeric_check(char *arg, t_exec *exc_data)
 	return (0);
 }
 
-void	exit_fct(t_ast *ast, char ***env, t_exec *exc_data)
+void	exit_fct(t_ast *ast, char **env, t_exec *exc_data)
 {
 	char		**arg;
 	
@@ -80,6 +80,6 @@ void	exit_fct(t_ast *ast, char ***env, t_exec *exc_data)
 	if (args_len(arg) > 1)
 		exc_data->data->exit_status = ft_atoi(arg[1]) % 256;
 	free_ast(ast);
-	split_free(*env);
+	split_free(env);
 	exit(exc_data->data->exit_status);
 }

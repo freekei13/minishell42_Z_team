@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/23 00:44:57 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 02:24:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	executer(t_ast *ast, char ***env, t_data *data, int is_child)
 	{
 		if (is_child == 0 && heredoc_handle(ast, exc_data) == -2)
 			return ;
-		pipe_exec(ast, env, &exc_data);
+		pipe_exec(ast, *env, &exc_data);
 	}
 	else if (ast->type == AST_ERROR)
 		error_exit(ast->data.err.status_code, 

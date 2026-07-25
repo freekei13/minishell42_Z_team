@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/22 14:58:18 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 01:33:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,7 @@ char	*quote_sep(char *str, char **env, int ext_status)
 	}
 	qt.split[qt.s] = NULL;
 	qt.split = dequote(qt, str, env, ext_status);
-	// int k = 0;
-	// while (qt.split[k])
-	// {
-    // 	printf("split[%d] = \"%s\"\n", k, qt.split[k]);
-    // 	k++;
-	// }
 	qt.res = dqt_sentence(qt);
-	//printf("res = \"%s\"\n", qt.res);
 	split_free(qt.split);
 	return (qt.res);
 }

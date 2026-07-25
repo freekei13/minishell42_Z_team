@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/19 03:26:58 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 02:30:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,7 @@ int	args_size(char **args)
 // 	return ;
 // }
 
-#include "builtin.h"
-
-static void	sort_env(char **tab)
+void	sort_env(char **tab)
 {
 	int		i;
 	int		j;
@@ -102,7 +100,7 @@ static void	sort_env(char **tab)
 	}
 }
 
-static void	print_export(char **env)
+void	print_export(char **env)
 {
 	char	**cp;
 	int		i;
@@ -130,7 +128,7 @@ static void	print_export(char **env)
 	split_free(cp);
 }
 
-static void	export_one(char ***env, char *arg)
+void	export_one(char ***env, char *arg)
 {
 	char	*name;
 	char	*tab[2];
@@ -147,7 +145,7 @@ static void	export_one(char ***env, char *arg)
 	if (find_env(*env, name) != NULL)
 		*env = chg_env(*env, tab);
 	else
-		add_env(env, tab);
+		*env = add_env(*env, tab);
 	free(name);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built-in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/21 12:11:06 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/25 02:26:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	keep_builtin(t_ast *cmd, char ***env, t_int i, t_exec *exc_data)
 {
 	if (i.js == 3) //exit
 	{
-		exit_fct(cmd, env, exc_data);
+		exit_fct(cmd, *env, exc_data);
 	}
 	else if (i.js == 4)
 		export(env, cmd->data.cmd.args + 1, exc_data);

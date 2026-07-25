@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/24 23:38:17 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 01:54:09 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_cursor
+{
+	char	*line;
+	int		index;
+}	t_cursor;
+
 typedef struct s_wdata
 {
 	int		counter;
@@ -72,19 +78,21 @@ typedef struct s_dquote
 	int		expand;
 }	t_dquote;
 
-t_token	*new_token(char *value, int type);
-void	add_token_back(t_token **lst, t_token *new);
-void	free_tokens(t_token *lst);
-int		quote_check(char *str);
-char	*quote_sep(char *str, char **env, int ext_status);
-char	**make_env(char **env);
-char	*find_env(char **env, char *cherche);
-char	**dequote(t_dquote qt, char *str, char **env, int ext_status);
-void	split_free(char **split);
-char	***add_env(char ***env, char **add);
-char	**rmv_env(char **env, char **rmv);
-char	**chg_env(char **env, char **change);
-char	**env_dup(char **env, int x);
-t_token	*tokenize(char *line, char **env, int ext_status);
+t_token		*new_token(char *value, int type);
+void		add_token_back(t_token **lst, t_token *new);
+void		free_tokens(t_token *lst);
+int			quote_check(char *str);
+char		*quote_sep(char *str, char **env, int ext_status);
+char		**make_env(char **env);
+char		*find_env(char **env, char *cherche);
+char		**dequote(t_dquote qt, char *str, char **env, int ext_status);
+t_dquote	dollar_scan(t_dquote qt, char *str);
+t_dquote	dollar_resolve(t_dquote qt, char *str, char **env, int ext_status);
+void		split_free(char **split);
+char		**add_env(char **env, char **add);
+char		**rmv_env(char **env, char **rmv);
+char		**chg_env(char **env, char **change);
+char		**env_dup(char **env, int x);
+t_token		*tokenize(char *line, char **env, int ext_status);
 
 #endif

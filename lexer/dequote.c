@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/24 23:56:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 00:40:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_dquote	spaces(t_dquote qt, char *str)
 	{
 		qt.q_val = 1;
 		qt.quote = str[qt.i];
+		qt.i--;
 	}
 	qt.j = qt.i;
 	return (qt);
@@ -49,42 +50,10 @@ t_dquote	parenthese(t_dquote qt, char *str)
 	return (qt);
 }
 
-t_dquote	dollar_scan(t_dquote qt, char *str)
-{
-	
-}
-
 t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 {
-	char	*substr_tmp;
-	char	*find_env_tmp;
-
-	if (qt.j + 1 != qt.i && qt.i != 0 && str[qt.j] != 36)
-	{
-		qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
-	}
-	qt.j = qt.i;
-	while (str[qt.i] && str[qt.i] != 34 && str[qt.i] != 32
-		&& str[qt.i] != 39 && (str[qt.i] != 36 || qt.expand == 0))
-	{
-		if (str[qt.i] == 36)
-			qt.expand = 1;
-		qt.i++;
-	}
-	substr_tmp = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
-	find_env_tmp = find_env(env, substr_tmp);
-	if (find_env_tmp != NULL)
-		qt.split[qt.s++] = ft_strdup(find_env_tmp);
-	else if (str[qt.j] == '$' && str[qt.j + 1] == '?')
-	{
-		qt.i = qt.j + 1;
-		qt.split[qt.s++] = ft_itoa(ext_status);
-	}
-	else if (substr_tmp[0] == '\0')
-		qt.split[qt.s++] = ft_strdup("$");
-	else
-		qt.split[qt.s++] = ft_strdup("");
-	free(substr_tmp);
+	qt = dollar_scan(qt, str);
+	qt = dollar_resolve(qt, str, env, ext_status);
 	if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
 	{
 		qt.quote = str[++qt.i];
@@ -92,16 +61,16 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	else if (str[qt.i] == qt.quote && str[qt.i + 1] != qt.quote)
 		qt.q_val = 0;
-	else if (str[qt.i] == 34 || str[qt.i] == 39)
+	else if (str[qt.i] == '\"' || str[qt.i] == '\'')
 	{
 		qt.quote = str[qt.i];
 		qt.q_val = 1;
 	}
 	qt.j = qt.i;
-	if (str[qt.i - 1] == 39 || str[qt.i] == 32 || (str[qt.i] == 39
-			&& str[qt.i - 1] != 34))
+	if (str[qt.i - 1] == '\'' || str[qt.i] == ' ' || (str[qt.i] == '\''
+			&& str[qt.i - 1] != '\"'))
 		qt.j--;
-	else if (str[qt.i] && str[qt.i] == 36)
+	else if (str[qt.i] && str[qt.i] == '$')
 		--qt.i;
 	qt.expand = 0;
 	return (qt);
