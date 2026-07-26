@@ -6,12 +6,12 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:32:43 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/25 02:29:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 03:32:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef EXECUTER_H
-# define EXECUTER_H
+#ifndef EXECUTING_H
+# define EXECUTING_H
 
 # include "parsing.h"
 # include <fcntl.h>
@@ -21,9 +21,8 @@
 # include "signals.h"
 # include <stdbool.h>
 
-extern int g_signal;
-
 # define CMD_NF "command not found"
+# define EOF_M "\nwarning: here-document delimited by end-of-file (wanted `"
 
 typedef struct s_exec
 {
@@ -40,7 +39,8 @@ typedef struct s_exec
 void	executer(t_ast *ast, char ***env, t_data *data, int is_child);
 
 char	*read_heredoc_line(void);
-int		here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data);
+int		heredoc_handle(t_ast *ast, t_exec exc_data);
+
 int		redirects(t_ast *ast, t_exec *exc_data);
 
 void	pipe_exec(t_ast *ast, char **env, t_exec *exc_data);
@@ -51,7 +51,6 @@ void	cmd_exec(t_ast *ast, char **env, t_exec *exc_data);
 
 void	error_exit(int status, char *message, t_ast *ast, t_exec *exc_data);
 char	*err_message_custom(char *cause, char *message);
-void	free_ast(t_ast *ast);
 void	status_control(t_exec *exc_data);
 
 #endif

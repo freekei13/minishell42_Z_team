@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/24 23:29:55 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 01:59:06 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define PARSING_H
 
 # define PIPE_UNEXPECTED "minishell: syntax error near unexpected token `|'\n"
-# define REDIRECTS_UN "minishell: syntax error near unexpected token `newline'\n"
+# define REDIR_UN "minishell: syntax error near unexpected token `newline'\n"
 # include "lexing.h"
 
-typedef struct s_ast t_ast;
+typedef struct s_ast	t_ast;
 
 typedef struct s_redirect
 {
@@ -39,7 +39,7 @@ typedef struct s_pipe
 	struct s_ast	*right;
 }	t_pipe;
 
-typedef struct	s_error
+typedef struct s_error
 {
 	int		status_code;
 	char	*err_message;
@@ -52,14 +52,13 @@ typedef struct s_ast
 		AST_CMD,
 		AST_PIPE,
 		AST_ERROR
-	}	type;
+	}	e_type;
 	union
 	{
 		t_cmd	cmd;
 		t_pipe	pipe;
 		t_error	err;
-	}	data;
-	
+	}	u_data;
 }	t_ast;
 
 t_redirect	*new_redirect(char *value, int type);
@@ -70,5 +69,5 @@ int			lst_word_counter(t_token *tokens);
 void		*err_ast(t_ast *node, char *message);
 void		syntax_err_node(t_ast *node, int index);
 
-# include "executing.h"
+void		free_ast(t_ast *ast);
 #endif

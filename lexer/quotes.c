@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:21:42 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/25 01:33:18 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 23:45:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 t_dquote	empty_str(t_dquote qt)
 {
 	char	*tempo;
-	char	*réserve;
-	
+	char	*reserve;
+
 	while (qt.split[++qt.i])
 	{
 		tempo = ft_strdup(qt.split[qt.i]);
-		réserve = ft_strdup(qt.temp);
+		reserve = ft_strdup(qt.temp);
 		free(qt.temp);
-		qt.temp = ft_strjoin(réserve, tempo);
+		qt.temp = ft_strjoin(reserve, tempo);
 		free(tempo);
-		free(réserve);
+		free(reserve);
 		if (qt.split[qt.i][0] != '\0')
-			break;
+			break ;
 	}
 	if (!qt.split[qt.i])
 		--qt.i;

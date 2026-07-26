@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/24 23:31:22 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 02:00:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ int	lst_word_counter(t_token *tokens)
 
 void	*err_ast(t_ast *node, char *message)
 {
-	node->type = AST_ERROR;
-	node->data.err.status_code = 2;
-	node->data.err.err_message = message;
+	node->e_type = AST_ERROR;
+	node->u_data.err.status_code = 2;
+	node->u_data.err.err_message = message;
 	return (node);
 }
 
 void	syntax_err_node(t_ast *node, int index)
 {
-	node->data.cmd.args[index] = NULL;
-	free_all(node->data.cmd.args);
-	free_redirects(node->data.cmd.redirects);
-	err_ast(node, REDIRECTS_UN);
+	node->u_data.cmd.args[index] = NULL;
+	free_all(node->u_data.cmd.args);
+	free_redirects(node->u_data.cmd.redirects);
+	err_ast(node, REDIR_UN);
 }

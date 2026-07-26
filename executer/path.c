@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:13:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/22 00:35:51 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 03:56:54 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ char	*path_construct(char **full_path, t_ast *ast)
 	char	*cmd_path;
 	char	*path;
 	int		i;
-	
+
 	i = 0;
 	while (full_path[i])
 	{
 		path = ft_strjoin(full_path[i], "/");
-		cmd_path = ft_strjoin(path, ast->data.cmd.args[0]);
+		cmd_path = ft_strjoin(path, ast->u_data.cmd.args[0]);
 		free(path);
 		if (access(cmd_path, F_OK) == 0)
 			return (cmd_path);
@@ -38,7 +38,7 @@ char	*find_path(t_ast *ast, char **env)
 	char	*path;
 	char	**full_path;
 	char	*cmd_path;
-	
+
 	i = 0;
 	cmd_path = NULL;
 	while (env[i])

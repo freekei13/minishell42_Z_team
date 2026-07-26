@@ -1,11 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/07/26 01:58:01 by marvin            #+#    #+#             */
+/*   Updated: 2026/07/26 01:58:26 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "builtin.h"
-# include "executing.h"
-# include "lexing.h"
-# include "parsing.h"
-# include "../libft/libft.h"
 
 #endif

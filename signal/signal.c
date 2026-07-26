@@ -6,19 +6,20 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:00:09 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/24 02:38:09 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 01:19:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "signals.h"
 
-void	signal_set(t_data data)
+void	signal_set(t_data *data)
 {
 	struct sigaction	sa;
 
+	data->sigquit_flag = 0;
 	g_signal = 0;
 	sigemptyset(&sa.sa_mask);
-	if (data.pid == 0)
+	if (data->pid == 0)
 	{
 		sa.sa_handler = SIG_DFL;
 		sa.sa_flags = 0;

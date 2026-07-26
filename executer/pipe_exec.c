@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 13:13:36 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/25 02:24:51 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 03:14:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	child_exec(t_ast *ast, char **env, t_exec exc_data, int side)
 		dup2(exc_data.pipefd[1], STDOUT_FILENO);
 		close(exc_data.pipefd[0]);
 		close(exc_data.pipefd[1]);
-		executer(ast->data.pipe.left, &env, exc_data.data, 1);
+		executer(ast->u_data.pipe.left, &env, exc_data.data, 1);
 		close(STDOUT_FILENO);
 	}
 	else
@@ -27,7 +27,7 @@ void	child_exec(t_ast *ast, char **env, t_exec exc_data, int side)
 		dup2(exc_data.pipefd[0], STDIN_FILENO);
 		close(exc_data.pipefd[0]);
 		close(exc_data.pipefd[1]);
-		executer(ast->data.pipe.right, &env, exc_data.data, 1);
+		executer(ast->u_data.pipe.right, &env, exc_data.data, 1);
 		close(STDIN_FILENO);
 	}
 	free_ast(exc_data.data->root_ast);
@@ -36,38 +36,43 @@ void	child_exec(t_ast *ast, char **env, t_exec exc_data, int side)
 	exit(exc_data.data->exit_status);
 }
 
+void	pipe_sig_waitpid(t_exec *exc_data)
+{
+	if (!exc_data->is_child)
+		sigint_after_cmd();
+	else
+		sigint_silent_child();
+	waitpid(exc_data->pid_left, &exc_data->status, 0);
+	status_control(exc_data);
+	waitpid(exc_data->pid_right, &exc_data->status, 0);
+	status_control(exc_data);
+}
+
 void	pipe_exec(t_ast *ast, char **env, t_exec *exc_data)
 {
 	if (pipe(exc_data->pipefd) == -1)
-			return (error_exit(1, NULL, ast, exc_data));
-		exc_data->pid_left = fork();
-		if (exc_data->pid_left == -1)
-		{
-			close(exc_data->pipefd[0]);
-			close(exc_data->pipefd[1]);
-			return (error_exit(1, NULL, ast, exc_data));
-		}
-		if (exc_data->pid_left == 0)
-			child_exec(ast, env, *exc_data, 0);
-		exc_data->pid_right = fork();
-		if (exc_data->pid_right == -1)
-		{
-			close(exc_data->pipefd[0]);
-			close(exc_data->pipefd[1]);
-			kill(exc_data->pid_left, SIGKILL);
-			waitpid(exc_data->pid_left, &exc_data->status, 0);
-			return (error_exit(1, NULL, ast, exc_data));
-		}
-		if (exc_data->pid_right == 0)
-			child_exec(ast, env, *exc_data, 1);
+		return (error_exit(1, NULL, ast, exc_data));
+	exc_data->pid_left = fork();
+	if (exc_data->pid_left == -1)
+	{
 		close(exc_data->pipefd[0]);
 		close(exc_data->pipefd[1]);
-		if (!exc_data->is_child)
-			sigint_after_cmd();
-		else
-			sigint_silent_child();
+		return (error_exit(1, NULL, ast, exc_data));
+	}
+	if (exc_data->pid_left == 0)
+		child_exec(ast, env, *exc_data, 0);
+	exc_data->pid_right = fork();
+	if (exc_data->pid_right == -1)
+	{
+		close(exc_data->pipefd[0]);
+		close(exc_data->pipefd[1]);
+		kill(exc_data->pid_left, SIGKILL);
 		waitpid(exc_data->pid_left, &exc_data->status, 0);
-		status_control(exc_data);
-		waitpid(exc_data->pid_right, &exc_data->status, 0);
-		status_control(exc_data);
+		return (error_exit(1, NULL, ast, exc_data));
+	}
+	if (exc_data->pid_right == 0)
+		child_exec(ast, env, *exc_data, 1);
+	close(exc_data->pipefd[0]);
+	close(exc_data->pipefd[1]);
+	pipe_sig_waitpid(exc_data);
 }

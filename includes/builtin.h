@@ -6,17 +6,14 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/25 02:29:39 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 01:56:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "parsing.h"
-# include <fcntl.h>
-# include <errno.h>
-# include <sys/wait.h>
+# include "executing.h"
 # include <limits.h>
 
 typedef struct s_int

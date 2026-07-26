@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/23 23:13:02 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 03:09:31 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	free_ast(t_ast *ast)
 {
 	if (!ast)
 		return ;
-	if (ast->type == AST_CMD)
+	if (ast->e_type == AST_CMD)
 	{
-		free_all(ast->data.cmd.args);
-		free_redirects(ast->data.cmd.redirects);
+		free_all(ast->u_data.cmd.args);
+		free_redirects(ast->u_data.cmd.redirects);
 	}
-	else if (ast->type == AST_PIPE)
+	else if (ast->e_type == AST_PIPE)
 	{
-		free_ast(ast->data.pipe.left);
-		free_ast(ast->data.pipe.right);
+		free_ast(ast->u_data.pipe.left);
+		free_ast(ast->u_data.pipe.right);
 	}
 	free(ast);
 }
@@ -32,7 +32,6 @@ void	free_ast(t_ast *ast)
 void	error_exit(int status, char *message, t_ast *ast, t_exec *exc_data)
 {
 	exc_data->data->exit_status = status;
-	
 	if (message)
 	{
 		ft_putstr_fd(message, 2);
@@ -53,7 +52,7 @@ char	*err_message_custom(char *cause, char *message)
 	char	*msg;
 	char	*tmp;
 	char	*new_str;
-	
+
 	new_str = ft_strjoin(cause, ": ");
 	tmp = ft_strjoin("minishell: ", new_str);
 	free(new_str);
@@ -67,11 +66,25 @@ char	*err_message_custom(char *cause, char *message)
 void	status_control(t_exec *exc_data)
 {
 	if (WIFEXITED(exc_data->status) == true)
+	{
 		exc_data->data->exit_status = WEXITSTATUS(exc_data->status);
+		if (exc_data->data->exit_status == 128 + SIGQUIT
+			&& exc_data->data->sigquit_flag == 0
+			&& exc_data->is_child == 0)
+		{
+			write(2, "Quit (core dumped)\n", 19);
+			exc_data->data->sigquit_flag = 1;
+		}
+	}
 	else if (WIFSIGNALED(exc_data->status) == true)
 	{
 		exc_data->data->exit_status = 128 + WTERMSIG(exc_data->status);
-		if (WTERMSIG(exc_data->status) == SIGQUIT)
-			ft_putstr_fd("Quit (core dumped)\n", 2);
+		if (WTERMSIG(exc_data->status) == SIGQUIT
+			&& exc_data->data->sigquit_flag == 0
+			&& exc_data->is_child == 0)
+		{
+			write(2, "Quit (core dumped)\n", 19);
+			exc_data->data->sigquit_flag = 1;
+		}
 	}
 }

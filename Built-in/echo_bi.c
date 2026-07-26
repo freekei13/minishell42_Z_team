@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:02:45 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/15 17:58:56 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 04:19:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ void	echo_fct(char **str, int option, t_exec *exc_data)
 	if (option == 0 && !str[i.i])
 		ft_putstr_fd("\n", fd);
 }
-	

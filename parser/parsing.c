@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/24 23:28:57 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 01:44:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 	{
 		if (tokens->type == WORD)
 		{
-			node->data.cmd.args[i++] = ft_strdup(tokens->value);
+			node->u_data.cmd.args[i++] = ft_strdup(tokens->value);
 			tokens = tokens->next;
 		}
 		else if (tokens->type == REDIRECT_IN || tokens->type == REDIRECT_OUT
@@ -33,12 +33,12 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 				syntax_err_node(node, i);
 				return ;
 			}
-			add_redirect_back(&node->data.cmd.redirects,
+			add_redirect_back(&node->u_data.cmd.redirects,
 				new_redirect(tokens->next->value, tokens->type));
 			tokens = tokens->next->next;
 		}
 	}
-	node->data.cmd.args[i] = NULL;
+	node->u_data.cmd.args[i] = NULL;
 }
 
 t_ast	*cmd_node_parser(t_token *tokens)
@@ -52,11 +52,11 @@ t_ast	*cmd_node_parser(t_token *tokens)
 	node = malloc(sizeof(t_ast));
 	if (!node)
 		return (NULL);
-	node->type = AST_CMD;
-	node->data.cmd.args = malloc(sizeof(char *) * (type_word_nb + 1));
-	if (!node->data.cmd.args)
+	node->e_type = AST_CMD;
+	node->u_data.cmd.args = malloc(sizeof(char *) * (type_word_nb + 1));
+	if (!node->u_data.cmd.args)
 		return (free_ast(node), NULL);
-	node->data.cmd.redirects = NULL;
+	node->u_data.cmd.redirects = NULL;
 	cmd_node_loop(tokens, node);
 	return (node);
 }
@@ -87,7 +87,7 @@ t_ast	*pipe_node_parser(t_token *tokens)
 		return (NULL);
 	if (tokens->type == PIPE)
 		return (err_ast(node, PIPE_UNEXPECTED));
-	node->type = AST_PIPE;
+	node->e_type = AST_PIPE;
 	tokens = tokens_to_prev(tokens);
 	prev = tokens;
 	pipe = prev->next;
@@ -96,8 +96,8 @@ t_ast	*pipe_node_parser(t_token *tokens)
 	else
 		tokens = tokens->next->next;
 	prev->next = NULL;
-	node->data.pipe.left = parser(head);
-	node->data.pipe.right = parser(tokens);
+	node->u_data.pipe.left = parser(head);
+	node->u_data.pipe.right = parser(tokens);
 	prev->next = pipe;
 	return (node);
 }

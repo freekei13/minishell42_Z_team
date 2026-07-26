@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/25 01:31:35 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/25 23:48:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	quotes_status(int *quote)
 void	word_end(t_cursor *cur, t_wdata *data)
 {
 	while ((cur->line[data->counter] != ' ' && cur->line[data->counter] != '|'
-			&& cur->line[data->counter] != '<' && cur->line[data->counter] != '>')
+			&& cur->line[data->counter] != '<'
+			&& cur->line[data->counter] != '>')
 		|| (data->double_q == 1 || data->single_q == 1))
 	{
 		if (!(cur->line[data->counter]))
@@ -79,7 +80,7 @@ t_token	*tokenize(char *line, char **env, int ext_status)
 {
 	t_token		*tokens;
 	t_cursor	cur;
-	
+
 	tokens = NULL;
 	cur.line = line;
 	cur.index = 0;

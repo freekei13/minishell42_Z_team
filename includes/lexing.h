@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/25 01:54:09 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 00:34:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_data
 	int		exit_status;
 	pid_t	pid;
 	t_ast	*root_ast;
+	int		sigquit_flag;
 }	t_data;
 
 typedef enum e_type

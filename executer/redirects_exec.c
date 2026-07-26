@@ -6,75 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:56:05 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/23 00:29:50 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 03:56:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
-
-char	*read_heredoc_line(void)
-{
-	char	buf[2];
-	char	*line;
-	char	*tmp;
-	int		bytes;
-
-	buf[1] = '\0';
-	line = ft_strdup("");
-	while (1)
-	{
-		bytes = read(0, buf, 1);
-		if (bytes <= 0 || buf[0] == '\n')
-			break ;
-		tmp = line;
-		line = ft_strjoin(tmp, buf);
-		free(tmp);
-	}
-	if (bytes <= 0 && !*line)
-		return (free(line), NULL);
-	if (bytes <= 0)
-		return (line);
-	return (line);
-}
-
-int	here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data)
-{
-	char	*prompt;
-	struct termios	term_save;
-	struct termios	term_new;
-
-	
-	sigint_heredoc();
-	tcgetattr(STDIN_FILENO, &term_save);
-	term_new = term_save;
-	term_new.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term_new);
-	while (1)
-	{
-		write(1, "> ", 2);
-		prompt = read_heredoc_line();
-		if (!prompt)
-		{
-			tcsetattr(STDIN_FILENO, TCSANOW, &term_save);
-			if (g_signal == 2)
-			{
-				exc_data.data->exit_status = 130;
-				return (-2);
-			}
-			exc_data.data->exit_status = 0;
-			return (-1);
-		}
-		if (ft_strncmp(prompt, redirects->file,
-				ft_strlen(redirects->file) + 1) == 0)
-		{
-			tcsetattr(STDIN_FILENO, TCSANOW, &term_save);
-			return (free(prompt), 0);
-		}
-		ft_putstr_fd(prompt, pipefd[1]);
-		ft_putstr_fd("\n", pipefd[1]);
-		free(prompt);
-	}
-}
 
 int	fds_redirects(t_redirect *redirects, int type)
 {
@@ -93,37 +29,42 @@ int	fds_redirects(t_redirect *redirects, int type)
 	return (fd);
 }
 
+void	fds_set(t_redirect *rtmp, t_exec *exc_data)
+{
+	if (rtmp->type == REDIRECT_IN)
+	{
+		if (exc_data->fd_in != -1)
+			close(exc_data->fd_in);
+		exc_data->fd_in = fds_redirects(rtmp, REDIRECT_IN);
+	}
+	else if (rtmp->type == HEREDOC)
+	{
+		if (exc_data->fd_in != -1)
+			close(exc_data->fd_in);
+		exc_data->fd_in = rtmp->fd;
+	}
+	else if (rtmp->type == REDIRECT_OUT)
+	{
+		if (exc_data->fd_out != -1)
+			close(exc_data->fd_out);
+		exc_data->fd_out = fds_redirects(rtmp, REDIRECT_OUT);
+	}
+	else if (rtmp->type == APPEND)
+	{
+		if (exc_data->fd_out != -1)
+			close(exc_data->fd_out);
+		exc_data->fd_out = fds_redirects(rtmp, APPEND);
+	}
+}
+
 int	redirects(t_ast *ast, t_exec *exc_data)
 {
 	t_redirect	*rtmp;
 
-	rtmp = ast->data.cmd.redirects;
+	rtmp = ast->u_data.cmd.redirects;
 	while (rtmp)
 	{
-		if (rtmp->type == REDIRECT_IN)
-		{
-			if (exc_data->fd_in != -1)
-				close(exc_data->fd_in);
-			exc_data->fd_in = fds_redirects(rtmp, REDIRECT_IN);
-		}
-		else if (rtmp->type == HEREDOC)
-		{
-			if (exc_data->fd_in != -1)
-				close(exc_data->fd_in);
-			exc_data->fd_in = rtmp->fd;
-		}
-		else if (rtmp->type == REDIRECT_OUT)
-		{
-			if (exc_data->fd_out != -1)
-				close(exc_data->fd_out);
-			exc_data->fd_out = fds_redirects(rtmp, REDIRECT_OUT);
-		}
-		else if (rtmp->type == APPEND)
-		{
-			if (exc_data->fd_out != -1)
-				close(exc_data->fd_out);
-			exc_data->fd_out = fds_redirects(rtmp, APPEND);
-		}
+		fds_set(rtmp, exc_data);
 		if ((rtmp->type == REDIRECT_IN || rtmp->type == HEREDOC)
 			&& exc_data->fd_in == -1)
 			return (error_exit(1, err_message_custom(rtmp->file,

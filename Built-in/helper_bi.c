@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 10:15:17 by marvin            #+#    #+#             */
-/*   Updated: 2026/07/19 02:59:34 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/26 04:24:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	dash_lengh(char *str)
 		i++;
 	if (!str[i] || !str[i + 1])
 		return (-1);
-	return(i);
+	return (i);
 }
 
 char	*no_dash(char *arg, int x)
@@ -37,10 +37,10 @@ char	*no_dash(char *arg, int x)
 		while (arg[++i] && arg[i] != '/')
 			str[i] = arg[i];
 		str[i] = '\0';
-		return(str);
+		return (str);
 	}
 	else
-		return(NULL);
+		return (NULL);
 }
 
 int	is_valid_id(char *s)
