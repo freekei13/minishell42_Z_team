@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/25 00:40:13 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/28 12:26:13 by lalamino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ t_dquote	parenthese(t_dquote qt, char *str)
 				qt.i++;
 			qt.split[qt.s++] = ft_substr(str, qt.j, qt.i - qt.j);
 		}
-		qt.quote = str[++qt.i];
+		if (str[qt.i] && str[qt.i + 1])
+			qt.quote = str[++qt.i];
 		qt.q_val = 1;
 	}
 	qt.j = qt.i;
