@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lalamino <lalamino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/28 12:26:13 by lalamino         ###   ########.fr       */
+/*   Updated: 2026/07/29 18:48:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_dquote	spaces(t_dquote qt, char *str)
 
 t_dquote	parenthese(t_dquote qt, char *str)
 {
+//	printf("\n\nstart : %c : %i\nend : %c : %i\nlenght : %i\n\n", str[qt.j + 1], qt.j + 1, str[qt.i], qt.i, qt.i - qt.j - 1);
 	qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	qt.q_val = 0;
 	if (str[qt.i + 1] && (str[qt.i + 1] == 34 || str[qt.i + 1] == 39))
@@ -43,9 +44,12 @@ t_dquote	parenthese(t_dquote qt, char *str)
 				qt.i++;
 			qt.split[qt.s++] = ft_substr(str, qt.j, qt.i - qt.j);
 		}
-		if (str[qt.i] && str[qt.i + 1])
+		if (str[qt.i] && (str[qt.i + 1] == '\'' || str[qt.i + 1] == '\"'))
+		{
 			qt.quote = str[++qt.i];
-		qt.q_val = 1;
+			qt.q_val = 1;
+		}
+		
 	}
 	qt.j = qt.i;
 	return (qt);
@@ -60,19 +64,19 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 		qt.quote = str[++qt.i];
 		qt.q_val = 1;
 	}
-	else if (str[qt.i] == qt.quote && str[qt.i + 1] != qt.quote)
+	else if (qt.q_val == 1 && str[qt.i] == qt.quote && str[qt.i + 1] != qt.quote)
 		qt.q_val = 0;
-	else if (str[qt.i] == '\"' || str[qt.i] == '\'')
+	else if (qt.q_val == 0 && (str[qt.i] == '\"' || str[qt.i] == '\''))
 	{
 		qt.quote = str[qt.i];
 		qt.q_val = 1;
 	}
 	qt.j = qt.i;
 	if (str[qt.i - 1] == '\'' || str[qt.i] == ' ' || (str[qt.i] == '\''
-			&& str[qt.i - 1] != '\"'))
+			&& str[qt.i - 1] != '\"' && str[qt.i] != qt.quote))
 		qt.j--;
-	else if (str[qt.i] && str[qt.i] == '$')
-		--qt.i;
+	else if (str[qt.i] && str[qt.i] == '$' && (str[qt.i] != qt.quote || qt.quote == '$'))
+		qt.i--;
 	qt.expand = 0;
 	return (qt);
 }
