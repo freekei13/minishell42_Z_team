@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/29 18:48:23 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/29 19:16:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_dquote	spaces(t_dquote qt, char *str)
 {
-	while (str[qt.i] && str[qt.i] != 39 && str[qt.i] != 34)
+	while (str[qt.i] && str[qt.i] != 39 && str[qt.i] != 34 && str[qt.i] != 36)
 		qt.i++;
 	qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	if (str[qt.i] && (str[qt.i] == 39 || str[qt.i] == 34))
@@ -23,13 +23,14 @@ t_dquote	spaces(t_dquote qt, char *str)
 		qt.quote = str[qt.i];
 		qt.i--;
 	}
+	if (str[qt.i] == '$')
+		qt.i--;
 	qt.j = qt.i;
 	return (qt);
 }
 
 t_dquote	parenthese(t_dquote qt, char *str)
 {
-//	printf("\n\nstart : %c : %i\nend : %c : %i\nlenght : %i\n\n", str[qt.j + 1], qt.j + 1, str[qt.i], qt.i, qt.i - qt.j - 1);
 	qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	qt.q_val = 0;
 	if (str[qt.i + 1] && (str[qt.i + 1] == 34 || str[qt.i + 1] == 39))

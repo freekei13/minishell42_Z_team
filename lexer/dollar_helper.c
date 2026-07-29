@@ -48,7 +48,12 @@ t_dquote	dollar_resolve(t_dquote qt, char *str, char **env, int ext_status)
 		qt.split[qt.s++] = ft_itoa(ext_status);
 	}
 	else if (substr_tmp[0] == '\0')
-		qt.split[qt.s++] = ft_strdup("$");
+	{
+		if((str[qt.i] == '\"' || str[qt.i] == '\'') && qt.q_val == 0)
+			qt.split[qt.s++] = ft_strdup("");
+		else
+			qt.split[qt.s++] = ft_strdup("$");
+	}
 	else
 		qt.split[qt.s++] = ft_strdup("");
 	free(substr_tmp);
