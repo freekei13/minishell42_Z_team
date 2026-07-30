@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 10:15:17 by marvin            #+#    #+#             */
-/*   Updated: 2026/07/26 04:24:50 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/29 20:38:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,27 @@ int	is_valid_id(char *s)
 	int	i;
 
 	if (!s || !s[0])
-		return (0);
+		return (1);
+	if (s[0] == '-')
+		return (2);
 	if (!ft_isalpha(s[0]) && s[0] != '_')
-		return (0);
+		return (1);
 	i = 0;
 	while (s[++i] && s[i] != '=')
 	{
 		if (!ft_isalnum(s[i]) && s[i] != '_')
-			return (0);
+			return (1);
 	}
-	return (1);
+	return (0);
+}
+
+void	option_error(char *bi, char *arg)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(bi, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putendl_fd(": invalid option", 2);
 }
 
 void	id_error(char *bi, char *arg)

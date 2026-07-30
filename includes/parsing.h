@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 01:59:06 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 03:20:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_ast		*parser(t_token *tokens);
 int			lst_word_counter(t_token *tokens);
 void		*err_ast(t_ast *node, char *message);
 void		syntax_err_node(t_ast *node, int index);
+t_ast		*ast_find_error(t_ast *ast);
 
 void		free_ast(t_ast *ast);
 #endif

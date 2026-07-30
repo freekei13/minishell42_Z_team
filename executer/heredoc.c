@@ -62,7 +62,8 @@ int	here_doc_loop(t_redirect *redirects, int *pipefd, t_exec exc_data)
 	tcsetattr(STDIN_FILENO, TCSANOW, &term_new);
 	while (1)
 	{
-		write(1, "> ", 2);
+		if (isatty(STDIN_FILENO))
+			write(1, "> ", 2);
 		prompt = read_heredoc_line();
 		if (!prompt)
 			return (here_doc_signal_handle(&term_save, &exc_data));

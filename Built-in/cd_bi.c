@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/23 00:45:32 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 03:26:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ void	cd(char **args, char **env, t_exec *exc_data)
 	char	*dest;
 
 	exc_data->data->exit_status = 0;
+	if (args[1] && ft_strncmp(args[1], "--", 3) == 0)
+		args++;
 	if (args_size(args) > 2)
 	{
 		cd_error(NULL, "too many arguments", exc_data);

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/26 04:26:18 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/29 20:35:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,20 +96,26 @@ void	export_one(char ***env, char *arg)
 void	export(char ***env, char **cmd, t_exec *exc_data)
 {
 	int	i;
-
+	int	ret;
+	
 	exc_data->data->exit_status = 0;
 	if (!cmd[0])
 	{
-		print_export(*env);
-		return ;
+		return print_export(*env);
 	}
 	i = -1;
 	while (cmd[++i])
 	{
-		if (!is_valid_id(cmd[i]))
+		ret = is_valid_id(cmd[i]);
+		if (ret == 1)
 		{
 			id_error("export", cmd[i]);
 			exc_data->data->exit_status = 1;
+		}
+		else if (ret == 2)
+		{
+			option_error("export", cmd[i]);
+			exc_data->data->exit_status = 2;
 		}
 		else
 			export_one(env, cmd[i]);

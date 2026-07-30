@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 01:29:33 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 02:00:26 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 03:18:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,24 @@ void	syntax_err_node(t_ast *node, int index)
 	free_all(node->u_data.cmd.args);
 	free_redirects(node->u_data.cmd.redirects);
 	err_ast(node, REDIR_UN);
+}
+
+// Un noeud AST_ERROR quelque part dans l'arbre doit faire abandonner TOUTE
+// la ligne, comme bash : rien ne s'execute, meme les commandes valides des
+// autres cotes du pipe. Parcours gauche d'abord pour signaler l'erreur la
+// plus a gauche, comme bash le fait.
+t_ast	*ast_find_error(t_ast *ast)
+{
+	t_ast	*found;
+
+	if (!ast)
+		return (NULL);
+	if (ast->e_type == AST_ERROR)
+		return (ast);
+	if (ast->e_type != AST_PIPE)
+		return (NULL);
+	found = ast_find_error(ast->u_data.pipe.left);
+	if (found)
+		return (found);
+	return (ast_find_error(ast->u_data.pipe.right));
 }
