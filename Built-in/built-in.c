@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/30 02:47:28 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 04:19:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	keep_builtin(t_ast *cmd, char ***env, t_int i, t_exec *exc_data)
 		if (!cmd->u_data.cmd.args[1])
 			env_bi(*env, exc_data);
 		else
+		{
+			write(2, "minishell: No argument needed\n", 30);
 			exc_data->data->exit_status = 127;
+		}
 	}
 	else if (i.js == 3)
 		exit_fct(cmd, *env, exc_data);
