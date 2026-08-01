@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:32:58 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/30 02:24:45 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 01:34:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_token
 {
 	char			*value;
 	int				type;
+	int				quoted;
 	struct s_token	*next;
 }	t_token;
 
@@ -82,7 +83,8 @@ typedef struct s_dquote
 
 t_token		*new_token(char *value, int type);
 void		add_token_back(t_token **lst, t_token *new);
-void		add_word_tokens(t_token **tokens, char *raw, char *final);
+void		add_word_tokens(t_token **tokens, char *final);
+char		*mark_split(char *s, int q_val);
 void		free_tokens(t_token *lst);
 int			quote_check(char *str);
 char		*quote_sep(char *str, char **env, int ext_status);
@@ -91,6 +93,7 @@ char		*find_env(char **env, char *cherche);
 char		**dequote(t_dquote qt, char *str, char **env, int ext_status);
 int			is_blank(char c);
 char		*heredoc_delim(char *word);
+void		mark_hd_delim(t_token *lst, char *raw);
 t_dquote	dollar_scan(t_dquote qt, char *str);
 t_dquote	dollar_resolve(t_dquote qt, char *str, char **env, int ext_status);
 void		split_free(char **split);

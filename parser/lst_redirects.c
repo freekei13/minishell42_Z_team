@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lst_redirects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42lausanne.c    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 21:40:10 by csamakka          #+#    #+#             */
-/*   Updated: 2026/04/02 01:27:27 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/07/31 00:48:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 #include "lexing.h"
 
-t_redirect	*new_redirect(char *value, int type)
+t_redirect	*new_redirect(char *value, int type, int quoted)
 {
 	t_redirect	*redirect;
 
@@ -22,6 +22,9 @@ t_redirect	*new_redirect(char *value, int type)
 		return (NULL);
 	redirect->file = ft_strdup(value);
 	redirect->type = type;
+	redirect->expand = 1;
+	if (quoted)
+		redirect->expand = 0;
 	redirect->next = NULL;
 	return (redirect);
 }

@@ -11,11 +11,11 @@ BUILTIN_PATH	=	Built-in/
 ENVP_PATH	=	envp/
 
 SRC_LEXER	=	main.c lst_tokens.c lexing.c \
-				dequote.c quotes.c dollar_helper.c
+				dequote.c quotes.c dollar_helper.c field_split.c
 SRC_PARSER	=	parsing.c lst_redirects.c tools_parse.c
 SRC_EXECUTER =	executing.c path.c redirects_exec.c \
 				tools_exec.c cmd_exec.c pipe_exec.c \
-				heredoc.c
+				heredoc.c heredoc_exp.c
 SRC_BUILTIN	=	built-in.c cd_bi.c echo_bi.c env_bi.c \
 				exit_bi.c export_bi.c pwd_bi.c unset_bi.c \
 				helper_bi.c

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:29:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 01:44:47 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/31 00:06:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ void	cmd_node_loop(t_token *tokens, t_ast *node)
 				return ;
 			}
 			add_redirect_back(&node->u_data.cmd.redirects,
-				new_redirect(tokens->next->value, tokens->type));
+				new_redirect(tokens->next->value, tokens->type,
+					tokens->next->quoted));
 			tokens = tokens->next->next;
 		}
 	}

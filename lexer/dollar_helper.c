@@ -86,7 +86,7 @@ t_dquote	dollar_resolve(t_dquote qt, char *str, char **env, int ext_status)
 	substr_tmp = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	find_env_tmp = find_env(env, substr_tmp);
 	if (find_env_tmp != NULL)
-		qt.split[qt.s++] = ft_strdup(find_env_tmp);
+		qt.split[qt.s++] = mark_split(ft_strdup(find_env_tmp), qt.q_val);
 	else if (str[qt.j] == '$' && str[qt.j + 1] == '?')
 	{
 		qt.i = qt.j + 1;

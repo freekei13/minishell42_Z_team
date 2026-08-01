@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:36:15 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/30 03:20:49 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/31 00:02:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct s_redirect
 	int					type;
 	char				*file;
 	int					fd;
+	int					expand;
 	struct s_redirect	*next;
 }	t_redirect;
 
@@ -61,7 +62,7 @@ typedef struct s_ast
 	}	u_data;
 }	t_ast;
 
-t_redirect	*new_redirect(char *value, int type);
+t_redirect	*new_redirect(char *value, int type, int quoted);
 void		add_redirect_back(t_redirect **lst, t_redirect *new);
 void		free_redirects(t_redirect *lst);
 t_ast		*parser(t_token *tokens);

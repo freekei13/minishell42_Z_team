@@ -6,12 +6,32 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 17:40:04 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 03:57:14 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 22:04:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "executing.h"
 #include "minishell.h"
+
+// bash place "_=<chemin complet de la commande>" dans l'environnement de
+// chaque commande lancee : "/bin/env" voit _=/bin/env, "env" trouve via PATH
+// voit _=/usr/bin/env. On construit une copie juste avant execve, dans
+// l'enfant, sans toucher au tableau d'origine.
+char	**underscore_env(char **env, char *path)
+{
+	char	**res;
+	char	*line;
+
+	line = ft_strjoin("_=", path);
+	if (!line)
+		return (env);
+	res = make_env(env);
+	if (!res)
+		return (free(line), env);
+	export_one(&res, line);
+	free(line);
+	return (res);
+}
 
 void	path_checker(char *path, t_ast *ast, t_exec *exc_data)
 {
@@ -57,7 +77,7 @@ void	execve_cmd(t_ast *ast, char **env, t_exec *exc_data)
 	if (!path)
 		error_exit(127, err_message_custom(ast->u_data.cmd.args[0],
 				CMD_NF), ast, exc_data);
-	execve(path, ast->u_data.cmd.args, env);
+	execve(path, ast->u_data.cmd.args, underscore_env(env, path));
 	free(path);
 	error_exit(126, NULL, ast, exc_data);
 }

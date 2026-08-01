@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:53 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/30 02:22:38 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 01:27:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*new_token(char *value, int type)
 		return (NULL);
 	token->value = ft_strdup(value);
 	token->type = type;
+	token->quoted = 0;
 	token->next = NULL;
 	return (token);
 }
@@ -55,34 +56,17 @@ void	free_tokens(t_token *lst)
 	}
 }
 
-// Field splitting POSIX : le resultat d'une expansion NON quotee est
-// redecoupe sur les blancs. On n'applique le decoupage que si le mot source
-// ne contient aucune quote — dans ce cas les seuls blancs presents dans le
-// resultat viennent forcement d'une expansion, donc le decoupage est sur.
-// Un mot sans blanc produit exactement un token : aucun changement.
-void	add_word_tokens(t_token **tokens, char *raw, char *final)
-{
-	int		i;
-	int		j;
-	char	*field;
 
-	if (ft_strchr(raw, 39) || ft_strchr(raw, 34))
-	{
-		add_token_back(tokens, new_token(final, WORD));
+// Le mot delimiteur porte l'unique interrupteur qui decide du sort de TOUT le
+// corps du heredoc : delimiteur non quote -> les $ sont expanses, delimiteur
+// quote -> le corps est recopie tel quel. Une seule quote suffit, ou qu'elle
+// soit dans le mot : << 'EOF', << "EOF" et << lim'' sont tous "quotes".
+void	mark_hd_delim(t_token *lst, char *raw)
+{
+	if (!lst)
 		return ;
-	}
-	i = 0;
-	while (final[i])
-	{
-		while (is_blank(final[i]))
-			i++;
-		if (!final[i])
-			break ;
-		j = i;
-		while (final[i] && !is_blank(final[i]))
-			i++;
-		field = ft_substr(final, j, i - j);
-		add_token_back(tokens, new_token(field, WORD));
-		free(field);
-	}
+	while (lst->next)
+		lst = lst->next;
+	if (ft_strchr(raw, 39) || ft_strchr(raw, 34))
+		lst->quoted = 1;
 }

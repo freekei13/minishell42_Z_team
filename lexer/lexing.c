@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/30 03:25:33 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 01:34:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void	word_token(t_token **tokens, t_cursor *cur, char **env, int ext_status)
 		data.word_final = heredoc_delim(data.word);
 	else
 		data.word_final = quote_sep(data.word, env, ext_status);
-	cur->hd_delim = 0;
 	if (data.word_final != NULL && (data.word_final[0] != '\0'
 			|| ft_strchr(data.word, '\'') || ft_strchr(data.word, '\"')))
-		add_word_tokens(tokens, data.word, data.word_final);
+		add_word_tokens(tokens, data.word_final);
+	if (cur->hd_delim == 1)
+		mark_hd_delim(*tokens, data.word);
+	cur->hd_delim = 0;
 	free(data.word);
 	if (data.word_final != NULL)
 		free(data.word_final);

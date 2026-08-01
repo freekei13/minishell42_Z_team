@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 23:13:27 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 03:56:54 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 01:54:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,34 @@ char	*path_construct(char **full_path, t_ast *ast)
 	return (NULL);
 }
 
+// PATH totalement absent de l'environnement (unset PATH) : bash cherche alors
+// dans le repertoire courant, comme pour une entree vide de PATH. Renvoyer
+// NULL ferait un "command not found" alors que bash lance bien la commande si
+// elle est la ("unset PATH ; cd /bin ; ls" fonctionne).
+char	*path_construct_cwd(t_ast *ast)
+{
+	char	*cmd_path;
+
+	cmd_path = ft_strjoin("./", ast->u_data.cmd.args[0]);
+	if (cmd_path && access(cmd_path, F_OK) == 0)
+		return (cmd_path);
+	free(cmd_path);
+	return (NULL);
+}
+
 char	*find_path(t_ast *ast, char **env)
 {
-	int		i;
 	char	*path;
 	char	**full_path;
 	char	*cmd_path;
 
-	i = 0;
-	cmd_path = NULL;
-	while (env[i])
-	{
-		if (ft_strncmp("PATH=", env[i], 5) == 0)
-		{
-			path = ft_strchr(env[i], '=') + 1;
-			full_path = ft_split(path, ':');
-			cmd_path = path_construct(full_path, ast);
-			if (!cmd_path)
-			{
-				free_all(full_path);
-				break ;
-			}
-			free_all(full_path);
-		}
-		i++;
-	}
+	path = find_env(env, "PATH");
+	if (!path)
+		return (path_construct_cwd(ast));
+	full_path = ft_split(path, ':');
+	if (!full_path)
+		return (NULL);
+	cmd_path = path_construct(full_path, ast);
+	free_all(full_path);
 	return (cmd_path);
 }

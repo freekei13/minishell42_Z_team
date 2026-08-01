@@ -6,42 +6,42 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 10:15:17 by marvin            #+#    #+#             */
-/*   Updated: 2026/07/29 20:38:28 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 21:24:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "minishell.h"
 
-int	dash_lengh(char *str)
-{
-	int	i;
+// int	dash_lengh(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i] && str[i] != '/')
-		i++;
-	if (!str[i] || !str[i + 1])
-		return (-1);
-	return (i);
-}
+// 	i = 0;
+// 	while (str[i] && str[i] != '/')
+// 		i++;
+// 	if (!str[i] || !str[i + 1])
+// 		return (-1);
+// 	return (i);
+// }
 
-char	*no_dash(char *arg, int x)
-{
-	char	*str;
-	int		i;
+// char	*no_dash(char *arg, int x)
+// {
+// 	char	*str;
+// 	int		i;
 
-	i = -1;
-	if (x != -1)
-	{
-		str = malloc(sizeof(char *) * (x + 1));
-		while (arg[++i] && arg[i] != '/')
-			str[i] = arg[i];
-		str[i] = '\0';
-		return (str);
-	}
-	else
-		return (NULL);
-}
+// 	i = -1;
+// 	if (x != -1)
+// 	{
+// 		str = malloc(sizeof(char *) * (x + 1));
+// 		while (arg[++i] && arg[i] != '/')
+// 			str[i] = arg[i];
+// 		str[i] = '\0';
+// 		return (str);
+// 	}
+// 	else
+// 		return (NULL);
+// }
 
 int	is_valid_id(char *s)
 {
@@ -56,6 +56,8 @@ int	is_valid_id(char *s)
 	i = 0;
 	while (s[++i] && s[i] != '=')
 	{
+		if (s[i] == '+' && s[i + 1] == '=')
+			break ;
 		if (!ft_isalnum(s[i]) && s[i] != '_')
 			return (1);
 	}

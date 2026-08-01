@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/29 20:35:19 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 21:31:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,8 @@ void	print_export(char **env)
 		j = 0;
 		while (cp[i][j] && cp[i][j] != '=')
 			j++;
-		ft_putstr_fd("declare -x ", 1);
-		if (!cp[i][j])
-			ft_putendl_fd(cp[i], 1);
-		else
-		{
-			write(1, cp[i], j + 1);
-			ft_putchar_fd('"', 1);
-			ft_putstr_fd(cp[i] + j + 1, 1);
-			ft_putendl_fd("\"", 1);
-		}
+		if (j != 1 || cp[i][0] != '_')
+			print_export_line(cp[i], j);
 	}
 	split_free(cp);
 }
@@ -83,6 +75,14 @@ void	export_one(char ***env, char *arg)
 		len++;
 	if (arg[len] != '=')
 		return ;
+	if (len > 0 && arg[len - 1] == '+')
+	{
+		name = append_arg(*env, arg, len);
+		if (name)
+			export_one(env, name);
+		free(name);
+		return ;
+	}
 	name = ft_substr(arg, 0, len);
 	tab[0] = arg;
 	tab[1] = NULL;
@@ -101,7 +101,7 @@ void	export(char ***env, char **cmd, t_exec *exc_data)
 	exc_data->data->exit_status = 0;
 	if (!cmd[0])
 	{
-		return print_export(*env);
+		return (print_export(*env));
 	}
 	i = -1;
 	while (cmd[++i])

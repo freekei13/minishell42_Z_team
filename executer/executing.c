@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/04 21:35:03 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 04:10:07 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/31 00:33:52 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	exc_data_init(t_exec *exc_data, t_data *data, int is_child)
 
 int	ast_cmd_proces(t_ast *ast, char ***env, t_exec *exc_data)
 {
-	if (exc_data->is_child == 0 && heredoc_handle(ast, *exc_data) == -2)
+	if (exc_data->is_child == 0 && heredoc_handle(ast, *env, *exc_data) == -2)
 		return (0);
 	if (redirects(ast, exc_data) == -1 || !ast->u_data.cmd.args[0])
 	{
@@ -62,7 +62,7 @@ void	executer(t_ast *ast, char ***env, t_data *data, int is_child)
 	}
 	else if (ast->e_type == AST_PIPE)
 	{
-		if (is_child == 0 && heredoc_handle(ast, exc_data) == -2)
+		if (is_child == 0 && heredoc_handle(ast, *env, exc_data) == -2)
 			return ;
 		pipe_exec(ast, *env, &exc_data);
 	}

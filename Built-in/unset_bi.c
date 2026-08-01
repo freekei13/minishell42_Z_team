@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/29 20:38:12 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 21:45:49 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,18 @@ void	unset(char ***env, char **cmd, t_exec *exc_data)
 {
 	char	*tab[2];
 	int		i;
-	int		ret;
 	
 	exc_data->data->exit_status = 0;
 	i = -1;
 	while (cmd[++i])
 	{
-		ret = is_valid_id(cmd[i]);
-		if (ret == 1 || ft_strchr(cmd[i], '=') != NULL)
-		{
-			id_error("unset", cmd[i]);
-			exc_data->data->exit_status = 1;
-		}
-		else if (ret == 2)
+		if (is_valid_id(cmd[i]) == 2)
 		{
 			option_error("unset", cmd[i]);
 			exc_data->data->exit_status = 2;
 		}
-		else if (find_env(*env, cmd[i]) != NULL)
+		else if (ft_strchr(cmd[i], '=') == NULL
+			&& find_env(*env, cmd[i]) != NULL)
 		{
 			tab[0] = cmd[i];
 			tab[1] = NULL;

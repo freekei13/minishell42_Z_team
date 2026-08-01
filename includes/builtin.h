@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:58:05 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/29 23:43:46 by marvin           ###   ########.fr       */
+/*   Updated: 2026/07/30 21:30:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ typedef struct s_int
 // int		dash_lengh(char *str);
 // char	*no_dash(char *arg, int x);
 int		builtin(t_ast *cmd, char ***env, t_exec *exc_data);
+void	print_export_line(char *entry, int j);
+char	**env_setup(char **envi);
+char	*append_arg(char **env, char *arg, int len);
+void	export_one(char ***env, char *arg);
 void	env_bi(char **env, t_exec *exc_data);
 void	pwd(char **env, t_exec *exc_data);
 void	unset(char ***env, char **cmd, t_exec *exc_data);
