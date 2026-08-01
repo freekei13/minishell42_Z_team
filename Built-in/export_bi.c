@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:22 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/30 21:31:37 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 02:12:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	export(char ***env, char **cmd, t_exec *exc_data)
 {
 	int	i;
 	int	ret;
-	
+
 	exc_data->data->exit_status = 0;
 	if (!cmd[0])
 	{

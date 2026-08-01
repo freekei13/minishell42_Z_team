@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:48 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/30 21:45:49 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 02:12:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	unset(char ***env, char **cmd, t_exec *exc_data)
 {
 	char	*tab[2];
 	int		i;
-	
+
 	exc_data->data->exit_status = 0;
 	i = -1;
 	while (cmd[++i])

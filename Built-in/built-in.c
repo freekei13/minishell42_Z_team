@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 09:48:30 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/30 04:19:04 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 02:12:13 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,22 @@ int	echo_opt(char *arg)
 	return (1);
 }
 
+void	if_echo(t_ast *cmd, t_exec *exc_data)
+{
+	int	i;
+
+	i = 0;
+	while (cmd->u_data.cmd.args[1 + i]
+		&& echo_opt(cmd->u_data.cmd.args[1 + i]))
+		i++;
+	if (i > 0)
+		echo_fct(cmd->u_data.cmd.args + 1 + i, 1, exc_data);
+	else if (cmd->u_data.cmd.args[1])
+		echo_fct(cmd->u_data.cmd.args + 1, 0, exc_data);
+	else
+		echo_fct(NULL, 0, exc_data);
+}
+
 int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 {
 	char	**names;
@@ -84,18 +100,7 @@ int	builtin(t_ast *cmd, char ***env, t_exec *exc_data)
 	if (i.js == 0)
 		cd(cmd->u_data.cmd.args, *env, exc_data);
 	else if (i.js == 1)
-	{
-		i.i = 0;
-		while (cmd->u_data.cmd.args[1 + i.i]
-			&& echo_opt(cmd->u_data.cmd.args[1 + i.i]))
-			i.i++;
-		if (i.i > 0)
-			echo_fct(cmd->u_data.cmd.args + 1 + i.i, 1, exc_data);
-		else if (cmd->u_data.cmd.args[1])
-			echo_fct(cmd->u_data.cmd.args + 1, 0, exc_data);
-		else
-			echo_fct(NULL, 0, exc_data);
-	}
+		if_echo(cmd, exc_data);
 	keep_builtin(cmd, env, i, exc_data);
 	free(names);
 	return (0);

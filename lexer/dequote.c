@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/30 00:09:44 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 02:03:42 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_dquote	open_quote(t_dquote qt, char *str)
 t_dquote	parenthese(t_dquote qt, char *str)
 {
 	if (qt.q_val == 0)
-		return	(open_quote(qt, str));
+		return (open_quote(qt, str));
 	qt.split[qt.s++] = ft_substr(str, qt.j + 1, qt.i - qt.j - 1);
 	qt.q_val = 0;
 	if (str[qt.i + 1] && (str[qt.i + 1] == 34 || str[qt.i + 1] == 39))
@@ -146,7 +146,6 @@ char	**dequote(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	if (qt.i != -1 && str[qt.i] == '\0')
 		return (qt.split);
-	// qt.q_val = 1;
 	if (str[qt.i + 1] == '$')
 		qt.q_val = 0;
 	qt.expand = 0;

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:53 by csamakka          #+#    #+#             */
-/*   Updated: 2026/08/01 01:27:24 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/01 02:04:24 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void	free_tokens(t_token *lst)
 		current = next;
 	}
 }
-
 
 // Le mot delimiteur porte l'unique interrupteur qui decide du sort de TOUT le
 // corps du heredoc : delimiteur non quote -> les $ sont expanses, delimiteur
