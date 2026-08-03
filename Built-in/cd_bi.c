@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_bi.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 10:03:07 by lalamino          #+#    #+#             */
-/*   Updated: 2026/07/30 03:52:02 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/03 10:32:31 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	cd_error(char *arg, char *msg, t_exec *exc_data)
 		ft_putstr_fd(": ", 2);
 	}
 	else
-		exc_data->data->exit_status = 2;
+		exc_data->data->exit_status = 1;
 	ft_putendl_fd(msg, 2);
 }
 

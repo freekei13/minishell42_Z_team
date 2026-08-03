@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dequote.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 11:59:33 by lalamino          #+#    #+#             */
-/*   Updated: 2026/08/01 02:03:42 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/03 12:30:16 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,6 @@ t_dquote	parenthese(t_dquote qt, char *str)
 	{
 		qt.quote = str[++qt.i];
 		qt.q_val = 1;
-		// if ((str[qt.i] == 34 && str[qt.i + 1] == 34)
-		// 	|| (str[qt.i] == 39 && str[qt.i + 1] == 39))
-		// {
-			// qt.i += 2;
-			// qt.j = qt.i;
-			// while (str[qt.i] && str[qt.i] != 34
-			// 	&& str[qt.i] != 39 && str[qt.i] != 36)
-			// 	qt.i++;
-			// qt.split[qt.s++] = ft_substr(str, qt.j, qt.i - qt.j);
-		// }
-		// if (str[qt.i] && (str[qt.i + 1] == '\'' || str[qt.i + 1] == '\"'))
-		// {
-		// 	qt.quote = str[++qt.i];
-		// 	qt.q_val = 1;
-		// }
 	}
 	qt.j = qt.i;
 	return (qt);
@@ -113,24 +98,7 @@ t_dquote	dollar(t_dquote qt, char *str, char **env, int ext_status)
 	}
 	else if (str[qt.j] != '$' || str[qt.j + 1] != '?')
 		qt.i--;
-	// if (str[qt.i] == qt.quote && str[qt.i + 1] == 39)
-	// {
-	// 	qt.quote = str[++qt.i];
-	// 	qt.q_val = 1;
-	// }
-	// else if (qt.q_val == 1 && str[qt.i] == qt.quote && str[qt.i + 1] != qt.quote)
-	// 	qt.q_val = 0;
-	// else if (qt.q_val == 0 && (str[qt.i] == '\"' || str[qt.i] == '\''))
-	// {
-	// 	qt.quote = str[qt.i];
-	// 	qt.q_val = 1;
-	// }
 	qt.j = qt.i;
-	// if (str[qt.i - 1] == '\'' || str[qt.i] == ' ' || (str[qt.i] == '\''
-	// 		&& str[qt.i - 1] != '\"' && str[qt.i] != qt.quote))
-	// 	qt.j--;
-	// else if (str[qt.i] && str[qt.i] == '$' && (str[qt.i] != qt.quote || qt.quote == '$'))
-	// 	qt.i--;
 	qt.expand = 0;
 	return (qt);
 }

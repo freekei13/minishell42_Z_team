@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tools_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 01:35:19 by csamakka          #+#    #+#             */
-/*   Updated: 2026/07/26 03:09:31 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/03 12:56:02 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,5 @@ void	status_control(t_exec *exc_data)
 		}
 	}
 	else if (WIFSIGNALED(exc_data->status) == true)
-	{
 		exc_data->data->exit_status = 128 + WTERMSIG(exc_data->status);
-		if (WTERMSIG(exc_data->status) == SIGQUIT
-			&& exc_data->data->sigquit_flag == 0
-			&& exc_data->is_child == 0)
-		{
-			write(2, "Quit (core dumped)\n", 19);
-			exc_data->data->sigquit_flag = 1;
-		}
-	}
 }
