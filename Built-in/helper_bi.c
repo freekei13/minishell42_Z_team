@@ -6,13 +6,12 @@
 /*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/29 10:15:17 by marvin            #+#    #+#             */
-/*   Updated: 2026/08/03 13:21:31 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/08/03 13:39:39 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "minishell.h"
-
 
 int	is_valid_id(char *s)
 {

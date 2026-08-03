@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/08/01 01:34:48 by marvin           ###   ########.fr       */
+/*   Updated: 2026/08/03 13:38:53 by csamakka         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	quotes_status(int *quote)
 
 void	word_end(t_cursor *cur, t_wdata *data)
 {
-	while ((!is_blank(cur->line[data->counter]) && cur->line[data->counter] != '|'
+	while ((!is_blank(cur->line[data->counter])
+			&& cur->line[data->counter] != '|'
 			&& cur->line[data->counter] != '<'
 			&& cur->line[data->counter] != '>')
 		|| (data->double_q == 1 || data->single_q == 1))

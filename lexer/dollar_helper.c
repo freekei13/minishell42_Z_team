@@ -65,13 +65,6 @@ t_dquote	dollar_scan(t_dquote qt, char *str)
 	else
 		while (str[qt.i] == '_' || ft_isalnum(str[qt.i]))
 			qt.i++;
-	// while (str[qt.i] && str[qt.i] != 34 && !is_blank(str[qt.i])
-	// 	&& str[qt.i] != '\'' && (str[qt.i] != '$' || qt.expand == 0))
-	// {
-	// 	if (str[qt.i] == '$')
-	// 		qt.expand = 1;
-	// 	qt.i++;
-	// }
 	return (qt);
 }
 
