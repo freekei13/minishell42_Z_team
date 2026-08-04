@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: csamakka <csamakka@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/30 18:28:39 by csamakka          #+#    #+#             */
-/*   Updated: 2026/08/03 13:38:53 by csamakka         ###   ########.fr       */
+/*   Updated: 2026/08/04 14:20:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,7 @@ void	word_token(t_token **tokens, t_cursor *cur, char **env, int ext_status)
 
 void	redirec_token(t_token **tokens, char token, t_cursor *cur)
 {
-	if (token == '>' && cur->line[cur->index + 1] == '|')
-	{
-		add_token_back(tokens, new_token(">", REDIRECT_OUT));
-		cur->index += 2;
-	}
-	else if (cur->line[cur->index + 1] == token)
+	if (cur->line[cur->index + 1] == token)
 	{
 		if (token == '>')
 			add_token_back(tokens, new_token(">>", APPEND));
@@ -99,6 +94,7 @@ t_token	*tokenize(char *line, char **env, int ext_status)
 	tokens = NULL;
 	cur.line = line;
 	cur.index = 0;
+	cur.hd_delim = 0;
 	while (line[cur.index])
 	{
 		if (is_blank(line[cur.index]))
